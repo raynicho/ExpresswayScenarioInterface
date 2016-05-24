@@ -24,4 +24,5 @@ struct position {
 	double z = 0;
 	position(double X, double Y) : x(X), y(Y) {
 	}
+	position() : x(0), y(0) {}
 }; 

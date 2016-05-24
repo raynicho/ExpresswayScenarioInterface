@@ -20,8 +20,11 @@ private:
 	double endOfRoad;
 	double startingYPosition;
 	double startingXPosition;
+	double roadwayStartX = 0;
+	double roadwayStartY = 0;
 	char ownHeading;
 	vector <trigger*> triggers;
+	std::ofstream out;
 	//vector <vehicle*> vehicles;
 
 public:
@@ -39,6 +42,8 @@ public:
 			inputStream.close();
 		}
 		
+		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
+
 		//begin reading the file by reading the header
 		this->parseHeader(inputStream);
 
@@ -166,38 +171,55 @@ public:
 	void readRest(std::ifstream &txtFileStream) {
 		string inputCase;
 		getline(txtFileStream, inputCase);
-		while (inputCase != "&&&&End&&&&") {
+		while (!txtFileStream.eof ()) {
 			if (inputCase == "HCSM Gateway") {
-
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM VehFail") {
-
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM TrafficManager") {
-
+				getline(txtFileStream, inputCase);
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM EnvironmentController") {
-
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM TrafficLightManager") {
-				
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM StaticObjManager") {
-
+				for (unsigned int i = 0; i < 12; i++) {
+					getline(txtFileStream, inputCase);
+				}
 			}
 
 			else if (inputCase == "HCSM DriverMirror") {
-
+				getline(txtFileStream, inputCase);
 			}
 
 			else if (inputCase == "HCSM IntersectionManager") {
-
+				getline(txtFileStream, inputCase);
 			}
+			else if (inputCase == "HCSM ExpressionTrigger") {
+				expressionTrigger express;
+				express.fileRead(txtFileStream);
+			}
+			else if (inputCase == "HCSM RoadPadTrigger") {
+				roadPadTrigger road;
+				road.fileRead(txtFileStream);
+			}
+			else if (inputCase == "HCSM TimeTrigger") {
+				timeTrigger time;
+				time.fileRead(txtFileStream);
+				time.filePrint(out);
+			}
+			getline(txtFileStream, inputCase);
 		}
 		return;
 	}
