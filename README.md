@@ -20,4 +20,11 @@ Raymond Pressly (raynicho@umich.edu)
 
 *expresswayClass.h:* maintains all triggers, vehicles, and other scneario objects in one location
 
-*main.h/main.cpp:* various functions used throughout the scenario interface
+*main.h, main.cpp:* various functions used throughout the scenario interface
+
+##To Do
+- develop objects for handling different vehicles
+- develop objects for handling different virtual objects
+- develop CreateHCSM object
+- develop process for iterating across trials (sections of expressway) and placing scenario interactions
+- develop graphical interface to make placing scenario interactions easier
