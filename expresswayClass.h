@@ -24,8 +24,8 @@ private:
 	double roadwayStartY = 0;
 	char ownHeading;
 	vector <trigger*> triggers;
+	vector <vehicle*> vehicles;
 	std::ofstream out;
-	//vector <vehicle*> vehicles;
 
 public:
 
@@ -34,14 +34,15 @@ public:
 		//open the filestream
 		std::ifstream inputStream;
 		inputStream.open(filePathAsTxt);
-		
+
 		//if its not open
 		if (!inputStream.is_open()) {
 			//throw an error to be caught in main
-			std::exception e ("Filename not entered correctly. Exiting program.");
+			std::exception e("Filename not entered correctly. Exiting program.");
 			inputStream.close();
+			throw e;
 		}
-		
+
 		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
 
 		//begin reading the file by reading the header
@@ -66,7 +67,7 @@ public:
 			//write the positions first
 			this->startingXPosition = getStartingXPos(posOrOrientation, endOfXString);
 			this->startingYPosition = getStartingYPos(posOrOrientation, endOfXString);
-			
+
 			//then retreive the orientation and write it
 			string ownOrientation;
 			getline(txtFileStream, ownOrientation);
@@ -98,9 +99,9 @@ public:
 	string checkForExternalDriver(std::ifstream &txtFileStream) {
 		string find;
 		txtFileStream >> find;
-		
+
 		//search over the file until the vehicle position is reached
-		while (find != "CabType"){
+		while (find != "CabType") {
 			txtFileStream >> find;
 		}
 		txtFileStream >> find;
@@ -108,8 +109,8 @@ public:
 		getline(txtFileStream, find);
 
 		//if the position is not found
-		if (find.substr (2, 18) != "OwnVehiclePosition" && find.substr(2, 21) != "OwnVehicleOrientation") {
-			std::exception e ("Please place the external driver in the scenario and re-run the interface.");
+		if (find.substr(2, 18) != "OwnVehiclePosition" && find.substr(2, 21) != "OwnVehicleOrientation") {
+			std::exception e("Please place the external driver in the scenario and re-run the interface.");
 			txtFileStream.close();
 			throw e;
 		}
@@ -121,15 +122,15 @@ public:
 		//find the whitespace after the beginning of the x position
 		int i = 21;
 		int spacesTillEmpty = 0;
-		while (vehiclePosition[i] != ' '){
+		while (vehiclePosition[i] != ' ') {
 			i++;
 			spacesTillEmpty++;
 		}
 		endOfXString = i;
-		
+
 		//compose the string to hold the scientific notation double
 		string xDouble = vehiclePosition.substr(21, spacesTillEmpty);
-		
+
 		//find the 'E' and make it a 'e'
 		std::size_t found = xDouble.find('E');
 		xDouble[found] = 'e';
@@ -171,7 +172,7 @@ public:
 	void readRest(std::ifstream &txtFileStream) {
 		string inputCase;
 		getline(txtFileStream, inputCase);
-		while (!txtFileStream.eof ()) {
+		while (!txtFileStream.eof()) {
 			if (inputCase == "HCSM Gateway") {
 				getline(txtFileStream, inputCase);
 			}

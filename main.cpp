@@ -9,15 +9,15 @@
 using namespace std;
 
 int main() {
-	string filePath = getFilePath ();
+	string filePath = getFilePath();
 
 	ExpresswayScenario expressway;
-	
+
 	try {
 		expressway.readFile(filePath);
 	}
 
-	catch (exception &e){
+	catch (exception &e) {
 		cout << e.what() << '\n';
 		return 0;
 	}

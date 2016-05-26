@@ -25,4 +25,12 @@ struct position {
 	position(double X, double Y) : x(X), y(Y) {
 	}
 	position() : x(0), y(0) {}
-}; 
+};
+
+struct trajectory {
+	double x;
+	double y;
+	double speed;
+	double xDir;
+	double yDir;
+};

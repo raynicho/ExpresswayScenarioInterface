@@ -59,7 +59,7 @@ public:
 		return this->name;
 	}
 
-	position getPosition () {
+	position getPosition() {
 		return this->pos;
 	}
 
@@ -119,7 +119,7 @@ public:
 	}
 
 	expressionTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <actions*> Act, string Expression) : trigger(seq, shot, delay, Debounce, actDelay, creRad, 
+		string Short, position Draw, position Pos, vector <actions*> Act, string Expression) : trigger(seq, shot, delay, Debounce, actDelay, creRad,
 			LifeTime, Name, Long, Short, Draw, Pos, Act) {
 		expression = Expression;
 	}
@@ -197,7 +197,7 @@ private:
 
 public:
 
-	roadPadTrigger () : trigger () {}
+	roadPadTrigger() : trigger() {}
 
 	roadPadTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
 		string Short, position Draw, position Pos, vector <actions*> Act, string type, string Path) : trigger(seq, shot, delay, Debounce, actDelay,

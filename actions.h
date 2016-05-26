@@ -5,9 +5,6 @@
 
 using std::string;
 
-actions* readInAction(std::ifstream &inputStream) {
-
-}
 
 class actions {
 protected:
@@ -26,9 +23,9 @@ public:
 		outStream << "      InstigatorSet " << this->instigatorSet << '\n';
 	}
 
-	virtual void print (std::ostream &outStream) {}
+	virtual void print(std::ostream &outStream) {}
 
-	virtual void readFromFile (std::ifstream inputStream) {}
+	virtual void readFromFile(std::ifstream &inputStream) {}
 };
 
 class logData : public actions {
@@ -52,7 +49,7 @@ public:
 		return;
 	}
 
-	void readFromFIle  (std::ifstream inputStream) {
+	void readFromFIle(std::ifstream inputStream) {
 		string current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
@@ -84,7 +81,7 @@ private:
 public:
 	setDial() : actions() {}
 
-	setDial (int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : actions() {
+	setDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : actions() {
 		byNameSet = nameSet;
 		dial = Dial;
 		buttonDialPath = dialPath;
@@ -219,3 +216,200 @@ public:
 		return;
 	}
 };
+
+class setVar : public actions {
+private:
+	bool varValIsExpression;
+	string varName;
+	string varValue;
+
+public:
+	setVar() : actions() {}
+
+	setVar(int set, double Delay, string Comment, bool isExpression, string VarName, string VarValue) : actions(set, Delay, Comment) {
+		varValIsExpression = isExpression;
+		varName = VarName;
+		varValue = VarValue;
+	}
+
+	void print(std::ostream &outStream) {
+		outStream << "    HCSM SetVar\n";
+		this->printBasics(outStream);
+		outStream << "      VarName " << this->varName << '\n';
+		outStream << "      VarValue " << this->varValue << '\n';
+		outStream << "      IsVarValExpression " << this->varValIsExpression << '\n';
+		return;
+	}
+
+	void readFromFile(std::ifstream &inputStream) {
+		string current;
+		while (current != "&&&&End&&&&") {
+			if (current == "Comment") {
+				inputStream >> this->comment;
+			}
+			else if (current == "Delay") {
+				inputStream >> this->delay;
+			}
+			else if (current == "InstigatorSet") {
+				inputStream >> this->instigatorSet;
+			}
+			else if (current == "VarName") {
+				inputStream >> this->varName;
+			}
+			else if (current == "VarValue") {
+				inputStream >> this->varValue;
+			}
+			else if (current == "IsVarValExpression") {
+				inputStream >> this->varValIsExpression;
+			}
+		}
+		return;
+	}
+};
+
+class setButton : public actions {
+private:
+	string button;
+	string buttonPath;
+
+public:
+	setButton() : actions() {}
+
+	setButton(int set, double Delay, string Comment, string Button, string ButtonPath) : actions(set, Delay, Comment) {
+		button = Button;
+		buttonPath = ButtonPath;
+	}
+
+	void print(std::ostream &outStream) {
+		outStream << "    HCSM SetButton\n";
+		this->printBasics(outStream);
+		outStream << "      Button " << this->button << '\n';
+		outStream << "      ButtonDialPath " << this->buttonPath << '\n';
+		return;
+	}
+
+	void readFromFile(std::ifstream &inputStream) {
+		string current;
+		while (current != "&&&&End&&&&") {
+			if (current == "Comment") {
+				inputStream >> this->comment;
+			}
+			else if (current == "Delay") {
+				inputStream >> this->delay;
+			}
+			else if (current == "InstigatorSet") {
+				inputStream >> this->instigatorSet;
+			}
+			else if (current == "Button") {
+				inputStream >> this->button;
+			}
+			else if (current == "ButtonDialPath") {
+				inputStream >> this->buttonPath;
+			}
+		}
+		return;
+	}
+};
+
+class writeCell : public actions {
+private:
+	bool isVariable;
+	int cellType;
+	string cellName;
+	string cellData;
+
+public:
+	writeCell() : actions() {}
+
+	writeCell(int set, double Delay, string Comment, bool isVar, int type, string CellName, string data) : actions(set, Delay, Comment) {
+		isVariable = isVar;
+		cellType = type;
+		cellName = CellName;
+		cellData = data;
+	}
+
+	void print(std::ostream &outStream) {
+		outStream << "    HCSM WriteCell\n";
+		this->printBasics(outStream);
+		outStream << "      CellName " << this->cellName << '\n';
+		outStream << "      CellData " << this->cellData << '\n';
+		outStream << "      CellType " << this->cellType << '\n';
+		outStream << "      CellVar " << this->isVariable << '\n';
+		return;
+	}
+
+	void readFromFile(std::ifstream &inputStream) {
+		string current;
+		while (current != "&&&&End&&&&") {
+			if (current == "Comment") {
+				inputStream >> this->comment;
+			}
+			else if (current == "Delay") {
+				inputStream >> this->delay;
+			}
+			else if (current == "InstigatorSet") {
+				inputStream >> this->instigatorSet;
+			}
+			else if (current == "CellName") {
+				inputStream >> this->cellName;
+			}
+			else if (current == "CellData") {
+				inputStream >> this->cellData;
+			}
+			else if (current == "CellType") {
+				inputStream >> this->cellType;
+			}
+			else if (current == "CellVar") {
+				inputStream >> this->isVariable;
+			}
+		}
+		return;
+	}
+};
+
+class createHCSM : public actions {
+private:
+
+public:
+	createHCSM() : actions() {}
+
+	void print(std::ostream &outStream) {
+		return;
+	}
+
+	void readFromFile(std::ifstream &inputStream) {
+		return;
+	}
+};
+
+actions* readInAction(std::ifstream &inputStream) {
+	string actionType;
+	actions* act = 0;
+	inputStream >> actionType;
+	if (actionType == "WriteCell") {
+		act = new writeCell();
+	}
+	else if (actionType == "SetButton") {
+		act = new setButton();
+	}
+	else if (actionType == "DeleteHCSM") {
+		act = new deleteHCSM();
+	}
+	else if (actionType == "ResetDial") {
+		act = new resetDial();
+	}
+	else if (actionType == "CreatHCSM") {
+		return act;
+	}
+	else if (actionType == "SetVar") {
+		act = new setVar();
+	}
+	else if (actionType == "LogData") {
+		act = new logData();
+	}
+	else if (actionType == "SetDial") {
+		act = new setDial();
+	}
+	act->readFromFile(inputStream);
+	return act;
+}
