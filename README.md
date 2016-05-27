@@ -23,7 +23,8 @@ Raymond Pressly (raynicho@umich.edu)
 *main.h, main.cpp:* various functions used throughout the scenario interface
 
 ##To Do
-- develop objects for handling DDO and DDDO vehicles
+- develop writing functionality of the program
+- test reading and writing functionality of the program
 - develop objects for handling different virtual objects (static mainly)
 - develop process for iterating across trials (sections of expressway) and placing scenario interactions
 - develop graphical interface to make placing scenario interactions easier
