@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "vehicles.h"
 
 using std::string;
 
@@ -26,6 +27,8 @@ public:
 	virtual void print(std::ostream &outStream) {}
 
 	virtual void readFromFile(std::ifstream &inputStream) {}
+
+	virtual void readFromFile(std::ifstream &inputStream, vector <vehicle*> *vehicles) {}
 };
 
 class logData : public actions {
@@ -373,43 +376,90 @@ private:
 public:
 	createHCSM() : actions() {}
 
+	createHCSM(int set, double Delay, string Comment) : actions(set, Delay, Comment) {}
+
 	void print(std::ostream &outStream) {
+
 		return;
 	}
 
 	void readFromFile(std::ifstream &inputStream) {
 		return;
 	}
+
+	void readFromFile(std::ifstream &inputStream, vector <vehicle*> *vehicles) {
+		string current;
+		inputStream >> current;
+		while (current != "&&&&End&&&&") {
+			if (current == "Comment") {
+				inputStream >> this->comment;
+			}
+			else if (current == "Delay") {
+				inputStream >> this->delay;
+			}
+			else if (current == "InstigatorSet") {
+				inputStream >> this->instigatorSet;
+			}
+			else if (current == "HCSM") {
+				inputStream >> current;
+				if (current == "Ddo") {
+					vehicle* newVehicle = new DDO;
+					newVehicle->readFromFile(inputStream);
+					newVehicle->setCreation(true);
+					vehicles->push_back(newVehicle);
+				}
+				else if (current == "Ado") {
+					vehicle* newVehicle = new ADO;
+					newVehicle->readFromFile(inputStream);
+					newVehicle->setCreation(true);
+					vehicles->push_back(newVehicle);
+				}
+				else {
+					while (current != "&&&&End&&&&") {
+						inputStream >> current;
+					}
+				}
+			}
+		}
+		return;
+	}
 };
 
-actions* readInAction(std::ifstream &inputStream) {
+actions* readInAction(std::ifstream &inputStream, vector <vehicle*> *vehicles) {
 	string actionType;
 	actions* act = 0;
 	inputStream >> actionType;
 	if (actionType == "WriteCell") {
 		act = new writeCell();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "SetButton") {
 		act = new setButton();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "DeleteHCSM") {
 		act = new deleteHCSM();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "ResetDial") {
 		act = new resetDial();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "CreatHCSM") {
-		return act;
+		act = new createHCSM ();
+		act->readFromFile(inputStream, vehicles);
 	}
 	else if (actionType == "SetVar") {
 		act = new setVar();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "LogData") {
 		act = new logData();
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "SetDial") {
 		act = new setDial();
+		act->readFromFile(inputStream);
 	}
-	act->readFromFile(inputStream);
 	return act;
 }
