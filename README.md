@@ -25,6 +25,5 @@ Raymond Pressly (raynicho@umich.edu)
 ##To Do
 - develop objects for handling DDO and DDDO vehicles
 - develop objects for handling different virtual objects (static mainly)
-- develop CreateHCSM object
 - develop process for iterating across trials (sections of expressway) and placing scenario interactions
 - develop graphical interface to make placing scenario interactions easier
