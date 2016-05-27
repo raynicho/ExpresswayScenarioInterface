@@ -45,7 +45,7 @@ public:
 
 		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
 
-		//begin reading the file by reading the header
+		//begin  g the file by reading the header
 		this->parseHeader(inputStream);
 
 		//begin reading everything else
@@ -176,52 +176,66 @@ public:
 			if (inputCase == "HCSM Gateway") {
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM VehFail") {
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM TrafficManager") {
 				getline(txtFileStream, inputCase);
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM EnvironmentController") {
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM TrafficLightManager") {
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM StaticObjManager") {
 				for (unsigned int i = 0; i < 12; i++) {
 					getline(txtFileStream, inputCase);
 				}
 			}
-
 			else if (inputCase == "HCSM DriverMirror") {
 				getline(txtFileStream, inputCase);
 			}
-
 			else if (inputCase == "HCSM IntersectionManager") {
 				getline(txtFileStream, inputCase);
 			}
 			else if (inputCase == "HCSM ExpressionTrigger") {
-				expressionTrigger express;
-				express.fileRead(txtFileStream);
+				trigger* newTrigger = new expressionTrigger;
+				newTrigger->fileRead(txtFileStream);
+				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM RoadPadTrigger") {
-				roadPadTrigger road;
-				road.fileRead(txtFileStream);
+				trigger* newTrigger = new roadPadTrigger;
+				newTrigger->fileRead(txtFileStream);
+				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM TimeTrigger") {
-				timeTrigger time;
-				time.fileRead(txtFileStream);
-				time.filePrint(out);
+				trigger* newTrigger = new timeTrigger;
+				newTrigger->fileRead(txtFileStream);
+				triggers.push_back(newTrigger);
+			}
+			else if (inputCase == "HCSM Ddo") {
+				vehicle* newVehicle = new DDO;
+				newVehicle->readFromFile(txtFileStream);
+				vehicles.push_back(newVehicle);
+			}
+			else if (inputCase == "HCSM Ado") {
+				vehicle* newVehicle = new ADO;
+				newVehicle->readFromFile(txtFileStream);
+				vehicles.push_back(newVehicle);
 			}
 			getline(txtFileStream, inputCase);
 		}
 		return;
+	}
+
+	~ExpresswayScenario() {
+		for (unsigned int i = 0; i < vehicles.size(); i++) {
+			delete vehicles[i]; vehicles[i] = 0;
+		}
+		for (unsigned int i = 0; i < triggers.size(); i++) {
+			delete triggers[i]; triggers[i] = 0;
+		}
 	}
 };
