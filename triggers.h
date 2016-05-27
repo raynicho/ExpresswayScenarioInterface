@@ -33,10 +33,11 @@ protected:
 	position drawPosition;
 	position pos;
 	vector <actions*> Actions;
+	vector <vehicle*> *vehicles;
 
 public:
 	//default constructor for a trigger
-	trigger() : sequentialActions(false), oneShot(false), debounce(0), activationDelay(0), creationRadius(0), lifetime(0) {
+	trigger() : sequentialActions(false), oneShot(false), debounce(0), activationDelay(0), creationRadius(0), lifetime(0), vehicles(0) {
 	}
 
 	//constructor that takes in various parameters
@@ -45,6 +46,11 @@ public:
 		activationDelay(actDelay), creationRadius(creRad), lifetime(LifeTime), name(Name), longComment(Long),
 		shortComment(Short), drawPosition(Draw), pos(Pos), Actions(Act) {
 
+	}
+
+	void setVehiclePtr(vector <vehicle*> &vehicleVector) {
+		vehicles = new vector<vehicle*> (vehicleVector);
+		return;
 	}
 
 	string getShortComment() {
@@ -107,6 +113,7 @@ public:
 			delete Actions[i];
 			Actions[i] = 0;
 		}
+		delete vehicles; vehicles = 0;
 	}
 };
 
@@ -182,7 +189,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
+				Actions.push_back(readInAction(inputStream, vehicles));
 			}
 			inputStream >> current;
 		}
@@ -263,7 +270,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
+				Actions.push_back(readInAction(inputStream, vehicles));
 			}
 			else if (current == "Path") {
 				inputStream >> this->path;
@@ -351,7 +358,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
+				Actions.push_back(readInAction(inputStream, vehicles));
 			}
 			inputStream >> current;
 		}
