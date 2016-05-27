@@ -371,8 +371,6 @@ public:
 };
 
 class createHCSM : public actions {
-private:
-
 public:
 	createHCSM() : actions() {}
 

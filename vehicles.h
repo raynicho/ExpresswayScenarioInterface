@@ -40,6 +40,10 @@ public:
 		return;
 	}
 
+	bool getCreation() {
+		return createdByTrigger;
+	}
+
 	void printBasics(ostream &outStream, string spaces) {
 		outStream << spaces << "ColorIndex " << colorIndex << "\n";
 		outStream << spaces << "Lifetime " << lifetime << "\n";
@@ -177,6 +181,7 @@ public:
 			else if (current == "SolName") {
 				inputStream >> this->solName;
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -200,5 +205,168 @@ public:
 };
 
 class DDO : public vehicle {
+private:
+	/*unused
+	string MaxDecel 0.0000000E+000		bool QuitAtEnd 0
+	bool UseInitVelocity 0				double MaxAccel 0.0000000E+000
+	double MaxDecel 0.0000000E+000		string Coupled ""
+	bool EnableAnimation 0				bool AccountAccel 0
+	bool GlobTraj 1						bool InitState 0
+	int Option 0						int AudioState 0
+	string RelLoc 0.0000000E+000 0.0000000E+000 0.0000000E+000
+	string RelRot 0.0000000E+000 0.0000000E+000 0.0000000E+000
+	string InitVelXYZ 0.0000000E+000 0.0000000E+000 0.0000000E+000
+	string InitVelRPY 0.0000000E+000 0.0000000E+000 0.0000000E+000
+	vector<double> Delays 0 (size of dirs or dirsdef)
+	*/
 
+	//consistent variables
+	bool dependent;
+	bool dependentOwnVeh;
+	int visualState; //0, 1, or 2
+	position dependentRefPoint;
+	vector <double> dirs;
+	vector <bool> dirsDef;
+	vector <trajectory> trajs;
+
+public:
+	DDO () : vehicle () {}
+
+	DDO(int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName,
+		bool Dependent, bool DependentOwn, int visState, position refPoint, vector<double> Dirs, vector<bool> DirsDef,
+		vector <trajectory> Trajs) : vehicle(color, LifeTime, delay, CrRad, Name, Long, Short, SolName), dependent(Dependent),
+		dependentOwnVeh(DependentOwn), visualState(visState), dependentRefPoint(refPoint), dirs(Dirs), dirsDef(DirsDef),
+		trajs(Trajs) {}
+
+	void readFromFile(ifstream &inputStream) {
+		string current;
+		inputStream >> current;
+		while (current != "&&&&End&&&&") {
+			if (current == "Dependent") {
+				inputStream >> this->dependent;
+			}
+			else if (current == "DependentOwnVeh") {
+				inputStream >> this->dependentOwnVeh;
+			}
+			else if (current == "VisualState") {
+				inputStream >> this->visualState;
+			}
+			else if (current == "DependDentRefPoint") {
+				inputStream >> this->dependentRefPoint.x >> this->dependentRefPoint.y >> this->dependentRefPoint.z;
+			}
+			else if (current == "Dirs") {
+				//read input until the dirsdef is encountered
+				inputStream >> current;
+				while (current != "DirsDef") {
+					dirs.push_back(stod(current));
+					inputStream >> current;
+				}
+
+				//read in the dirsdef
+				bool DirsDef;
+				for (unsigned int i = 0; i < dirs.size(); i++) {
+					inputStream >> DirsDef;
+					dirsDef.push_back(DirsDef);
+				}
+			}
+			else if (current == "Traj") {
+				trajectory in;
+				inputStream >> in.x >> in.y >> in.speed >> in.xDir >> in.yDir;
+				trajs.push_back(in);
+			}
+			else if (current == "ColorIndex") {
+				inputStream >> this->colorIndex;
+			}
+			else if (current == "LifeTime") {
+				inputStream >> this->lifetime;
+			}
+			else if (current == "ActvDel") {
+				inputStream >> this->actvDel;
+			}
+			else if (current == "CrRad") {
+				inputStream >> this->crRad;
+			}
+			else if (current == "Name") {
+				inputStream >> this->name;
+			}
+			else if (current == "LongComment") {
+				inputStream >> this->longComment;
+			}
+			else if (current == "ShortComment") {
+				inputStream >> this->shortComment;
+			}
+			else if (current == "SolName") {
+				inputStream >> this->solName;
+			}
+			inputStream >> current;
+		}
+		return;
+	}
+
+	void printUnused(ostream &outStream, string spaces) {
+		outStream << spaces << "MaxDecel 0.0000000E+000\n";	outStream << spaces << "QuitAtEnd 0\n";
+		outStream << spaces << "UseInitVelocity 0\n";	outStream << spaces << "MaxAccel 0.0000000E+000\n";
+		outStream << spaces << "Coupled \"\"\n";	outStream << spaces << "EnableAnimation 0\n";
+		outStream << spaces << "AccountAccel 0\n";	outStream << spaces << "GlobTraj 1\n";
+		outStream << spaces << "InitState 0\n";	outStream << spaces << "Option 0\n";
+		outStream << spaces << "Option 0\n";	outStream << spaces << "AudioState 0\n";
+		outStream << spaces << "string RelLoc 0.0000000E+000 0.0000000E+000 0.0000000E+000\n";	
+		outStream << spaces << "string RelRot 0.0000000E+000 0.0000000E+000 0.0000000E+000\n";
+		outStream << spaces << "InitVelXYZ 0.0000000E+000 0.0000000E+000 0.0000000E+000\n";
+		outStream << spaces << "InitVelRPY 0.0000000E+000 0.0000000E+000 0.0000000E+000\n";
+		outStream << spaces << "Delays ";
+
+		for (unsigned int i = 0; i < dirs.size(); i++) {
+			outStream << "0.0000000E+000 ";
+		}
+		outStream << '\n';
+
+		return;
+	}
+
+	/*
+	bool dependent;
+	bool dependentOwnVeh;
+	int visualState; //0, 1, or 2
+	position dependentRefPoint;
+	vector <double> dirs;
+	vector <bool> dirsDef;
+	vector <trajectory> trajs;
+	*/
+
+	void print(ostream &outStream) {
+		string spaces = "  ";
+		string spacesTillTitle = "";
+		if (createdByTrigger) {
+			spaces = "          ";
+			spacesTillTitle = "        ";
+		}
+		outStream << spacesTillTitle << "HCSM Ddo\n";
+		this->printBasics(outStream, spaces);
+		this->printUnused(outStream, spaces);
+
+		outStream << spaces << "Dependent " << dependent << '\n';
+		outStream << spaces << "DependentOwnVeh " << dependentOwnVeh << '\n';
+		outStream << spaces << "VisualState " << visualState << '\n';
+		outStream << spaces << "DependentRefPosition " << dependentRefPoint.x << dependentRefPoint.y 
+			<< dependentRefPoint.z << '\n';
+
+		outStream << spaces << "Dirs " << setprecision(7) << scientific;
+		for (unsigned int i = 0; i < dirs.size(); i++) {
+			outStream << dirs[i] << " ";
+		}
+		outStream << '\n';
+
+		outStream << spaces << "DirsDef ";
+		for (unsigned int i = 0; i < dirsDef.size(); i++) {
+			outStream << dirsDef[i] << " ";
+		}
+		outStream << '\n';
+
+		for (unsigned int i = 0; i < trajs.size(); i++) {
+			outStream << "Traj " << trajs[i].x << " " << trajs[i].y << trajs[i].speed << " " << trajs[i].xDir << trajs[i].yDir;
+			outStream << '\n';
+		}
+		return;
+	}
 };

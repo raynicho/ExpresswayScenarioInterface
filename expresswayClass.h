@@ -25,7 +25,6 @@ private:
 	char ownHeading;
 	vector <trigger*> triggers;
 	vector <vehicle*> vehicles;
-	std::ofstream out;
 
 public:
 
@@ -43,9 +42,7 @@ public:
 			throw e;
 		}
 
-		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
-
-		//begin  g the file by reading the header
+		//begin reading the file by reading the header
 		this->parseHeader(inputStream);
 
 		//begin reading everything else
