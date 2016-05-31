@@ -4,11 +4,13 @@
 #include <fstream>
 #include <iostream>
 #include <cassert>
-#include "main.h"
 #include <sstream>
 #include <stdio.h>
 #include <ctype.h>
+#include <exception>
 #include "triggers.h"
+#include "main.h"
+#include "staticObject.h"
 
 using std::string;
 using std::vector;
@@ -25,6 +27,7 @@ private:
 	char ownHeading;
 	vector <trigger*> triggers;
 	vector <vehicle*> vehicles;
+	vector <staticObject> statics;
 
 public:
 
@@ -167,6 +170,8 @@ public:
 	}
 
 	void readRest(std::ifstream &txtFileStream) {
+		std::ofstream out;
+		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
 		string inputCase;
 		getline(txtFileStream, inputCase);
 		while (!txtFileStream.eof()) {
@@ -222,15 +227,28 @@ public:
 				newVehicle->readFromFile(txtFileStream);
 				vehicles.push_back(newVehicle);
 			}
+			else if (inputCase == "HCSM StaticObject") {
+				staticObject s;
+				s.readFromFile(txtFileStream);
+				statics.push_back(s);
+			}
+			else {
+				//string Error = "Unexpected object encountered: ";
+				out << inputCase << '\n';
+			}
 			getline(txtFileStream, inputCase);
 		}
+		out.close();
 		return;
 	}
 
 	~ExpresswayScenario() {
+		//delete the vehicles
 		for (unsigned int i = 0; i < vehicles.size(); i++) {
 			delete vehicles[i]; vehicles[i] = 0;
 		}
+
+		//delete the triggers
 		for (unsigned int i = 0; i < triggers.size(); i++) {
 			delete triggers[i]; triggers[i] = 0;
 		}

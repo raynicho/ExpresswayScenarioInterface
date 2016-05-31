@@ -3,7 +3,11 @@
 #include <fstream>
 #include <string>
 #include "vehicles.h"
+#include <vector>
 
+using std::vector;
+using std::ostream;
+using std::ifstream;
 using std::string;
 
 
@@ -18,17 +22,17 @@ public:
 
 	actions(int set, double Delay, string Comment) : instigatorSet(set), delay(Delay), comment(Comment) {}
 
-	void printBasics(std::ostream &outStream) {
+	void printBasics(ostream &outStream) {
 		outStream << "      Comment " << this->comment << '\n';
 		outStream << "      Delay " << this->delay << '\n';
 		outStream << "      InstigatorSet " << this->instigatorSet << '\n';
 	}
 
-	virtual void print(std::ostream &outStream) {}
+	virtual void print(ostream &outStream) {}
 
-	virtual void readFromFile(std::ifstream &inputStream) {}
+	virtual void readFromFile(ifstream &inputStream) {}
 
-	virtual void readFromFile(std::ifstream &inputStream, vector <vehicle*> *vehicles) {}
+	virtual void readFromFile(ifstream &inputStream, vector <vehicle*> *vehicles) {}
 };
 
 class logData : public actions {
@@ -44,7 +48,7 @@ public:
 		streamVal = val;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM LogData\n";
 		this->printBasics(outStream);
 		outStream << "      Stream " << this->stream << '\n';
@@ -52,11 +56,12 @@ public:
 		return;
 	}
 
-	void readFromFIle(std::ifstream inputStream) {
+	void readFromFIle(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -70,6 +75,7 @@ public:
 			else if (current == "StreamVal") {
 				inputStream >> this->streamVal;
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -90,7 +96,7 @@ public:
 		buttonDialPath = dialPath;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM SetDial\n";
 		this->printBasics(outStream);
 		outStream << "      ByNameSet " << this->byNameSet << '\n';
@@ -99,11 +105,12 @@ public:
 		return;
 	}
 
-	void readFromFIle(std::ifstream inputStream) {
+	void readFromFIle(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -112,14 +119,15 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "ByNameSet") {
-				inputStream >> this->byNameSet;
+				getline(inputStream, byNameSet);
 			}
 			else if (current == "Dial") {
-				inputStream >> this->dial;
+				getline(inputStream, dial);
 			}
 			else if (current == "ButtonDialPath") {
-				inputStream >> this->buttonDialPath;
+				getline(inputStream, buttonDialPath);
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -146,7 +154,7 @@ public:
 		buttonDialPath = dialPath;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM ResetDial\n";
 		this->printBasics(outStream);
 		if (byNameSet != "null") {
@@ -157,11 +165,12 @@ public:
 		return;
 	}
 
-	void readFromFIle(std::ifstream inputStream) {
+	void readFromFIle(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -170,14 +179,15 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "ByNameSet") {
-				inputStream >> this->byNameSet;
+				getline(inputStream, byNameSet);
 			}
 			else if (current == "Dial") {
-				inputStream >> this->dial;
+				getline(inputStream, dial);
 			}
 			else if (current == "ButtonDialPath") {
-				inputStream >> this->buttonDialPath;
+				getline(inputStream, buttonDialPath);
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -194,17 +204,18 @@ public:
 		byNameSet = ByNameSet;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM DeleteHCSM\n";
 		this->printBasics(outStream);
 		outStream << "      ByNameSet " << this->byNameSet << '\n';
 	}
 
-	void readFromFile(std::ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -213,8 +224,9 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "ByNameSet") {
-				inputStream >> this->byNameSet;
+				getline(inputStream, byNameSet);
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -235,7 +247,7 @@ public:
 		varValue = VarValue;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM SetVar\n";
 		this->printBasics(outStream);
 		outStream << "      VarName " << this->varName << '\n';
@@ -244,11 +256,12 @@ public:
 		return;
 	}
 
-	void readFromFile(std::ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -257,14 +270,15 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "VarName") {
-				inputStream >> this->varName;
+				getline(inputStream, varName);
 			}
 			else if (current == "VarValue") {
-				inputStream >> this->varValue;
+				getline(inputStream, varValue);
 			}
 			else if (current == "IsVarValExpression") {
 				inputStream >> this->varValIsExpression;
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -283,7 +297,7 @@ public:
 		buttonPath = ButtonPath;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM SetButton\n";
 		this->printBasics(outStream);
 		outStream << "      Button " << this->button << '\n';
@@ -291,11 +305,12 @@ public:
 		return;
 	}
 
-	void readFromFile(std::ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -304,11 +319,12 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "Button") {
-				inputStream >> this->button;
+				getline(inputStream, button);
 			}
 			else if (current == "ButtonDialPath") {
-				inputStream >> this->buttonPath;
+				getline(inputStream, buttonPath);
 			}
+			inputStream >> current;
 		}
 		return;
 	}
@@ -331,7 +347,7 @@ public:
 		cellData = data;
 	}
 
-	void print(std::ostream &outStream) {
+	void print(ostream &outStream) {
 		outStream << "    HCSM WriteCell\n";
 		this->printBasics(outStream);
 		outStream << "      CellName " << this->cellName << '\n';
@@ -341,11 +357,12 @@ public:
 		return;
 	}
 
-	void readFromFile(std::ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
+		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -354,10 +371,10 @@ public:
 				inputStream >> this->instigatorSet;
 			}
 			else if (current == "CellName") {
-				inputStream >> this->cellName;
+				getline(inputStream, cellName);
 			}
 			else if (current == "CellData") {
-				inputStream >> this->cellData;
+				getline(inputStream, cellData);
 			}
 			else if (current == "CellType") {
 				inputStream >> this->cellType;
@@ -365,32 +382,43 @@ public:
 			else if (current == "CellVar") {
 				inputStream >> this->isVariable;
 			}
+			inputStream >> current;
 		}
 		return;
 	}
 };
 
 class createHCSM : public actions {
+private:
+	vector<vehicle*> createdVehicles;
+
 public:
 	createHCSM() : actions() {}
 
 	createHCSM(int set, double Delay, string Comment) : actions(set, Delay, Comment) {}
 
-	void print(std::ostream &outStream) {
-
+	void print(ostream &outStream) {
+		string spaces = "      ";
+		string spacesTillTitle = "    ";
+		outStream << spacesTillTitle << "HCSM CreateHcsm\n";
+		this->printBasics(outStream);
+		
+		for (unsigned int i = 0; i < createdVehicles.size(); i++) {
+			createdVehicles[i]->print(outStream);
+		}
 		return;
 	}
 
-	void readFromFile(std::ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		return;
 	}
 
-	void readFromFile(std::ifstream &inputStream, vector <vehicle*> *vehicles) {
+	void readFromFile(ifstream &inputStream, vector <vehicle*> *vehicles) {
 		string current;
 		inputStream >> current;
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
-				inputStream >> this->comment;
+				getline(inputStream, comment);
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -405,12 +433,14 @@ public:
 					newVehicle->readFromFile(inputStream);
 					newVehicle->setCreation(true);
 					vehicles->push_back(newVehicle);
+					createdVehicles.push_back(newVehicle);
 				}
 				else if (current == "Ado") {
 					vehicle* newVehicle = new ADO;
 					newVehicle->readFromFile(inputStream);
 					newVehicle->setCreation(true);
 					vehicles->push_back(newVehicle);
+					createdVehicles.push_back(newVehicle);
 				}
 				else {
 					while (current != "&&&&End&&&&") {
@@ -418,12 +448,13 @@ public:
 					}
 				}
 			}
+			inputStream >> current;
 		}
 		return;
 	}
 };
 
-actions* readInAction(std::ifstream &inputStream, vector <vehicle*> *vehicles) {
+actions* readInAction(ifstream &inputStream, vector <vehicle*> *vehicles) {
 	string actionType;
 	actions* act = 0;
 	inputStream >> actionType;

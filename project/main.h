@@ -2,11 +2,15 @@
 #include <string>
 #include <cassert>
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
+using std::ostream;
+using std::ifstream;
 using std::string;
 
 string getFilePath() {
-	string path = "C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\base.scn";
+	string path = "C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\ke.scn";
 	return path;
 }
 

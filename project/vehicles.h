@@ -4,7 +4,6 @@
 #include <iostream>
 #include <iomanip>
 
-
 using std::string;
 using std::vector;
 using std::ifstream;
@@ -152,7 +151,7 @@ public:
 				inputStream >> this->velCtrlInitVel;
 			}
 			else if (current == "RoadPos") {
-				inputStream >> this->roadPos;
+				getline(inputStream, roadPos);
 			}
 			else if (current == "Path") {
 				inputStream >> this->path;
@@ -170,16 +169,16 @@ public:
 				inputStream >> this->crRad;
 			}
 			else if (current == "Name") {
-				inputStream >> this->name;
+				getline(inputStream, name);
 			}
 			else if (current == "LongComment") {
-				inputStream >> this->longComment;
+				getline(inputStream, longComment);
 			}
 			else if (current == "ShortComment") {
-				inputStream >> this->shortComment;
+				getline(inputStream, shortComment);
 			}
 			else if (current == "SolName") {
-				inputStream >> this->solName;
+				getline(inputStream, solName);
 			}
 			inputStream >> current;
 		}
@@ -324,16 +323,6 @@ public:
 		return;
 	}
 
-	/*
-	bool dependent;
-	bool dependentOwnVeh;
-	int visualState; //0, 1, or 2
-	position dependentRefPoint;
-	vector <double> dirs;
-	vector <bool> dirsDef;
-	vector <trajectory> trajs;
-	*/
-
 	void print(ostream &outStream) {
 		string spaces = "  ";
 		string spacesTillTitle = "";
@@ -351,7 +340,7 @@ public:
 		outStream << spaces << "DependentRefPosition " << dependentRefPoint.x << dependentRefPoint.y 
 			<< dependentRefPoint.z << '\n';
 
-		outStream << spaces << "Dirs " << setprecision(7) << scientific;
+		outStream << spaces << "Dirs " << std::setprecision(7) << std::scientific;
 		for (unsigned int i = 0; i < dirs.size(); i++) {
 			outStream << dirs[i] << " ";
 		}

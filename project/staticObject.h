@@ -79,6 +79,7 @@ public:
 			else if (current == "Position") {
 				inputStream >> pos.x >> pos.y >> pos.y;
 			}
+			inputStream >> current;
 		}
 		return;
 	}

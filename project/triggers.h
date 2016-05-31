@@ -109,6 +109,7 @@ public:
 	}
 
 	~trigger() {
+		//delete the actions
 		for (unsigned int i = 0; i < Actions.size(); i++) {
 			delete Actions[i];
 			Actions[i] = 0;
