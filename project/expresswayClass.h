@@ -174,6 +174,7 @@ public:
 		out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
 		string inputCase;
 		getline(txtFileStream, inputCase);
+		//cout << inputCase << '\n';
 		while (!txtFileStream.eof()) {
 			if (inputCase == "HCSM Gateway") {
 				getline(txtFileStream, inputCase);
@@ -234,10 +235,14 @@ public:
 			}
 			else {
 				//string Error = "Unexpected object encountered: ";
-				out << inputCase << '\n';
+				if (!inputCase.empty ()) {
+					out << inputCase << '\n';
+				}
 			}
 			getline(txtFileStream, inputCase);
+			//cout << inputCase << '\n';
 		}
+		out << "Completed reading the file.\n";
 		out.close();
 		return;
 	}

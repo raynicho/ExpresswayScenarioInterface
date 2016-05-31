@@ -10,6 +10,7 @@
 
 using std::string;
 using std::vector;
+using std::cout;
 
 position readPositionFromFile(std::ifstream &inputStream) {
 	position test;
@@ -143,7 +144,8 @@ public:
 	void fileRead(std::ifstream &inputStream) {
 		string current;
 		inputStream >> current;
-
+		//cout << "Reading ExpressionTrigger...\n";
+		//cout << current << '\n';
 		//while not at the end, continue reading in
 		while (current != "&&&&End&&&&") {
 			//if if is the position
@@ -175,7 +177,7 @@ public:
 				inputStream >> this->lifetime;
 			}
 			else if (current == "Name") {
-				inputStream >> this->name;
+				getline(inputStream, name);
 			}
 			else if (current == "OneShot") {
 				inputStream >> this->oneShot;
@@ -193,7 +195,9 @@ public:
 				Actions.push_back(readInAction(inputStream, vehicles));
 			}
 			inputStream >> current;
+			//cout << current << '\n';
 		}
+		//cout << "Done reading ExpressionTrigger.\n";
 		return;
 	}
 };

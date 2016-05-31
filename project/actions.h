@@ -56,7 +56,7 @@ public:
 		return;
 	}
 
-	void readFromFIle(ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 		while (current != "&&&&End&&&&") {
@@ -105,12 +105,16 @@ public:
 		return;
 	}
 
-	void readFromFIle(ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
+		//std::cout << "Read from file function reached.";
 		inputStream >> current;
+		
+		//std::cout << current << '\n';
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
 				getline(inputStream, comment);
+				//std::cout << comment << '\n';
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -128,6 +132,7 @@ public:
 				getline(inputStream, buttonDialPath);
 			}
 			inputStream >> current;
+			//std::cout << current << '\n';
 		}
 		return;
 	}
@@ -165,7 +170,7 @@ public:
 		return;
 	}
 
-	void readFromFIle(ifstream &inputStream) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 		while (current != "&&&&End&&&&") {
@@ -487,8 +492,12 @@ actions* readInAction(ifstream &inputStream, vector <vehicle*> *vehicles) {
 		act->readFromFile(inputStream);
 	}
 	else if (actionType == "SetDial") {
-		act = new setDial();
-		act->readFromFile(inputStream);
+		//std::cout << "Reading SetDial action..." << '\n';
+		setDial x;
+		x.readFromFile(inputStream);
+		act = new setDial(x);
+		//act->print(std::cout);
 	}
+	//std::cout << "Done reading action.\n";
 	return act;
 }
