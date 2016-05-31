@@ -22,9 +22,13 @@ Raymond Pressly (raynicho@umich.edu)
 
 *main.h, main.cpp:* various functions used throughout the scenario interface
 
+*staticObject.h:* class that handles reading and writing functionality of static scenario objects 
+
+*virtualObject.h:* class that handles reading and writing functionality of virtual scenario objects 
+
 ##To Do
 - develop writing functionality of the program
 - test reading and writing functionality of the program
-- develop objects for handling different virtual objects (static mainly)
+- develop objects for handling different virtual objects
 - develop process for iterating across trials (sections of expressway) and placing scenario interactions
 - develop graphical interface to make placing scenario interactions easier
