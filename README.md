@@ -12,23 +12,20 @@ Raymond Pressly (raynicho@umich.edu)
 
 ##Files
 
-*triggers.h:* contains classes used for all triggers present in MiniSim/ISAT
+*Trigger.h:* contains classes used for all triggers present in MiniSim/ISAT
 
-*actions.h:* contains classes for various actions that triggers can cause in MiniSim/ISAT
+*Action.h:* contains classes for various actions that triggers can cause in MiniSim/ISAT
 
-*vehicles.h:* contains classes for creating and writing vehicles in MiniSim/ISAT
+*Vehicle.h:* contains classes for creating and writing vehicles in MiniSim/ISAT
 
-*expresswayClass.h:* maintains all triggers, vehicles, and other scneario objects in one location
+*SCNHighwayInterface.h:* maintains all triggers, vehicles, and other scneario objects in one location
 
 *main.h, main.cpp:* various functions used throughout the scenario interface
 
-*staticObject.h:* class that handles reading and writing functionality of static scenario objects 
-
-*virtualObject.h:* class that handles reading and writing functionality of virtual scenario objects 
+*StaticObject.h/VirtualObject.h:* class that handles reading and writing functionality of static/virtual scenario objects
 
 ##To Do
 - develop writing functionality of the program
-- test reading and writing functionality of the program
-- develop objects for handling different virtual objects
+- test writing functionality of the program
 - develop process for iterating across trials (sections of expressway) and placing scenario interactions
 - develop graphical interface to make placing scenario interactions easier
