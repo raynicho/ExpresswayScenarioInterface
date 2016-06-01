@@ -31,8 +31,6 @@ public:
 	virtual void print(ostream &outStream) {}
 
 	virtual void readFromFile(ifstream &inputStream) {}
-
-	virtual void readFromFile(ifstream &inputStream, vector <Vehicle*> *vehicles) {}
 };
 
 class LogData : public Action {
@@ -107,14 +105,11 @@ public:
 
 	void readFromFile(ifstream &inputStream) {
 		string current;
-		//std::cout << "Read from file function reached.";
 		inputStream >> current;
 		
-		//std::cout << current << '\n';
 		while (current != "&&&&End&&&&") {
 			if (current == "Comment") {
 				getline(inputStream, comment);
-				//std::cout << comment << '\n';
 			}
 			else if (current == "Delay") {
 				inputStream >> this->delay;
@@ -132,7 +127,6 @@ public:
 				getline(inputStream, buttonDialPath);
 			}
 			inputStream >> current;
-			//std::cout << current << '\n';
 		}
 		return;
 	}
@@ -459,7 +453,7 @@ public:
 	}
 };
 
-Action* readInAction(ifstream &inputStream, vector <Vehicle*> *vehicles) {
+Action* readInAction(ifstream &inputStream) {
 	string actionType;
 	Action* act = 0;
 	inputStream >> actionType;
@@ -481,7 +475,7 @@ Action* readInAction(ifstream &inputStream, vector <Vehicle*> *vehicles) {
 	}
 	else if (actionType == "CreateHcsm") {
 		act = new CreateHCSM ();
-		act->readFromFile(inputStream, vehicles);
+		act->readFromFile(inputStream);
 	}
 	else if (actionType == "SetVar") {
 		act = new SetVar();

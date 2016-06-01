@@ -10,9 +10,10 @@
 
 using std::string;
 using std::vector;
-using std::cout;
+using std::ostream;
+using std::ifstream;
 
-position readPositionFromFile(std::ifstream &inputStream) {
+position readPositionFromFile(ifstream &inputStream) {
 	position test;
 	inputStream >> test.x >> test.y >> test.z;
 	return test;
@@ -34,11 +35,10 @@ protected:
 	position drawPosition;
 	position pos;
 	vector <Action*> Actions;
-	vector <Vehicle*> *vehicles;
 
 public:
 	//default constructor for a Trigger
-	Trigger() : sequentialActions(false), oneShot(false), debounce(0), activationDelay(0), creationRadius(0), lifetime(0), vehicles(0) {
+	Trigger() : sequentialActions(false), oneShot(false), debounce(0), activationDelay(0), creationRadius(0), lifetime(0) {
 	}
 
 	//constructor that takes in various parameters
@@ -47,11 +47,6 @@ public:
 		activationDelay(actDelay), creationRadius(creRad), lifetime(LifeTime), name(Name), longComment(Long),
 		shortComment(Short), drawPosition(Draw), pos(Pos), Actions(Act) {
 
-	}
-
-	void setVehiclePtr(vector <Vehicle*> &vehicleVector) {
-		vehicles = new vector<Vehicle*> (vehicleVector);
-		return;
 	}
 
 	string getShortComment() {
@@ -76,7 +71,7 @@ public:
 		return;
 	}
 
-	void writeBasics(std::ostream &outStream) {
+	void writeBasics(ostream &outStream) {
 		outStream << "  Position " << std::scientific << std::setprecision(7);
 		outStream << this->pos.x << " " << this->pos.y << " " << this->pos.z << " " << '\n';
 		outStream << "  LongComment" << this->longComment << " " << '\n';
@@ -97,12 +92,12 @@ public:
 	}
 
 	//virtual function for printing the Trigger tp an output stream; different for each type of Trigger
-	virtual void filePrint(std::ostream &outputStream) {}
+	virtual void filePrint(ostream &outputStream) {}
 
 	//virtual funciton for reading the Trigger; different for each type of Trigger
-	virtual void fileRead(std::ifstream &inputStream) {}
+	virtual void fileRead(ifstream &inputStream) {}
 
-	void printActions(std::ostream &outStream) {
+	void printActions(ostream &outStream) {
 		for (unsigned int i = 0; i < Actions.size(); i++) {
 			Actions[i]->print(outStream);
 		}
@@ -115,7 +110,6 @@ public:
 			delete Actions[i];
 			Actions[i] = 0;
 		}
-		delete vehicles; vehicles = 0;
 	}
 };
 
@@ -133,7 +127,7 @@ public:
 		expression = Expression;
 	}
 
-	void filePrint(std::ostream &outStream) {
+	void filePrint(ostream &outStream) {
 		outStream << "HCSM ExpressionTrigger" << '\n';
 		outStream << "  Expression " << this->expression << " " << '\n';
 		this->writeBasics(outStream);
@@ -141,11 +135,9 @@ public:
 		return;
 	}
 
-	void fileRead(std::ifstream &inputStream) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
-		//cout << "Reading ExpressionTrigger...\n";
-		//cout << current << '\n';
 		//while not at the end, continue reading in
 		while (current != "&&&&End&&&&") {
 			//if if is the position
@@ -192,12 +184,10 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehicles));
+				Actions.push_back(readInAction(inputStream);
 			}
 			inputStream >> current;
-			//cout << current << '\n';
 		}
-		//cout << "Done reading ExpressionTrigger.\n";
 		return;
 	}
 };
@@ -218,7 +208,7 @@ public:
 		path = Path;
 	}
 
-	void filePrint(std::ostream &outStream) {
+	void filePrint(ostream &outStream) {
 		outStream << "HCSM RoadPadTrigger\n";
 		this->writeBasics(outStream);
 		outStream << "  ByTypeSet " << this->typeSet << " \n";
@@ -228,7 +218,7 @@ public:
 		return;
 	}
 
-	void fileRead(std::ifstream &inputStream) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 
@@ -305,7 +295,7 @@ public:
 		time = Time;
 	}
 
-	void filePrint(std::ostream &outStream) {
+	void filePrint(ostream &outStream) {
 		outStream << "HCSM TimeTrigger" << '\n';
 		outStream << "  Time " << std::setprecision(7) << std::scientific << this->time << " " << '\n';
 		this->writeBasics(outStream);
@@ -313,7 +303,7 @@ public:
 		return;
 	}
 
-	void fileRead(std::ifstream &inputStream) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 
