@@ -20,6 +20,7 @@ using std::vector;
 using std::cout;
 using std::ifstream;
 using std::ostream;
+using std::ofstream;
 
 class SCNHighwayTemplate {
 private:
@@ -35,6 +36,41 @@ private:
 	vector <VirtualObject> virtualObjects;
 
 public:
+	
+	void printUnusedSCNObjects(ostream &outStream) {
+		return;
+	}
+
+	void writeFile(string outputFilePath) {
+		//open the file
+		ofstream outStream;
+		outStream.open(outputFilePath);
+
+		//print the header
+		header.print(outStream);
+
+		//print the unused things
+		printUnusedSCNObjects(outStream);
+
+		//print the triggers
+		for (auto trigger : triggers) {
+			trigger->filePrint(outStream);
+		}
+
+		//print the vehicles, only the non created ones
+		for (auto vehicle : vehicles) {
+			if (!vehicle->getCreation()) {
+				vehicle->print(outStream);
+			}
+		}
+
+		//print the static objects
+
+
+		//print the virtual objects
+		
+		return;
+	}
 
 	//reads in the file: header, triggers, vehicles, etc.
 	void readFile(string SCNFilePath) {
@@ -58,11 +94,17 @@ public:
 
 		//close the file when done
 		inputStream.close();
+
+		//write the header and see what happens
+		//ofstream out;
+		//out.open("C:\\Users\\raynicho\\Desktop\\SCNHighwayTemplate\\SCNExampleFiles\\test.txt");
+		//header.print(out);
+		//out.close();
 		return;
 	}
 
 	//responsible for reading in information from the header
-	void readHeader(ifstream &inputStream) {	
+	void readHeader(ifstream &inputStream) {
 		if (!header.readFromFile(inputStream)) {
 			std::exception e("The scn file entered does not have a vehicle position entered.");
 		}
@@ -83,8 +125,6 @@ public:
 	}
 
 	void readRest(ifstream &inputStream) {
-		//std::ofstream out;
-		//out.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
 		string inputCase;
 		getline(inputStream, inputCase);
 		while (!inputStream.eof()) {

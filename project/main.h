@@ -25,6 +25,7 @@ struct position {
 	position(double X, double Y) : x(X), y(Y) {
 	}
 	position() : x(0), y(0) {}
+	position (double X, double Y, double Z) : x(X), y(Y), z(Z) {}
 };
 
 struct trajectory {

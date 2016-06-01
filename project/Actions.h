@@ -409,10 +409,6 @@ public:
 	}
 
 	void readFromFile(ifstream &inputStream) {
-		return;
-	}
-
-	void readFromFile(ifstream &inputStream, vector <Vehicle*> *vehicles) {
 		string current;
 		inputStream >> current;
 		while (current != "&&&&End&&&&") {

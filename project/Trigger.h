@@ -184,7 +184,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream);
+				Actions.push_back(readInAction(inputStream));
 			}
 			inputStream >> current;
 		}
@@ -265,7 +265,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehicles));
+				Actions.push_back(readInAction(inputStream));
 			}
 			else if (current == "Path") {
 				inputStream >> this->path;
@@ -353,7 +353,7 @@ public:
 				this->drawPosition = readPositionFromFile(inputStream);
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehicles));
+				Actions.push_back(readInAction(inputStream));
 			}
 			inputStream >> current;
 		}
