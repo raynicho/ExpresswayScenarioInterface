@@ -25,7 +25,5 @@ Raymond Pressly (raynicho@umich.edu)
 *StaticObject.h/VirtualObject.h:* class that handles reading and writing functionality of static/virtual scenario objects
 
 ##To Do
-- develop writing functionality of the program
-- test writing functionality of the program
 - develop process for iterating across trials (sections of expressway) and placing scenario interactions
 - develop graphical interface to make placing scenario interactions easier
