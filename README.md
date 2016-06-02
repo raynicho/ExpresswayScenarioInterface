@@ -1,9 +1,9 @@
 # ExpresswayScenarioInterface
 
-Driving scenarios for the NADS MiniSim take months to produce and take up a major portion of driving research studies. This software was created in order to help the Driver Interface Group at the University of Michigan Transportation Research Institute build and test expressway scenarios in a quick and correct manner. The program consists of three major portions:
+Driving scenarios for the NADS MiniSim take months to produce and which is the major portion of driving research studies. This software was created in order to help the Driver Interface Group at the University of Michigan Transportation Research Institute build and test expressway scenarios in a quick and correct manner. The program consists of three major portions:
 
 - reading the scenario files
-- editing the scenario file quickly and correctly
+- editing the scenario file to add events
 - a graphical interface useful to the researcher
 
 ##Authors and Contributors
