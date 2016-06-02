@@ -4,13 +4,15 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 
 using std::ostream;
 using std::ifstream;
 using std::string;
+using std::vector;
 
 string getFilePath() {
-	string path = "C:\\Users\\raynicho\\Desktop\\SCNHighwayTemplate\\SCNExampleFiles\\ke.scn";
+	string path = "C:\\Users\\raynicho\\Desktop\\SCNHighwayTemplate\\SCNExampleFiles\\base.scn";
 	return path;
 }
 
@@ -46,4 +48,11 @@ struct color {
 struct drawSize {
 	double width;
 	double heighth;
+};
+
+struct state {
+	vector<double> stateVector;
+	int stateOne;
+	int stateTwo;
+	string stateString;
 };

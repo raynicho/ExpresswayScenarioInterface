@@ -70,7 +70,7 @@ private:
 
 public:
 	ADO() : Vehicle(), autoControlBreakLights(false), velCtrlInitMatchOvVel(false), velCtrlDistType(2), laneOffset(-0.49), maxLatOffset(9),
-		velCtrlDistVal1(62) {}
+		velCtrlDistVal1(62), path ("-1") {}
 
 	ADO(int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName, bool autoBreak,
 		bool velInitMatch, int distType, double laneOff, double maxLatOff, double distVal1, double initVel, string RoadPos, string Path) : Vehicle(color,
@@ -78,8 +78,8 @@ public:
 		velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlDistVal1(distVal1), velCtrlInitVel(initVel), roadPos(RoadPos), path(Path) {}
 
 	void printUnused(ostream &outStream, string spaces) {
-		outStream << spaces << "RunMode \"eRemote_Control\"\n";				outStream << spaces << "CreateRelOffsLonUsingExpr 0 \n";
-		outStream << spaces << "AutoControlHeadLights 0\n";					outStream << spaces << "UseReaDel 1\n";
+		outStream << spaces << "RunMode \"eRemote_Control\"\n";				outStream << spaces << "RandomSol 0\n";
+		outStream << spaces << "CreateRelOffsLonUsingExpr 0 \n";			outStream << spaces << "AutoControlHeadLights 0\n";					outStream << spaces << "UseReaDel 1\n";
 		outStream << spaces << "LatOffsType 0\n";							outStream << spaces << "CreateRelLatInFeet 0\n";
 		outStream << spaces << "PathSearchDepth 2\n";						outStream << spaces << "StdToAccType 0\n";
 		outStream << spaces << "StdToDecType 0\n";							outStream << spaces << "StdToAccType 0\n";
@@ -88,8 +88,7 @@ public:
 		outStream << spaces << "LcvFall 1.5000000E+000 2.0000000E+000\n";	outStream << spaces << "LcvFreq 3.0000000E-002 5.0000000E-002\n";
 		outStream << spaces << "EmergDecClip -1.1000000E+001\n";			outStream << spaces << "FollowTimeMax 2.0000000E+000\n";
 		outStream << spaces << "FollowTimeMin 1.0000000E+000\n";			outStream << spaces << "LcvRAmpl 1.0000000E-001 5.0000000E-001\n";
-		outStream << spaces << "StdToDecVal1 9.0000000E-001\n";				outStream << spaces << "CreateRelOffsLonExprStr \"\"\n";
-		outStream << spaces << "\n";										outStream << spaces << "DynModel \"Non Linear\"\n";
+		outStream << spaces << "StdToDecVal1 9.0000000E-001\n";				outStream << spaces << "DynModel \"Non Linear\"\n";
 		outStream << spaces << "LogFile \"\"\n";
 		return;
 	}
@@ -122,6 +121,7 @@ public:
 		}
 
 		this->printBasics(outStream, spaces);
+		outStream << spacesTillTitle << "&&&&End&&&&\n";
 		return;
 	}
 

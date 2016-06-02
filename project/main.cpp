@@ -22,14 +22,7 @@ int main() {
 		return 0;
 	}
 
-	//string s;
-	//ifstream input;
-	//input.open("C:\\Users\\raynicho\\Desktop\\ExpresswayCreationInterface\\SCNExampleFiles\\test.txt");
-	//input >> s;
-	//getline(input, s);
-	//cout << s << endl;
-	//input >> s;
-	//cout << s << endl;
+	expressway.writeFile("C:\\Users\\raynicho\\Desktop\\SCNHighwayTemplate\\SCNExampleFiles\\test.scn");
 
 	return 0;
 }

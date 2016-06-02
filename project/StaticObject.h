@@ -10,6 +10,7 @@ using std::ifstream;
 class StaticObject {
 private:
 	bool isNewObject;
+	int colorIndex;
 	int audioState;
 	int option;
 	int visualState;
@@ -22,10 +23,10 @@ private:
 
 public:
 	StaticObject() : isNewObject(false), audioState(0), option(0), visualState(0), orientation(0), longComment(" "),
-		shortComment(" ") {}
+		shortComment(" "), colorIndex(-1) {}
 
-	StaticObject(bool isNew, int audio, int Option, int visual, double Orientation, string sol, string Name, string Long,
-		string Short, position Pos) : isNewObject(isNew), audioState(audio), option(Option), visualState(visual), orientation(Orientation),
+	StaticObject(bool isNew, int color, int audio, int Option, int visual, double Orientation, string sol, string Name, string Long,
+		string Short, position Pos) : isNewObject(isNew), colorIndex(color), audioState(audio), option(Option), visualState(visual), orientation(Orientation),
 		solName(sol), name(Name), longComment(Long), shortComment(Short), pos(Pos) {}
 
 	void print(ostream &outStream) {
@@ -41,7 +42,11 @@ public:
 		outStream << spaces << "SolName " << solName << '\n';
 		outStream << spaces << "Name " << name << '\n';
 		outStream << spaces << "Option " << option << '\n';
+		if (colorIndex != -1) {
+			outStream << spaces << "ColorIndex " << colorIndex << '\n';
+		}
 		outStream << spaces << "Position " << pos.x << " " << pos.y << " " << pos.z << '\n';
+		outStream << spacesTillTitle << "&&&&End&&&&\n";
 		return;
 	}
 
@@ -77,7 +82,10 @@ public:
 				inputStream >> option;
 			}
 			else if (current == "Position") {
-				inputStream >> pos.x >> pos.y >> pos.y;
+				inputStream >> pos.x >> pos.y >> pos.z;
+			}
+			else if (current == "ColorIndex"){
+				inputStream >> colorIndex;
 			}
 			inputStream >> current;
 		}

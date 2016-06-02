@@ -87,7 +87,6 @@ public:
 		outStream << "  SeqAct " << this->sequentialActions << " " << '\n';
 		outStream << "  DrawPosition ";
 		outStream << this->drawPosition.x << " " << this->drawPosition.y << " " << this->drawPosition.z << " " << '\n';
-		this->printActions(outStream);
 		return;
 	}
 
@@ -131,6 +130,7 @@ public:
 		outStream << "HCSM ExpressionTrigger" << '\n';
 		outStream << "  Expression " << this->expression << " " << '\n';
 		this->writeBasics(outStream);
+		this->printActions(outStream);
 		outStream << "&&&&End&&&&" << '\n';
 		return;
 	}
@@ -214,6 +214,7 @@ public:
 		outStream << "  ByTypeSet " << this->typeSet << " \n";
 		outStream << "  Path " << path << " \n";
 		outStream << "  NthFromStart 0 \n  NthFromEnd 0 \n  VehicleAhead 0 \n  VehicleBehind 0 \n";
+		this->printActions(outStream);
 		outStream << "&&&&End&&&&\n";
 		return;
 	}
@@ -299,6 +300,7 @@ public:
 		outStream << "HCSM TimeTrigger" << '\n';
 		outStream << "  Time " << std::setprecision(7) << std::scientific << this->time << " " << '\n';
 		this->writeBasics(outStream);
+		this->printActions(outStream);
 		outStream << "&&&&End&&&&" << '\n';
 		return;
 	}

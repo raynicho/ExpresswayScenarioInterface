@@ -26,11 +26,8 @@ private:
 	string groupName;
 
 	//common
-	int stateOne;
-	int stateTwo;
 	int option;
 	double orientation;
-	string stateString;
 	string solName;
 	string name;
 	string iconName;
@@ -41,16 +38,15 @@ private:
 	color fillColor;
 	color boarderColor;
 	drawSize draw;
-	vector <double> states;
+	vector <state> states;
 
 public:
-	VirtualObject() : groupName("-1"), stateString("") {}
+	VirtualObject() : groupName("-1") {}
 
-	VirtualObject(string GroupName, int StateOne, int StateTwo, int Option, double Orientation, string StateString, string Sol,
-		string Name, string IconName, string LongComment, string ShortComment, position Pos, position DrawPos, color fill, color boarder,
-		drawSize Draw, vector<double> &States) : groupName(GroupName), stateOne(StateOne), stateTwo(StateTwo), option(Option), orientation(Orientation),
-		stateString(StateString), solName(Sol), name(Name), iconName(IconName), longComment(LongComment), shortComment(ShortComment),
-		pos(Pos), drawPosition(DrawPos), fillColor(fill), boarderColor(boarder), draw(Draw), states(States) {}
+	VirtualObject(string GroupName, int Option, double Orientation, string Sol, string Name, string IconName, string LongComment, 
+		string ShortComment, position Pos, position DrawPos, color fill, color boarder, drawSize Draw, vector<state> &States) : 
+		groupName(GroupName), option(Option), orientation(Orientation), solName(Sol), name(Name), iconName(IconName), longComment(LongComment), 
+		shortComment(ShortComment), pos(Pos), drawPosition(DrawPos), fillColor(fill), boarderColor(boarder), draw(Draw), states(States) {}
 
 	void readFromFile(ifstream &inputStream) {
 		string current;
@@ -60,22 +56,26 @@ public:
 				getline(inputStream, groupName);
 			}
 			else if (current == "States") {
+				state temp;
 				//fill the vector
 				for (int i = 0; i < 12; i++) {
 					double state;
 					inputStream >> state;
-					states.push_back(state);
+					temp.stateVector.push_back(state);
 					inputStream >> current;
 				}
 
 				//get state 1 and state 2
-				inputStream >> stateOne;
+				inputStream >> temp.stateOne;
 				inputStream >> current;
-				inputStream >> stateTwo;
+				inputStream >> temp.stateTwo;
 
 				//get the state string
 				inputStream >> current;
-				getline(inputStream, stateString);
+				getline(inputStream, temp.stateString);
+
+				//push back the state to the virtual object
+				states.push_back(temp);
 			}
 			else if (current == "Option") {
 				inputStream >> option;
@@ -118,31 +118,45 @@ public:
 		return;
 	}
 
+	void printStates(ostream &outStream) {
+		outStream << std::setprecision(7) << std::scientific;
+		for (auto s : states) {
+			for (auto d : s.stateVector) {
+				outStream << "  States " << d << '\n';
+			}
+			outStream << "  States " << s.stateOne << '\n';
+			outStream << "  States " << s.stateTwo << '\n';
+			outStream << "  States " << s.stateString << '\n';
+		}
+		return;
+	}
+
 	void print(ostream &outStream) {
 		outStream << "HCSM VirtualObject\n";
 		if (groupName != "-1") {
-			outStream << "GroupName " << groupName << '\n';
+			outStream << "  " << "GroupName " << groupName << '\n';
 		}
-		outStream << "TargetName \"\"\n";
-		outStream << "DrawPosition " << std::setprecision(7) << std::scientific << drawPosition.x << " " << drawPosition.y
+		outStream << "  " << "TargetName \"\"\n";
+		outStream << "  " << "DrawPosition " << std::setprecision(7) << std::scientific << drawPosition.x << " " << drawPosition.y
 			<< " " << drawPosition.z << '\n';
-		outStream << "BlinkOff 1.0000000E+000\n";
-		outStream << "BlinkOn 1.0000000E+000\n";
-		outStream << "IsBlinking 0\n";
-		outStream << "FillColor " << fillColor.a << " " << fillColor.b << " " << fillColor.c << " " << fillColor.d << '\n';
-		outStream << "DrawSize " << draw.width << " " << draw.heighth << '\n';
-		outStream << "IconName " << iconName << '\n';
-		for (int i = 0; i < (int)states.size(); i++) {
-			outStream << "States " << states[i] << '\n';
-		}
-		outStream << "States " << stateOne << '\n';
-		outStream << "States " << stateTwo << '\n';
-		outStream << "States " << stateString << '\n';
-		outStream << "Option " << option << '\n';
-		outStream << "DrawType 0\n";
-		outStream << "LongComment " << longComment << '\n';
-		outStream << "ShortComment " << shortComment << '\n';
-		outStream << "Position " << pos.x << " " << pos.y << " " << pos.z << '\n';
+		outStream << "  " << "BlinkOff 1.0000000E+000\n";
+		outStream << "  " << "BlinkOn 1.0000000E+000\n";
+		outStream << "  " << "IsBlinking 0\n";
+		outStream << "  " << "FillColor " << fillColor.a << " " << fillColor.b << " " << fillColor.c << " " << fillColor.d << '\n';
+		outStream << "  " << "BoarderColor " << boarderColor.a << " " << boarderColor.b << " " << boarderColor.c << " " << boarderColor.d << '\n';
+		outStream << "  " << "DrawSize " << draw.width << " " << draw.heighth << '\n';
+		outStream << "  " << "IconName " << iconName << '\n';
+		printStates(outStream);
+		
+		outStream << "  " << "DrawType 0\n";
+		outStream << "  " << "LongComment " << longComment << '\n';
+		outStream << "  " << "ShortComment " << shortComment << '\n';
+		outStream << "  Orientation " << orientation << '\n';
+		outStream << "  SolName " << solName << '\n';
+		outStream << "  Name " << name << '\n';
+		outStream << "  " << "Option " << option << '\n';
+		outStream << "  Position " << pos.x << " " << pos.y << " " << pos.z << '\n';
+		outStream << "&&&&End&&&&\n";
  		return;
 	}
 };

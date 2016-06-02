@@ -38,6 +38,8 @@ private:
 public:
 	
 	void printUnusedSCNObjects(ostream &outStream) {
+		outStream << "HCSM DriverMirror\n&&&&End&&&&\n";
+		outStream << "HCSM IntersectionManager\n&&&&End&&&&\n";
 		return;
 	}
 
@@ -49,8 +51,25 @@ public:
 		//print the header
 		header.print(outStream);
 
-		//print the unused things
-		printUnusedSCNObjects(outStream);
+		//gateway and vehicle fail
+		outStream << "HCSM Gateway\n&&&&End&&&&\n";
+		outStream << "HCSM VehFail\n&&&&End&&&&\n";
+
+		//print the static objects
+		outStream << "HCSM StaticObjManager\n";
+		for (auto stat : staticObjects) {
+			stat.print(outStream);
+		}
+		outStream << "&&&&End&&&&\n";
+
+		//print the traffic manager
+		outStream << "HCSM TrafficLightManager\n  GroupName \"Traffic Manager\"\n&&&&End&&&&\n";
+
+		//print the environment controller
+		outStream << "HCSM EnvironmentController\n&&&&End&&&&\n";
+
+		//print the traffic light manager
+		outStream << "HCSM TrafficLightManager\n&&&&End&&&&\n";
 
 		//print the triggers
 		for (auto trigger : triggers) {
@@ -64,11 +83,14 @@ public:
 			}
 		}
 
-		//print the static objects
-
-
 		//print the virtual objects
+		for (auto virt : virtualObjects) {
+			virt.print(outStream);
+		}
+
+		printUnusedSCNObjects(outStream);
 		
+		outStream.close();
 		return;
 	}
 
@@ -196,7 +218,7 @@ public:
 			}
 			getline(inputStream, inputCase);
 		}
-		cout << "Completed reading the file.\n";
+		//cout << "Completed reading the file.\n";
 		return;
 	}
 

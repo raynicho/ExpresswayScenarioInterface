@@ -51,6 +51,7 @@ public:
 		this->printBasics(outStream);
 		outStream << "      Stream " << this->stream << '\n';
 		outStream << "      StreamVal " << this->streamVal << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -100,6 +101,7 @@ public:
 		outStream << "      ByNameSet " << this->byNameSet << '\n';
 		outStream << "      Dial " << this->dial << '\n';
 		outStream << "      ButtonDialPath " << this->buttonDialPath << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -161,6 +163,7 @@ public:
 		}
 		outStream << "      Dial " << this->dial << '\n';
 		outStream << "      ButtonDialPath " << this->buttonDialPath << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -204,9 +207,11 @@ public:
 	}
 
 	void print(ostream &outStream) {
-		outStream << "    HCSM DeleteHCSM\n";
+		outStream << "    HCSM DeleteHcsm\n";
 		this->printBasics(outStream);
 		outStream << "      ByNameSet " << this->byNameSet << '\n';
+		outStream << "    &&&&End&&&&\n";
+		return;
 	}
 
 	void readFromFile(ifstream &inputStream) {
@@ -252,6 +257,7 @@ public:
 		outStream << "      VarName " << this->varName << '\n';
 		outStream << "      VarValue " << this->varValue << '\n';
 		outStream << "      IsVarValExpression " << this->varValIsExpression << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -301,6 +307,7 @@ public:
 		this->printBasics(outStream);
 		outStream << "      Button " << this->button << '\n';
 		outStream << "      ButtonDialPath " << this->buttonPath << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -353,6 +360,7 @@ public:
 		outStream << "      CellData " << this->cellData << '\n';
 		outStream << "      CellType " << this->cellType << '\n';
 		outStream << "      CellVar " << this->isVariable << '\n';
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
@@ -405,6 +413,7 @@ public:
 		for (unsigned int i = 0; i < createdVehicles.size(); i++) {
 			createdVehicles[i]->print(outStream);
 		}
+		outStream << "    &&&&End&&&&\n";
 		return;
 	}
 
