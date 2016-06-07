@@ -16,6 +16,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    Actions.h \
+    MajorSettings.h \
+    SCNHeader.h \
+    SCNHighwayTemplate.h \
+    StaticObject.h \
+    Trial.h \
+    Trigger.h \
+    Vehicle.h \
+    VirtualObject.h \
+    Helpers.h
 
 FORMS    += mainwindow.ui

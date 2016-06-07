@@ -33,8 +33,6 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QPushButton *loadFile;
-    QLabel *fileStatus;
     QLabel *followVehicleLabel;
     QLabel *solModelLabel;
     QComboBox *followSolModel;
@@ -87,7 +85,7 @@ public:
     QLineEdit *goToLinEdit;
     QPushButton *goToButton;
     QLabel *label_8;
-    QLineEdit *trialFollowDistance;
+    QLineEdit *followTrialDistance;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout_2;
     QRadioButton *followTrialVelocityChangeMatchExternalDriver;
@@ -98,7 +96,7 @@ public:
     QLabel *label_9;
     QLineEdit *followTrialForceLaneChangeSpeed;
     QLabel *label_10;
-    QLineEdit *followTialForceLaneChangeAcceleration;
+    QLineEdit *followTrialForceLaneChangeAcceleration;
     QLabel *label_12;
     QLineEdit *leadTrialMaxLeadDistance;
     QCheckBox *leadTrialVelocityChange;
@@ -121,6 +119,7 @@ public:
     QLineEdit *animationEndX;
     QLineEdit *animationEndZ;
     QLineEdit *animationEndY;
+    QCheckBox *fcwOn;
     QGroupBox *trialManager;
     QGroupBox *leadVehicleInstructions;
     QCheckBox *leadTrialOn;
@@ -152,11 +151,6 @@ public:
     QRadioButton *leftLaneTrialCreationBehind;
     QRadioButton *leftLaneTrialCreationFront;
     QCheckBox *leftLaneTrialOn;
-    QWidget *gridLayoutWidget_4;
-    QGridLayout *gridLayout_4;
-    QLineEdit *leftLaneTrialRemainLaneAbsoluteSpeed;
-    QRadioButton *leftLaneTrialRemainLaneAbsolute;
-    QRadioButton *leftLaneTrialRemainLaneMatchET;
     QWidget *verticalLayoutWidget_5;
     QVBoxLayout *verticalLayout_6;
     QRadioButton *leftLaneTrialLifetimeExperiment;
@@ -171,29 +165,41 @@ public:
     QLabel *label_26;
     QWidget *gridLayoutWidget_3;
     QGridLayout *gridLayout_3;
+    QGridLayout *gridLayout_6;
+    QLineEdit *leftLaneTrialCutFrontDistance;
     QLineEdit *leftLaneTrialCutFrontSpeed;
     QLabel *label_25;
-    QLineEdit *leftLaneTrialCutFrontDistance;
-    QRadioButton *leftLaneTrialBlindSpot;
-    QRadioButton *leftLaneTRialRemainLane;
+    QLabel *label_27;
     QRadioButton *leftLaneTrialCutBehind;
     QRadioButton *leftLaneTrialCutFront;
-    QLabel *label_27;
+    QRadioButton *leftLaneTrialBlindSpot;
+    QRadioButton *leftLaneTRialRemainLane;
+    QGridLayout *gridLayout_4;
+    QLineEdit *leftLaneTrialRemainLaneAbsoluteSpeed;
+    QCheckBox *leftLaneTrialRemainLaneAbsolute;
+    QCheckBox *leftLaneTrialRemainLaneMatchET;
+    QLabel *label_24;
+    QRadioButton *leftLaneTrialAddToFCW;
     QWidget *gridLayoutWidget;
     QGridLayout *gridLayout;
-    QLabel *label_19;
-    QLineEdit *roadSideTrialDirveOnShoulderSpeed;
+    QGridLayout *gridLayout_7;
+    QLabel *label_16;
+    QLabel *label_18;
+    QLineEdit *roadSideTrialPullFrontStopSpeed;
+    QLineEdit *roadSideTrialPullFrontStopDistance;
     QRadioButton *roadSideTrialRemainStationary;
     QRadioButton *roadSideTrialDriveOnShoulder;
-    QLineEdit *roadSideTrialPullFrontSpeed;
-    QLabel *label_17;
     QRadioButton *roadSideTrialPullFront;
     QRadioButton *roadSideTrialPullFrontStop;
-    QLabel *label_16;
-    QLineEdit *roadSideTrialPullFrontStopSpeed;
-    QLabel *label_18;
-    QLineEdit *roadSideTrialPullFrontStopDistance;
+    QGridLayout *gridLayout_8;
+    QLabel *label_17;
+    QLineEdit *roadSideTrialPullFrontSpeed;
+    QGridLayout *gridLayout_9;
+    QLabel *label_19;
+    QLineEdit *roadSideTrialDriveOnShoulderSpeed;
     QGroupBox *fileManager;
+    QPushButton *loadFile;
+    QLabel *fileStatus;
     QGroupBox *followVehicleInstruction;
     QCheckBox *followTrialOn;
     QStatusBar *statusBar;
@@ -202,15 +208,9 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1220, 614);
+        MainWindow->resize(1198, 614);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        loadFile = new QPushButton(centralWidget);
-        loadFile->setObjectName(QStringLiteral("loadFile"));
-        loadFile->setGeometry(QRect(30, 490, 131, 21));
-        fileStatus = new QLabel(centralWidget);
-        fileStatus->setObjectName(QStringLiteral("fileStatus"));
-        fileStatus->setGeometry(QRect(30, 520, 161, 16));
         followVehicleLabel = new QLabel(centralWidget);
         followVehicleLabel->setObjectName(QStringLiteral("followVehicleLabel"));
         followVehicleLabel->setGeometry(QRect(70, 30, 81, 16));
@@ -367,9 +367,9 @@ public:
         label_8 = new QLabel(centralWidget);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setGeometry(QRect(620, 90, 101, 16));
-        trialFollowDistance = new QLineEdit(centralWidget);
-        trialFollowDistance->setObjectName(QStringLiteral("trialFollowDistance"));
-        trialFollowDistance->setGeometry(QRect(740, 90, 113, 20));
+        followTrialDistance = new QLineEdit(centralWidget);
+        followTrialDistance->setObjectName(QStringLiteral("followTrialDistance"));
+        followTrialDistance->setGeometry(QRect(740, 90, 113, 20));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(640, 130, 129, 42));
@@ -407,9 +407,9 @@ public:
         label_10 = new QLabel(centralWidget);
         label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setGeometry(QRect(640, 220, 61, 16));
-        followTialForceLaneChangeAcceleration = new QLineEdit(centralWidget);
-        followTialForceLaneChangeAcceleration->setObjectName(QStringLiteral("followTialForceLaneChangeAcceleration"));
-        followTialForceLaneChangeAcceleration->setGeometry(QRect(740, 220, 113, 20));
+        followTrialForceLaneChangeAcceleration = new QLineEdit(centralWidget);
+        followTrialForceLaneChangeAcceleration->setObjectName(QStringLiteral("followTrialForceLaneChangeAcceleration"));
+        followTrialForceLaneChangeAcceleration->setGeometry(QRect(740, 220, 113, 20));
         label_12 = new QLabel(centralWidget);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setGeometry(QRect(930, 90, 91, 16));
@@ -483,12 +483,15 @@ public:
         animationEndY = new QLineEdit(majorFileSettings);
         animationEndY->setObjectName(QStringLiteral("animationEndY"));
         animationEndY->setGeometry(QRect(430, 390, 41, 20));
+        fcwOn = new QCheckBox(majorFileSettings);
+        fcwOn->setObjectName(QStringLiteral("fcwOn"));
+        fcwOn->setGeometry(QRect(230, 300, 16, 17));
         trialManager = new QGroupBox(centralWidget);
         trialManager->setObjectName(QStringLiteral("trialManager"));
-        trialManager->setGeometry(QRect(570, 10, 641, 591));
+        trialManager->setGeometry(QRect(570, 10, 621, 591));
         leadVehicleInstructions = new QGroupBox(trialManager);
         leadVehicleInstructions->setObjectName(QStringLiteral("leadVehicleInstructions"));
-        leadVehicleInstructions->setGeometry(QRect(320, 50, 311, 191));
+        leadVehicleInstructions->setGeometry(QRect(320, 50, 291, 191));
         leadTrialOn = new QCheckBox(leadVehicleInstructions);
         leadTrialOn->setObjectName(QStringLiteral("leadTrialOn"));
         leadTrialOn->setGeometry(QRect(130, 0, 16, 17));
@@ -580,24 +583,15 @@ public:
         label_21 = new QLabel(roadSideVehicleControl);
         label_21->setObjectName(QStringLiteral("label_21"));
         label_21->setGeometry(QRect(210, 190, 41, 20));
-        roadSideTrialOn->raise();
-        verticalLayoutWidget_4->raise();
-        label_22->raise();
-        roadSideTrialAddToList->raise();
-        label_23->raise();
-        verticalLayoutWidget_3->raise();
-        gridLayoutWidget_2->raise();
-        label_20->raise();
-        label_21->raise();
         leftLaneVehicleControl = new QGroupBox(trialManager);
         leftLaneVehicleControl->setObjectName(QStringLiteral("leftLaneVehicleControl"));
-        leftLaneVehicleControl->setGeometry(QRect(320, 240, 311, 341));
+        leftLaneVehicleControl->setGeometry(QRect(320, 240, 291, 341));
         label_29 = new QLabel(leftLaneVehicleControl);
         label_29->setObjectName(QStringLiteral("label_29"));
-        label_29->setGeometry(QRect(20, 260, 47, 13));
+        label_29->setGeometry(QRect(20, 270, 47, 13));
         verticalLayoutWidget_6 = new QWidget(leftLaneVehicleControl);
         verticalLayoutWidget_6->setObjectName(QStringLiteral("verticalLayoutWidget_6"));
-        verticalLayoutWidget_6->setGeometry(QRect(10, 280, 61, 51));
+        verticalLayoutWidget_6->setGeometry(QRect(10, 290, 61, 42));
         verticalLayout_7 = new QVBoxLayout(verticalLayoutWidget_6);
         verticalLayout_7->setSpacing(6);
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
@@ -605,6 +599,7 @@ public:
         verticalLayout_7->setContentsMargins(0, 0, 0, 0);
         leftLaneTrialCreationBehind = new QRadioButton(verticalLayoutWidget_6);
         leftLaneTrialCreationBehind->setObjectName(QStringLiteral("leftLaneTrialCreationBehind"));
+        leftLaneTrialCreationBehind->setChecked(true);
 
         verticalLayout_7->addWidget(leftLaneTrialCreationBehind);
 
@@ -616,33 +611,9 @@ public:
         leftLaneTrialOn = new QCheckBox(leftLaneVehicleControl);
         leftLaneTrialOn->setObjectName(QStringLiteral("leftLaneTrialOn"));
         leftLaneTrialOn->setGeometry(QRect(130, 0, 16, 17));
-        gridLayoutWidget_4 = new QWidget(leftLaneVehicleControl);
-        gridLayoutWidget_4->setObjectName(QStringLiteral("gridLayoutWidget_4"));
-        gridLayoutWidget_4->setGeometry(QRect(140, 160, 161, 51));
-        gridLayout_4 = new QGridLayout(gridLayoutWidget_4);
-        gridLayout_4->setSpacing(6);
-        gridLayout_4->setContentsMargins(11, 11, 11, 11);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        gridLayout_4->setContentsMargins(0, 0, 0, 0);
-        leftLaneTrialRemainLaneAbsoluteSpeed = new QLineEdit(gridLayoutWidget_4);
-        leftLaneTrialRemainLaneAbsoluteSpeed->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsoluteSpeed"));
-
-        gridLayout_4->addWidget(leftLaneTrialRemainLaneAbsoluteSpeed, 0, 1, 1, 1);
-
-        leftLaneTrialRemainLaneAbsolute = new QRadioButton(gridLayoutWidget_4);
-        leftLaneTrialRemainLaneAbsolute->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsolute"));
-        leftLaneTrialRemainLaneAbsolute->setChecked(true);
-
-        gridLayout_4->addWidget(leftLaneTrialRemainLaneAbsolute, 0, 0, 1, 1);
-
-        leftLaneTrialRemainLaneMatchET = new QRadioButton(gridLayoutWidget_4);
-        leftLaneTrialRemainLaneMatchET->setObjectName(QStringLiteral("leftLaneTrialRemainLaneMatchET"));
-
-        gridLayout_4->addWidget(leftLaneTrialRemainLaneMatchET, 1, 0, 1, 1);
-
         verticalLayoutWidget_5 = new QWidget(leftLaneVehicleControl);
         verticalLayoutWidget_5->setObjectName(QStringLiteral("verticalLayoutWidget_5"));
-        verticalLayoutWidget_5->setGeometry(QRect(150, 260, 140, 61));
+        verticalLayoutWidget_5->setGeometry(QRect(170, 220, 81, 41));
         verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget_5);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -661,7 +632,7 @@ public:
 
         label_28 = new QLabel(leftLaneVehicleControl);
         label_28->setObjectName(QStringLiteral("label_28"));
-        label_28->setGeometry(QRect(190, 240, 41, 20));
+        label_28->setGeometry(QRect(190, 200, 41, 20));
         gridLayoutWidget_5 = new QWidget(leftLaneVehicleControl);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
         gridLayoutWidget_5->setGeometry(QRect(10, 220, 121, 42));
@@ -696,37 +667,37 @@ public:
         label_26->setGeometry(QRect(20, 200, 71, 16));
         gridLayoutWidget_3 = new QWidget(leftLaneVehicleControl);
         gridLayoutWidget_3->setObjectName(QStringLiteral("gridLayoutWidget_3"));
-        gridLayoutWidget_3->setGeometry(QRect(10, 20, 291, 168));
+        gridLayoutWidget_3->setGeometry(QRect(10, 20, 271, 168));
         gridLayout_3 = new QGridLayout(gridLayoutWidget_3);
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
+        gridLayout_6 = new QGridLayout();
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        leftLaneTrialCutFrontDistance = new QLineEdit(gridLayoutWidget_3);
+        leftLaneTrialCutFrontDistance->setObjectName(QStringLiteral("leftLaneTrialCutFrontDistance"));
+
+        gridLayout_6->addWidget(leftLaneTrialCutFrontDistance, 1, 1, 1, 1);
+
         leftLaneTrialCutFrontSpeed = new QLineEdit(gridLayoutWidget_3);
         leftLaneTrialCutFrontSpeed->setObjectName(QStringLiteral("leftLaneTrialCutFrontSpeed"));
 
-        gridLayout_3->addWidget(leftLaneTrialCutFrontSpeed, 5, 3, 1, 1);
+        gridLayout_6->addWidget(leftLaneTrialCutFrontSpeed, 0, 1, 1, 1);
 
         label_25 = new QLabel(gridLayoutWidget_3);
         label_25->setObjectName(QStringLiteral("label_25"));
 
-        gridLayout_3->addWidget(label_25, 5, 1, 1, 1);
+        gridLayout_6->addWidget(label_25, 0, 0, 1, 1);
 
-        leftLaneTrialCutFrontDistance = new QLineEdit(gridLayoutWidget_3);
-        leftLaneTrialCutFrontDistance->setObjectName(QStringLiteral("leftLaneTrialCutFrontDistance"));
+        label_27 = new QLabel(gridLayoutWidget_3);
+        label_27->setObjectName(QStringLiteral("label_27"));
 
-        gridLayout_3->addWidget(leftLaneTrialCutFrontDistance, 2, 3, 1, 1);
+        gridLayout_6->addWidget(label_27, 1, 0, 1, 1);
 
-        leftLaneTrialBlindSpot = new QRadioButton(gridLayoutWidget_3);
-        leftLaneTrialBlindSpot->setObjectName(QStringLiteral("leftLaneTrialBlindSpot"));
-        leftLaneTrialBlindSpot->setChecked(true);
 
-        gridLayout_3->addWidget(leftLaneTrialBlindSpot, 0, 0, 1, 1);
-
-        leftLaneTRialRemainLane = new QRadioButton(gridLayoutWidget_3);
-        leftLaneTRialRemainLane->setObjectName(QStringLiteral("leftLaneTRialRemainLane"));
-
-        gridLayout_3->addWidget(leftLaneTRialRemainLane, 6, 0, 1, 1);
+        gridLayout_3->addLayout(gridLayout_6, 2, 2, 1, 1);
 
         leftLaneTrialCutBehind = new QRadioButton(gridLayoutWidget_3);
         leftLaneTrialCutBehind->setObjectName(QStringLiteral("leftLaneTrialCutBehind"));
@@ -738,21 +709,45 @@ public:
 
         gridLayout_3->addWidget(leftLaneTrialCutFront, 2, 0, 1, 1);
 
-        label_27 = new QLabel(gridLayoutWidget_3);
-        label_27->setObjectName(QStringLiteral("label_27"));
+        leftLaneTrialBlindSpot = new QRadioButton(gridLayoutWidget_3);
+        leftLaneTrialBlindSpot->setObjectName(QStringLiteral("leftLaneTrialBlindSpot"));
+        leftLaneTrialBlindSpot->setChecked(true);
 
-        gridLayout_3->addWidget(label_27, 2, 1, 1, 1);
+        gridLayout_3->addWidget(leftLaneTrialBlindSpot, 0, 0, 1, 1);
 
-        label_29->raise();
-        verticalLayoutWidget_6->raise();
-        leftLaneTrialOn->raise();
-        verticalLayoutWidget_5->raise();
-        gridLayoutWidget_4->raise();
-        verticalLayoutWidget_5->raise();
-        label_28->raise();
-        gridLayoutWidget_5->raise();
-        label_26->raise();
-        gridLayoutWidget_3->raise();
+        leftLaneTRialRemainLane = new QRadioButton(gridLayoutWidget_3);
+        leftLaneTRialRemainLane->setObjectName(QStringLiteral("leftLaneTRialRemainLane"));
+
+        gridLayout_3->addWidget(leftLaneTRialRemainLane, 5, 0, 1, 1);
+
+        gridLayout_4 = new QGridLayout();
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        leftLaneTrialRemainLaneAbsoluteSpeed = new QLineEdit(gridLayoutWidget_3);
+        leftLaneTrialRemainLaneAbsoluteSpeed->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsoluteSpeed"));
+
+        gridLayout_4->addWidget(leftLaneTrialRemainLaneAbsoluteSpeed, 0, 1, 1, 1);
+
+        leftLaneTrialRemainLaneAbsolute = new QCheckBox(gridLayoutWidget_3);
+        leftLaneTrialRemainLaneAbsolute->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsolute"));
+
+        gridLayout_4->addWidget(leftLaneTrialRemainLaneAbsolute, 0, 0, 1, 1);
+
+        leftLaneTrialRemainLaneMatchET = new QCheckBox(gridLayoutWidget_3);
+        leftLaneTrialRemainLaneMatchET->setObjectName(QStringLiteral("leftLaneTrialRemainLaneMatchET"));
+        leftLaneTrialRemainLaneMatchET->setChecked(true);
+
+        gridLayout_4->addWidget(leftLaneTrialRemainLaneMatchET, 1, 0, 1, 1);
+
+
+        gridLayout_3->addLayout(gridLayout_4, 5, 2, 1, 1);
+
+        label_24 = new QLabel(leftLaneVehicleControl);
+        label_24->setObjectName(QStringLiteral("label_24"));
+        label_24->setGeometry(QRect(190, 270, 31, 16));
+        leftLaneTrialAddToFCW = new QRadioButton(leftLaneVehicleControl);
+        leftLaneTrialAddToFCW->setObjectName(QStringLiteral("leftLaneTrialAddToFCW"));
+        leftLaneTrialAddToFCW->setGeometry(QRect(170, 290, 71, 17));
         gridLayoutWidget = new QWidget(trialManager);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
         gridLayoutWidget->setGeometry(QRect(20, 260, 291, 165));
@@ -761,15 +756,31 @@ public:
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        label_19 = new QLabel(gridLayoutWidget);
-        label_19->setObjectName(QStringLiteral("label_19"));
+        gridLayout_7 = new QGridLayout();
+        gridLayout_7->setSpacing(6);
+        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
+        label_16 = new QLabel(gridLayoutWidget);
+        label_16->setObjectName(QStringLiteral("label_16"));
 
-        gridLayout->addWidget(label_19, 3, 1, 1, 1);
+        gridLayout_7->addWidget(label_16, 0, 0, 1, 1);
 
-        roadSideTrialDirveOnShoulderSpeed = new QLineEdit(gridLayoutWidget);
-        roadSideTrialDirveOnShoulderSpeed->setObjectName(QStringLiteral("roadSideTrialDirveOnShoulderSpeed"));
+        label_18 = new QLabel(gridLayoutWidget);
+        label_18->setObjectName(QStringLiteral("label_18"));
 
-        gridLayout->addWidget(roadSideTrialDirveOnShoulderSpeed, 3, 2, 1, 1);
+        gridLayout_7->addWidget(label_18, 1, 0, 1, 1);
+
+        roadSideTrialPullFrontStopSpeed = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontStopSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontStopSpeed"));
+
+        gridLayout_7->addWidget(roadSideTrialPullFrontStopSpeed, 0, 1, 1, 1);
+
+        roadSideTrialPullFrontStopDistance = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontStopDistance->setObjectName(QStringLiteral("roadSideTrialPullFrontStopDistance"));
+
+        gridLayout_7->addWidget(roadSideTrialPullFrontStopDistance, 1, 1, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_7, 4, 1, 1, 1);
 
         roadSideTrialRemainStationary = new QRadioButton(gridLayoutWidget);
         roadSideTrialRemainStationary->setObjectName(QStringLiteral("roadSideTrialRemainStationary"));
@@ -782,16 +793,6 @@ public:
 
         gridLayout->addWidget(roadSideTrialDriveOnShoulder, 3, 0, 1, 1);
 
-        roadSideTrialPullFrontSpeed = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontSpeed"));
-
-        gridLayout->addWidget(roadSideTrialPullFrontSpeed, 2, 2, 1, 1);
-
-        label_17 = new QLabel(gridLayoutWidget);
-        label_17->setObjectName(QStringLiteral("label_17"));
-
-        gridLayout->addWidget(label_17, 2, 1, 1, 1);
-
         roadSideTrialPullFront = new QRadioButton(gridLayoutWidget);
         roadSideTrialPullFront->setObjectName(QStringLiteral("roadSideTrialPullFront"));
 
@@ -802,25 +803,37 @@ public:
 
         gridLayout->addWidget(roadSideTrialPullFrontStop, 4, 0, 1, 1);
 
-        label_16 = new QLabel(gridLayoutWidget);
-        label_16->setObjectName(QStringLiteral("label_16"));
+        gridLayout_8 = new QGridLayout();
+        gridLayout_8->setSpacing(6);
+        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        label_17 = new QLabel(gridLayoutWidget);
+        label_17->setObjectName(QStringLiteral("label_17"));
 
-        gridLayout->addWidget(label_16, 4, 1, 1, 1);
+        gridLayout_8->addWidget(label_17, 0, 0, 1, 1);
 
-        roadSideTrialPullFrontStopSpeed = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontStopSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontStopSpeed"));
+        roadSideTrialPullFrontSpeed = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontSpeed"));
 
-        gridLayout->addWidget(roadSideTrialPullFrontStopSpeed, 4, 2, 1, 1);
+        gridLayout_8->addWidget(roadSideTrialPullFrontSpeed, 0, 1, 1, 1);
 
-        label_18 = new QLabel(gridLayoutWidget);
-        label_18->setObjectName(QStringLiteral("label_18"));
 
-        gridLayout->addWidget(label_18, 5, 1, 1, 1);
+        gridLayout->addLayout(gridLayout_8, 2, 1, 1, 1);
 
-        roadSideTrialPullFrontStopDistance = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontStopDistance->setObjectName(QStringLiteral("roadSideTrialPullFrontStopDistance"));
+        gridLayout_9 = new QGridLayout();
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        label_19 = new QLabel(gridLayoutWidget);
+        label_19->setObjectName(QStringLiteral("label_19"));
 
-        gridLayout->addWidget(roadSideTrialPullFrontStopDistance, 5, 2, 1, 1);
+        gridLayout_9->addWidget(label_19, 0, 0, 1, 1);
+
+        roadSideTrialDriveOnShoulderSpeed = new QLineEdit(gridLayoutWidget);
+        roadSideTrialDriveOnShoulderSpeed->setObjectName(QStringLiteral("roadSideTrialDriveOnShoulderSpeed"));
+
+        gridLayout_9->addWidget(roadSideTrialDriveOnShoulderSpeed, 0, 1, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_9, 3, 1, 1, 1);
 
         leftLaneVehicleControl->raise();
         roadSideVehicleControl->raise();
@@ -829,6 +842,12 @@ public:
         fileManager = new QGroupBox(centralWidget);
         fileManager->setObjectName(QStringLiteral("fileManager"));
         fileManager->setGeometry(QRect(10, 450, 171, 121));
+        loadFile = new QPushButton(fileManager);
+        loadFile->setObjectName(QStringLiteral("loadFile"));
+        loadFile->setGeometry(QRect(20, 20, 131, 21));
+        fileStatus = new QLabel(fileManager);
+        fileStatus->setObjectName(QStringLiteral("fileStatus"));
+        fileStatus->setGeometry(QRect(20, 60, 161, 16));
         followVehicleInstruction = new QGroupBox(centralWidget);
         followVehicleInstruction->setObjectName(QStringLiteral("followVehicleInstruction"));
         followVehicleInstruction->setGeometry(QRect(580, 60, 311, 191));
@@ -840,8 +859,6 @@ public:
         followVehicleInstruction->raise();
         fileManager->raise();
         majorFileSettings->raise();
-        loadFile->raise();
-        fileStatus->raise();
         followVehicleLabel->raise();
         solModelLabel->raise();
         followSolModel->raise();
@@ -894,7 +911,7 @@ public:
         goToLinEdit->raise();
         goToButton->raise();
         label_8->raise();
-        trialFollowDistance->raise();
+        followTrialDistance->raise();
         verticalLayoutWidget->raise();
         followTrialVelocityChange->raise();
         followTrialVelocityChangeAbsoluteLineEdit->raise();
@@ -902,7 +919,7 @@ public:
         label_9->raise();
         followTrialForceLaneChangeSpeed->raise();
         label_10->raise();
-        followTialForceLaneChangeAcceleration->raise();
+        followTrialForceLaneChangeAcceleration->raise();
         label_12->raise();
         leadTrialMaxLeadDistance->raise();
         leadTrialVelocityChange->raise();
@@ -925,8 +942,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        loadFile->setText(QApplication::translate("MainWindow", "Load File", 0));
-        fileStatus->setText(QApplication::translate("MainWindow", "File Status: please open file", 0));
         followVehicleLabel->setText(QApplication::translate("MainWindow", "<u>Follow Vehicle</u>", 0));
         solModelLabel->setText(QApplication::translate("MainWindow", "Sol Model", 0));
         followVehicleDistanceLabel->setText(QApplication::translate("MainWindow", "Distance", 0));
@@ -976,6 +991,7 @@ public:
         majorFileSettings->setTitle(QApplication::translate("MainWindow", "Major File Settings", 0));
         label_6->setText(QApplication::translate("MainWindow", "Start", 0));
         label_30->setText(QApplication::translate("MainWindow", "End", 0));
+        fcwOn->setText(QString());
         trialManager->setTitle(QApplication::translate("MainWindow", "Trial Manager", 0));
         leadVehicleInstructions->setTitle(QApplication::translate("MainWindow", "Lead Vehicle Instructions", 0));
         leadTrialOn->setText(QString());
@@ -999,8 +1015,6 @@ public:
         leftLaneTrialCreationBehind->setText(QApplication::translate("MainWindow", "Behind", 0));
         leftLaneTrialCreationFront->setText(QApplication::translate("MainWindow", "Front", 0));
         leftLaneTrialOn->setText(QString());
-        leftLaneTrialRemainLaneAbsolute->setText(QApplication::translate("MainWindow", "Absolute", 0));
-        leftLaneTrialRemainLaneMatchET->setText(QApplication::translate("MainWindow", "Match Driver", 0));
         leftLaneTrialLifetimeExperiment->setText(QApplication::translate("MainWindow", "Experiment", 0));
         leftLaneTrialLifetimeTrial->setText(QApplication::translate("MainWindow", "Trial", 0));
         label_28->setText(QApplication::translate("MainWindow", "<u>Lifetime</u>", 0));
@@ -1010,20 +1024,26 @@ public:
         leftLaneTrialBlinkerNone->setText(QApplication::translate("MainWindow", "None", 0));
         label_26->setText(QApplication::translate("MainWindow", "<u>Blinker Control</u>", 0));
         label_25->setText(QApplication::translate("MainWindow", "Speed", 0));
-        leftLaneTrialBlindSpot->setText(QApplication::translate("MainWindow", "Blind Spot", 0));
-        leftLaneTRialRemainLane->setText(QApplication::translate("MainWindow", "Remain in Lane", 0));
+        label_27->setText(QApplication::translate("MainWindow", "Distance", 0));
         leftLaneTrialCutBehind->setText(QApplication::translate("MainWindow", "Cut Behind Driver", 0));
         leftLaneTrialCutFront->setText(QApplication::translate("MainWindow", "Cut In Front of Driver", 0));
-        label_27->setText(QApplication::translate("MainWindow", "Distance", 0));
-        label_19->setText(QApplication::translate("MainWindow", "Speed", 0));
-        roadSideTrialRemainStationary->setText(QApplication::translate("MainWindow", "Remain Stationary", 0));
-        roadSideTrialDriveOnShoulder->setText(QApplication::translate("MainWindow", "Drive On Shoulder", 0));
-        label_17->setText(QApplication::translate("MainWindow", "Speed", 0));
-        roadSideTrialPullFront->setText(QApplication::translate("MainWindow", "Pull Out In Front", 0));
-        roadSideTrialPullFrontStop->setText(QApplication::translate("MainWindow", "Pull Out In Front and Stop", 0));
+        leftLaneTrialBlindSpot->setText(QApplication::translate("MainWindow", "Blind Spot", 0));
+        leftLaneTRialRemainLane->setText(QApplication::translate("MainWindow", "Remain in Lane", 0));
+        leftLaneTrialRemainLaneAbsolute->setText(QApplication::translate("MainWindow", "Absolute", 0));
+        leftLaneTrialRemainLaneMatchET->setText(QApplication::translate("MainWindow", "Match", 0));
+        label_24->setText(QApplication::translate("MainWindow", "<u><center>FCW</center></u>", 0));
+        leftLaneTrialAddToFCW->setText(QApplication::translate("MainWindow", "Add To List", 0));
         label_16->setText(QApplication::translate("MainWindow", "Speed", 0));
         label_18->setText(QApplication::translate("MainWindow", "Distance", 0));
+        roadSideTrialRemainStationary->setText(QApplication::translate("MainWindow", "Remain Stationary", 0));
+        roadSideTrialDriveOnShoulder->setText(QApplication::translate("MainWindow", "Drive On Shoulder", 0));
+        roadSideTrialPullFront->setText(QApplication::translate("MainWindow", "Pull Out In Front", 0));
+        roadSideTrialPullFrontStop->setText(QApplication::translate("MainWindow", "Pull Out In Front and Stop", 0));
+        label_17->setText(QApplication::translate("MainWindow", "Speed", 0));
+        label_19->setText(QApplication::translate("MainWindow", "Speed", 0));
         fileManager->setTitle(QApplication::translate("MainWindow", "File Manager", 0));
+        loadFile->setText(QApplication::translate("MainWindow", "Load File", 0));
+        fileStatus->setText(QApplication::translate("MainWindow", "File Status: please open file", 0));
         followVehicleInstruction->setTitle(QApplication::translate("MainWindow", "Follow Vehicle Instructions", 0));
         followTrialOn->setText(QString());
     } // retranslateUi
