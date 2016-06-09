@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include "Helpers.h"
 
 using std::string;
 using std::vector;
@@ -30,9 +31,9 @@ public:
 		colorIndex(color), lifetime(LifeTime), actvDel(delay), crRad(CrRad), name(Name), longComment(Long), shortComment(Short),
 		solName(SolName) {}
 
-	virtual void print(ostream &outStream) {}
+    virtual void print(ostream &) {}
 
-	virtual void readFromFile(ifstream &inputStream) {}
+    virtual void readFromFile(ifstream &) {}
 
 	void setCreation(bool wasICreated) {
 		createdByTrigger = wasICreated;
@@ -223,7 +224,7 @@ private:
 	bool dependent;
 	bool dependentOwnVeh;
 	int visualState; //0, 1, or 2
-	position dependentRefPoint;
+    position dependentRefPoint;
 	vector <double> dirs;
 	vector <bool> dirsDef;
 	vector <trajectory> trajs;

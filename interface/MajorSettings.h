@@ -17,6 +17,7 @@ struct FVLVSettings {
 };
 
 struct FCW {
+    bool checked;
 	position pos;
 	double frequency;
 	shape imageShape;
@@ -25,9 +26,16 @@ struct FCW {
 	position end;
 };
 
+struct animation {
+    bool checked;
+    position start;
+    position end;
+};
+
 struct MajorSettings {
 	bool generateTraffic;
 	double lengthOfRoad;
 	bool showBlindSpot;
-
+    FVLVSettings followVehicle;
+    FVLVSettings leadVehicle;
 };

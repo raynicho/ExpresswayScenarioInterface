@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Helpers.h"
-#include "actions.h"
+#include "Actions.h"
 #include "Vehicle.h"
 #include <fstream>
 #include <iostream>
@@ -12,12 +12,6 @@ using std::string;
 using std::vector;
 using std::ostream;
 using std::ifstream;
-
-position readPositionFromFile(ifstream &inputStream) {
-	position test;
-	inputStream >> test.x >> test.y >> test.z;
-	return test;
-}
 
 class Trigger {
 protected:
@@ -44,8 +38,8 @@ public:
 	//copy constructor
 
 	//constructor that takes in various parameters
-	Trigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> Act) : sequentialActions(seq), oneShot(shot), debounce(Debounce),
+    Trigger(bool seq, bool shot, int fireDel, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
+        string Short, position Draw, position Pos, vector <Action*> Act) : sequentialActions(seq), oneShot(shot), fireDelFrames(fireDel),debounce(Debounce),
 		activationDelay(actDelay), creationRadius(creRad), lifetime(LifeTime), name(Name), longComment(Long),
 		shortComment(Short), drawPosition(Draw), pos(Pos), Actions(Act) {
 
@@ -93,10 +87,10 @@ public:
 	}
 
 	//virtual function for printing the Trigger tp an output stream; different for each type of Trigger
-	virtual void filePrint(ostream &outputStream) {}
+    virtual void filePrint(ostream &) {}
 
 	//virtual funciton for reading the Trigger; different for each type of Trigger
-	virtual void fileRead(ifstream &inputStream, vector<Vehicle*> *vehiclesPtr) {}
+    virtual void fileRead(ifstream &, vector<Vehicle*>*) {}
 
 	void printActions(ostream &outStream) {
 		for (unsigned int i = 0; i < Actions.size(); i++) {
@@ -143,8 +137,8 @@ public:
 		//while not at the end, continue reading in
 		while (current != "&&&&End&&&&") {
 			//if if is the position
-			if (current == "Position") {
-				this->pos = readPositionFromFile(inputStream);
+            if (current == "Position") {
+                inputStream >> pos.x >> pos.y >> pos.z;
 			}
 			else if (current == "Expression") {
 				getline(inputStream, expression);
@@ -182,8 +176,8 @@ public:
 			else if (current == "SeqAct") {
 				inputStream >> this->sequentialActions;
 			}
-			else if (current == "DrawPosition") {
-				this->drawPosition = readPositionFromFile(inputStream);
+            else if (current == "DrawPosition") {
+                inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
 			}
 			else if (current == "HCSM") {
 				Actions.push_back(readInAction(inputStream, vehiclesPtr));
@@ -228,8 +222,8 @@ public:
 		//while not at the end, continue reading in
 		while (current != "&&&&End&&&&") {
 			//if if is the position
-			if (current == "Position") {
-				this->pos = readPositionFromFile(inputStream);
+            if (current == "Position") {
+                inputStream >> pos.x >> pos.y >> pos.z;
 			}
 			else if (current == "LongComment") {
 				getline(inputStream, this->longComment);
@@ -265,7 +259,7 @@ public:
 				inputStream >> this->sequentialActions;
 			}
 			else if (current == "DrawPosition") {
-				this->drawPosition = readPositionFromFile(inputStream);
+                inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
 			}
 			else if (current == "HCSM") {
 				Actions.push_back(readInAction(inputStream, vehiclesPtr));
@@ -315,7 +309,7 @@ public:
 		while (current != "&&&&End&&&&") {
 			//if if is the position
 			if (current == "Position") {
-				this->pos = readPositionFromFile(inputStream);
+                inputStream >> pos.x >> pos.y >> pos.z;
 			}
 			else if (current == "Time") {
 				inputStream >> this->time;
@@ -354,7 +348,7 @@ public:
 				inputStream >> this->sequentialActions;
 			}
 			else if (current == "DrawPosition") {
-				this->drawPosition = readPositionFromFile(inputStream);
+                inputStream >> pos.x >> pos.y >> pos.z;
 			}
 			else if (current == "HCSM") {
 				Actions.push_back(readInAction(inputStream, vehiclesPtr));

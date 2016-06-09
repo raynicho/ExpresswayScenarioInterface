@@ -14,7 +14,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    Actions.cpp
 
 HEADERS  += mainwindow.h \
     Actions.h \

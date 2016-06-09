@@ -1,9 +1,11 @@
-#pragma once
+#ifndef ACTIONS_H
+#define ACTIONS_H
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Vehicle.h"
 #include <vector>
+#include "Helpers.h"
 
 using std::vector;
 using std::ostream;
@@ -18,21 +20,22 @@ protected:
 	string comment;
 
 public:
-	Action() : delay(0), instigatorSet(0) {}
+    Action(): delay(0), instigatorSet(0) {}
 
-	Action(int set, double Delay, string Comment) : instigatorSet(set), delay(Delay), comment(Comment) {}
+    Action(int set, double Delay, string Comment) : instigatorSet(set), delay(Delay), comment(Comment) {}
 
-	void printBasics(ostream &outStream) {
-		outStream << "      Comment " << this->comment << '\n';
-		outStream << "      Delay " << this->delay << '\n';
-		outStream << "      InstigatorSet " << this->instigatorSet << '\n';
-	}
+    void printBasics(ostream &outStream) {
+        outStream << "      Comment " << this->comment << '\n';
+        outStream << "      Delay " << this->delay << '\n';
+        outStream << "      InstigatorSet " << this->instigatorSet << '\n';
+        return;
+    }
 
-	virtual void print(ostream &outStream) {}
+    virtual void print(ostream &) {}
 
-	virtual void readFromFile(ifstream &inputStream, vector<Vehicle*>* vehiclePtr) {}
+    virtual void readFromFile(ifstream &, vector<Vehicle*>*) {}
 
-	virtual void readFromFile(ifstream &inputStream) {}
+    virtual void readFromFile(ifstream &) {}
 };
 
 class LogData : public Action {
@@ -43,7 +46,7 @@ private:
 public:
 	LogData() : Action() {}
 
-	LogData(int set, double Delay, string Comment, int Stream, double val) : Action() {
+    LogData(int set, double Delay, string Comment, int Stream, double val) : Action(set, Delay, Comment) {
 		stream = Stream;
 		streamVal = val;
 	}
@@ -91,7 +94,7 @@ private:
 public:
 	SetDial() : Action() {}
 
-	SetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action() {
+    SetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action(set, Delay, Comment) {
 		byNameSet = nameSet;
 		dial = Dial;
 		buttonDialPath = dialPath;
@@ -145,13 +148,13 @@ private:
 public:
 	ResetDial() : Action() {}
 
-	ResetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action() {
+    ResetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action(set, Delay, Comment) {
 		byNameSet = nameSet;
 		dial = Dial;
 		buttonDialPath = dialPath;
 	}
 
-	ResetDial(int set, double Delay, string Comment, string Dial, string dialPath) : Action() {
+    ResetDial(int set, double Delay, string Comment, string Dial, string dialPath) : Action(set, Delay, Comment) {
 		byNameSet = "null";
 		dial = Dial;
 		buttonDialPath = dialPath;
@@ -460,41 +463,6 @@ public:
 	}
 };
 
-Action* readInAction(ifstream &inputStream, vector<Vehicle*>* vehiclesPtr) {
-	string actionType;
-	Action* act = 0;
-	inputStream >> actionType;
-	if (actionType == "WriteCell") {
-		act = new WriteCell();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "SetButton") {
-		act = new SetButton();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "DeleteHcsm") {
-		act = new DeleteHCSM();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "ResetDial") {
-		act = new ResetDial();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "CreateHcsm") {
-		act = new CreateHCSM ();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "SetVar") {
-		act = new SetVar();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "LogData") {
-		act = new LogData();
-		act->readFromFile(inputStream);
-	}
-	else if (actionType == "SetDial") {
-		act = new SetDial();
-		act->readFromFile(inputStream);
-	}
-	return act;
-}
+Action* readInAction(ifstream &, vector<Vehicle*>*);
+
+#endif

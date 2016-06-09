@@ -1,5 +1,13 @@
 #ifndef HELPERS_H
 #define HELPERS_H
+#include <vector>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include "Helpers.h"
+
+using std::string;
+using std::vector;
 
 struct position {
     double x;
@@ -37,4 +45,5 @@ struct state {
     int stateTwo;
     string stateString;
 };
+
 #endif // HELPERS_H

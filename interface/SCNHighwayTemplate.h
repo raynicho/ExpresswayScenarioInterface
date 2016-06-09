@@ -13,7 +13,7 @@
 #include "VirtualObject.h"
 #include "Vehicle.h"
 #include "SCNHeader.h"
-#incldue "Helpers.h"
+#include "Helpers.h"
 
 using std::string;
 using std::vector;
@@ -52,6 +52,15 @@ public:
 		outStream << "HCSM IntersectionManager\n&&&&End&&&&\n";
 		return;
 	}
+
+    void clearTillEnd (ifstream &inputStream) {
+        string current;
+        inputStream >> current;
+        while (current != "&&&&End&&&&") {
+            inputStream >> current;
+        }
+        return;
+    }
 
 	void writeFile(string outputFilePath) {
 		//open the file
@@ -157,47 +166,47 @@ public:
 	}
 
 	void readRest(ifstream &inputStream) {
+        vector<Vehicle*>* vehPtr = &vehicles;
 		string inputCase;
 		getline(inputStream, inputCase);
 		while (!inputStream.eof()) {
 			if (inputCase == "HCSM Gateway") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM VehFail") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM TrafficManager") {
-				getline(inputStream, inputCase);
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM EnvironmentController") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM TrafficLightManager") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM StaticObjManager") {
 				readInStaticObjManager(inputStream);
 			}
 			else if (inputCase == "HCSM DriverMirror") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM IntersectionManager") {
-				getline(inputStream, inputCase);
+                clearTillEnd(inputStream);
 			}
 			else if (inputCase == "HCSM ExpressionTrigger") {
 				Trigger* newTrigger = new expressionTrigger;
-				newTrigger->fileRead(inputStream, &vehicles);
+                newTrigger->fileRead(inputStream, vehPtr);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM RoadPadTrigger") {
 				Trigger* newTrigger = new roadPadTrigger;
-				newTrigger->fileRead(inputStream, &vehicles);
+                newTrigger->fileRead(inputStream, vehPtr);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM TimeTrigger") {
 				Trigger* newTrigger = new timeTrigger;
-				newTrigger->fileRead(inputStream, &vehicles);
+                newTrigger->fileRead(inputStream, vehPtr);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM Ddo") {
@@ -223,7 +232,7 @@ public:
 			else {
 				//string Error = "Unexpected object encountered: ";
 				if (!inputCase.empty()) {
-					cout << inputCase << '\n';
+                    cout << inputCase << '\n';
 				}
 			}
 			getline(inputStream, inputCase);

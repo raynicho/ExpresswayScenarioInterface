@@ -9,8 +9,6 @@ using std::vector;
 
 enum blinkerControl {Hazards, Right, Left, None};
 
-enum lifeTime {Experiment, TrialOnly};
-
 struct roadSideControl {
 	bool addToList;
 	bool checked;
@@ -23,9 +21,9 @@ struct roadSideControl {
 	double distance;
 	//0 = pull to side
 	//1 = slow down
-	int deletionOption;
-	lifeTime life;
+    int deletionOption;
 	blinkerControl blinker;
+    roadSideControl () : addToList(false), checked(false), movementOption(-1), speed(0), distance(0), deletionOption(-1), blinker(None) {}
 };
 
 struct leftLaneControl {
@@ -41,12 +39,11 @@ struct leftLaneControl {
 	int laneOption;
 	//0 = behind
 	//1 = front
-	int creationOption;
-	double absoluteSpeed;
+    int creationOption;
 	double distance;
-	double speed;
-	lifeTime life;
+    double speed;
 	blinkerControl blinker;
+    leftLaneControl () : addToList(false), checked(false), movementOption(-1), laneOption(-1), creationOption(-1), distance(0), speed(0), blinker(None){}
 };
 
 struct FVLVInstructions {
@@ -61,7 +58,8 @@ struct FVLVInstructions {
 	//true when forcing a lane change
 	bool forceLaneChange;
 	double forceLaneSpeed;
-	double forceLaneAcceleration;
+    double forceLaneAcceleration;
+    FVLVInstructions () : checked(false), maxFollow(0), velocityChange(0), velocityChangeOption(-1), absoluteSpeed(0), forceLaneChange(false), forceLaneSpeed(0), forceLaneAcceleration(0) {}
 };
 
 struct Trial {
@@ -70,4 +68,5 @@ struct Trial {
 	leftLaneControl leftLane;
 	FVLVInstructions followVehicle;
 	FVLVInstructions leadVehicle;
+    Trial () : trialNumber(-1), roadSide(), leftLane(), followVehicle(), leadVehicle(){}
 };
