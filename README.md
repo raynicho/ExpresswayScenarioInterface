@@ -2,28 +2,29 @@
 
 Driving scenarios for the NADS MiniSim take months to produce and which is the major portion of driving research studies. This software was created in order to help the Driver Interface Group at the University of Michigan Transportation Research Institute build and test expressway scenarios in a quick and correct manner. The program consists of three major portions:
 
-- reading the scenario files
-- editing the scenario file to add events
+- reading and writing scenario files
 - a graphical interface useful to the researcher
+- functions to interpret the user input and rewrite the scenario files
 
-##Authors and Contributors
+## Use
+
+To use the Expresswat Scenario Interface Tool follow these steps;
+
+(Non Zip Version)
+1. Download all files from /exec
+2. Place the files in a folder on your system
+3. Run the application
+
+(Zip)
+1. Download the zip file from /exec
+2. Unzip the files to a folder on your system
+3. Run the application
+
+## Authors and Contributors
 
 Raymond Pressly (raynicho@umich.edu)
 
-##Files
-
-*Trigger.h:* contains classes used for all triggers present in MiniSim/ISAT
-
-*Action.h:* contains classes for various actions that triggers can cause in MiniSim/ISAT
-
-*Vehicle.h:* contains classes for creating and writing vehicles in MiniSim/ISAT
-
-*SCNHighwayInterface.h:* maintains all triggers, vehicles, and other scneario objects in one location
-
-*main.h, main.cpp:* various functions used throughout the scenario interface
-
-*StaticObject.h/VirtualObject.h:* class that handles reading and writing functionality of static/virtual scenario objects
-
-##To Do
-- develop process for iterating across trials (sections of expressway) and placing scenario interactions
-- develop graphical interface to make placing scenario interactions easier
+## To Do
+- get major file settings from user interface
+- process major settings so they become part of the scenario file
+- process all trials so that they become part of the scenario file
