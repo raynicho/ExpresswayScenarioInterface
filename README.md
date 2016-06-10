@@ -26,6 +26,10 @@ To use the Expresswat Scenario Interface Tool follow these steps;
 
 3. Run the application
 
+## Example
+
+![alt tag](https://cloud.githubusercontent.com/assets/18505724/15974956/24069448-2f19-11e6-9dce-3023cf875e0f.PNG)
+
 ## Authors and Contributors
 
 Raymond Pressly (raynicho@umich.edu)
