@@ -18,13 +18,97 @@ MainWindow::MainWindow(QWidget *parent) :
                     << "Deville" << "Towncar" << "BMW_StationWagon" << "PEUGEOT_306";
     ui->followSolModel->addItems(solModelChoices);
     ui->leadSolModel->addItems(solModelChoices);
-
+    
+    QStringList shapeOptions;
+    shapeOptions << "Circle" << "Triangle" << "Octagon" << "Star" << "Diamond" << "Icon" << "Rectangle"
+                 << "Hexagon";
+    ui->shapeOption->addItems(shapeOptions);
+                    
     QPixmap pix("C:/Users/raynicho/Desktop/SCNHighwayTemplate/Docs/UMTRI-logo.png");
     ui->umtriLogo->setPixmap(pix);
 
     ui->statusBar->hide();
 }
 
+//requires:
+//modifies:
+//effects:
+void MainWindow::getSettings() {
+    //load the lead vehicle settings
+    FVLVSettings tmpFVLV;
+    tmpFVLV.SOLModel = ui->followSolModel->currentText().toStdString();
+    tmpFVLV.SOLModel = (std::string)"\"" + tmpFVLV.SOLModel + (std::string)"\"";
+    tmpFVLV.distance = ui->followDistanceLineEdit->text().toDouble(false);
+    tmpFVLV.maxSpeed = ui->followMaxSpeedLineEdit->text().toDouble(false);
+    tmpFVLV.minSpeed = ui->followMinSpeedLineEdit->text().toDouble(false);
+    tmpFVLV.maxAccel = ui->followMaxAccelLineEdit->text().toDouble(false);
+    tmpFVLV.minAccel = ui->followMinAccel->text().toDouble(false);
+    settings.followVehicle = tmpFVLV;
+    
+    //load the follow vehicle settings
+    tmpFVLV.SOLModel = ui->leadSolModel->currentText().toStdString();
+    tmpFVLV.SOLModel = (std::string)"\"" + tmpFVLV.SOLModel + (std::string)"\"";
+    tmpFVLV.distance = ui->leadDistanceLineEdit->text().toDouble(false);
+    tmpFVLV.maxSpeed = ui->leadMaxSpeedLineEdit->text().toDouble(false);
+    tmpFVLV.minSpeed = ui->leadMinSpeedLineEdit->text().toDouble(false);
+    tmpFVLV.maxAccel = ui->leadMaxAccelLineEdit->text().toDouble(false);
+    tmpFVLV.minAccel = ui->leadMinAccelLineEdit->text().toDouble(false);
+    settings.leadVehicle = tmpFVLV;
+    
+    //load the fcw
+    FCW warnings;
+    if (ui->fcwOn->isChecked()) {
+        //frequency, position, shape, icon name, color, is checked,
+        warnings.checked = true;
+        warnings.frequency = ui->frequency->text().toDouble(false);
+        warnings.pos.x = ui->fcwPositionX->text().toDouble(false);
+        warnings.pos.y = ui->fcwPositionY->text().toDouble(false);
+        warnings.pos.z = ui->fcwPositionZ->text().toDouble(false);
+        switch (ui->shapeOption->currentIndex()) {
+            case (1) : {
+                warnings.imageShape = Circle;
+            }
+            case (2) : {
+                warnings.imageShape = Triangle;
+            }
+            case (3) : {
+                warnings.imageShape = Octagon;
+            }
+            case (4) : {
+                warnings.imageShape = Star;
+            }
+            case (5) : {
+                warnings.imageShape = Diamond;
+            }
+            case (6) : {
+                warnings.imageShape = Icon;
+                warnings.iconName = ui->fcwIconName->text().toStdString();
+            }
+            case (7) : {
+        
+            }
+            default : {
+            
+            }
+        }
+        
+        //if animation is checked, load animation, set animation on
+    
+    }
+        
+    //load number of trials
+    settings.numberTrials = ui->lengthOfRoadLineEdit->text().toDouble(false);
+    
+    //load boolean values
+    settings.showBlindSpot = ui->showBlindSpotWarning->isChecked();
+    settings.generateTraffic = ui->generateOpposingTraffic->isChecked();
+    
+    return;
+}
+
+//requires:
+//modifies:
+//effects:
 roadSideControl MainWindow::getRoadSideTrial() {
     roadSideControl roadSide;
     //if roadside is checked
@@ -101,6 +185,9 @@ roadSideControl MainWindow::getRoadSideTrial() {
     return roadSide;
 }
 
+//requires:
+//modifies:
+//effects:
 void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     //if road side is selected
     if (roadSide.checked) {
@@ -125,6 +212,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 ui->roadSideTrialPullFrontStop->setChecked(false);
                 ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
+                break;
             }
             
             //else if movement option is 1
@@ -144,6 +232,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 ui->roadSideTrialPullFrontStop->setChecked(false);
                 ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
+                break;
             }
         
             //else if movement option is 2
@@ -163,6 +252,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 ui->roadSideTrialPullFrontStop->setChecked(false);
                 ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
+                break;
             }
             
             //else
@@ -182,6 +272,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 //set drive on shoulder off and clear speed
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
                 ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+                break;
             }
         }
         
@@ -199,6 +290,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 
                 //set left off
                 ui->roadSideTrialBlinkerLeft->setChecked(false);
+                break;
             }
             //else if the blinker option is right
             case (Right) : {
@@ -213,6 +305,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 
                 //set left off
                 ui->roadSideTrialBlinkerLeft->setChecked(false);
+                break;
             }
             //else if the blinker option is left
             case (Left) : { 
@@ -227,6 +320,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 
                 //set none off
                 ui->roadSideTrialBlinkerNone->setChecked(false);
+                break;
             }
             //else
             default : {
@@ -241,6 +335,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             
                 //none off
                 ui->roadSideTrialBlinkerNone->setChecked(false);
+                break;
             }
         }
         
@@ -252,6 +347,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             
                 //set slow down to off
                 ui->roadSideTrialDeletionSlowDown->setChecked(false);
+                break;
             }
             //else
             default: {
@@ -260,6 +356,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             
                 //pull to side off
                 ui->roadSideTrialDeletionPullToSide->setChecked(false);
+                break;
             }
         }
         //if addtolist
@@ -267,15 +364,60 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             //set add to list on
             ui->roadSideTrialAddToList->setChecked(true);
         }
+        
+        else {
+            ui->roadSideTrialAddToList->setChecked(false);
+        }
     }
     
     //else road side is not selected
     else {
+        //uncheck the box
+        ui->roadSideTrialOn->setChecked(false);
         
+        //check remain stationary
+        ui->roadSideTrialRemainStationary->setChecked(true);
+        
+        //uncheck pull out in front and clear text
+        ui->roadSideTrialPullFront->setChecked(false);
+        ui->roadSideTrialPullFrontSpeed->setText("");
+        
+        //uncheck drive on shoulder and clear text
+        ui->roadSideTrialDriveOnShoulder->setChecked(false);
+        ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+        
+        //uncheck pull out in front and stop, clear distance and speed
+        ui->roadSideTrialPullFrontStop->setChecked(false);
+        ui->roadSideTrialPullFrontStopSpeed->setText("");
+        ui->roadSideTrialPullFrontStopDistance->setText("");
+        
+        //set none on
+        ui->roadSideTrialBlinkerNone->setChecked(true);
+        
+        //set hazards off
+        ui->roadSideTrialBlinkerHazards->setChecked(false);
+        
+        //set right off
+        ui->roadSideTrialBlinkerRight->setChecked(false);
+        
+        //set left off
+        ui->roadSideTrialBlinkerLeft->setChecked(false);
+             
+        //set pull to side on
+        ui->roadSideTrialDeletionPullToSide->setChecked(true);
+    
+        //set slow down to off
+        ui->roadSideTrialDeletionSlowDown->setChecked(false);
+        
+        //uncheck fcw add to list
+        ui->roadSideTrialAddToList->setChecked(false);
     }
     return;
 }
 
+//requires:
+//modifies:
+//effects:
 leftLaneControl MainWindow::getLeftLaneTrial(){
     leftLaneControl leftLane;
     //if left lane is checked
@@ -353,18 +495,230 @@ leftLaneControl MainWindow::getLeftLaneTrial(){
         }
         
         //if the fcw is selected
-        if (ui->leftLaneTrialAddToFCW){
+        if (ui->leftLaneTrialAddToFCW->isChecked()){
             leftLane.addToList = true;
+        }
+        else {
+            leftLane.addToList = false;
         }
     }
     return leftLane;
 }
 
+//requires:
+//modifies:
+//effects:
 void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
+    //if the left lane is checked
+    if (leftLane.checked) {
+        //check the left lane check box
+        ui->leftLaneTrialOn->setChecked(true);
+        
+        //switch over the movement option
+        switch (leftLane.movementOption){
     
+            //case 0
+            case (0) : {
+                //check blind spot
+                ui->leftLaneTrialBlindSpot->setChecked(true);
+    
+                //uncheck cut behind driver
+                ui->leftLaneTrialCutBehind->setChecked(false);
+                
+                //uncheck cut in front of driver, clear speed and distance
+                ui->leftLaneTrialCutFront->setChecked(false);
+                ui->leftLaneTrialCutFrontDistance->setText("");
+                ui->leftLaneTrialCutFrontSpeed->setText("");
+    
+                //uncheck remain in lane, check match and uncheck absolute, clear absolute
+                ui->leftLaneTRialRemainLane->setChecked(false);
+                ui->leftLaneTrialRemainLaneMatchET->setChecked(true);
+                ui->leftLaneTrialRemainLaneAbsolute->setChecked(false);
+                ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText("");
+                break;
+            }   
+            //case 1
+            case (1) : {
+                //uncheck blind spot
+                ui->leftLaneTrialBlindSpot->setChecked(false);
+                
+                //check cut behind driver
+                ui->leftLaneTrialCutBehind->setChecked(true);
+    
+                //uncheck cut in front of driver, clear speed and distance
+                ui->leftLaneTrialCutFront->setChecked(false);
+                ui->leftLaneTrialCutFrontDistance->setText("");
+                ui->leftLaneTrialCutFrontSpeed->setText("");
+
+                //uncheck remain in lane, check match and uncheck absolute, clear absolute
+                ui->leftLaneTRialRemainLane->setChecked(false);
+                ui->leftLaneTrialRemainLaneMatchET->setChecked(true);
+                ui->leftLaneTrialRemainLaneAbsolute->setChecked(false);
+                ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText("");
+                break;
+            }
+            //case 2
+            case (2) : {
+                //uncheck blind spot
+                ui->leftLaneTrialBlindSpot->setChecked(false);
+    
+                //uncheck cut behind driver
+                ui->leftLaneTrialCutBehind->setChecked(false);
+    
+                //check cut in behind driver, set speed and distance
+                ui->leftLaneTrialCutFront->setChecked(true);
+                ui->leftLaneTrialCutFrontDistance->setText(QString::number(leftLane.distance));
+                ui->leftLaneTrialCutFrontSpeed->setText(QString::number(leftLane.speed));
+    
+                //uncheck remain in lane, check match and uncheck absolute, clear absolute
+                ui->leftLaneTRialRemainLane->setChecked(false);
+                ui->leftLaneTrialRemainLaneMatchET->setChecked(true);
+                ui->leftLaneTrialRemainLaneAbsolute->setChecked(false);
+                ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText("");
+                break;
+            }
+            //default
+            default : {
+                //uncheck blind spot
+                ui->leftLaneTrialBlindSpot->setChecked(false);
+            
+                //uncheck cut behind driver
+                ui->leftLaneTrialCutBehind->setChecked(false);
+    
+                //uncheck cut in front of driver, clear speed and distance
+                ui->leftLaneTrialCutFront->setChecked(false);
+                ui->leftLaneTrialCutFrontDistance->setText("");
+                ui->leftLaneTrialCutFrontSpeed->setText("");
+    
+                //check remain in lane
+                ui->leftLaneTRialRemainLane->setChecked(true);
+                    //swtich lane option
+                    switch (leftLane.laneOption) {
+                        //case 0
+                        case (0) : {
+                            //check absolute and set speed
+                            ui->leftLaneTrialRemainLaneAbsolute->setChecked(true);
+                            ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText(QString::number(leftLane.speed));
+                            
+                            //uncheck match
+                            ui->leftLaneTrialRemainLaneMatchET->setChecked(false);    
+                            break;
+                        }
+                        //default
+                        default : {
+                            //uncheck absolute, clear speed
+                            ui->leftLaneTrialRemainLaneAbsolute->setChecked(false);
+                            ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText("");
+    
+                            //check match
+                            ui->leftLaneTrialRemainLaneMatchET->setChecked(true);
+                            break;
+                        }
+                    }
+                break;
+            }             
+        }
+        //switch blinker control
+        switch (leftLane.blinker) { 
+            //case hazards
+            case (Hazards) : {
+                ui->leftLaneTrialBlinkerHazards->setChecked(true);
+                ui->leftLaneTrialBlinkerLeft->setChecked(false);
+                ui->leftLaneTrialBlinkerRight->setChecked(false);
+                ui->leftLaneTrialBlinkerNone->setChecked(false);
+                break;
+            }
+            
+            //case right
+            case (Right) : {
+                ui->leftLaneTrialBlinkerHazards->setChecked(false);
+                ui->leftLaneTrialBlinkerLeft->setChecked(false);
+                ui->leftLaneTrialBlinkerRight->setChecked(true);
+                ui->leftLaneTrialBlinkerNone->setChecked(false);
+                break;
+            }
+        
+            //case left
+            case (Left) : { 
+                ui->leftLaneTrialBlinkerHazards->setChecked(false);
+                ui->leftLaneTrialBlinkerLeft->setChecked(true);
+                ui->leftLaneTrialBlinkerRight->setChecked(false);
+                ui->leftLaneTrialBlinkerNone->setChecked(false);
+                break;
+            }
+    
+            //default
+            default : {
+                ui->leftLaneTrialBlinkerHazards->setChecked(false);
+                ui->leftLaneTrialBlinkerLeft->setChecked(false);
+                ui->leftLaneTrialBlinkerRight->setChecked(false);
+                ui->leftLaneTrialBlinkerNone->setChecked(true);
+                break;
+            }
+        }
+        //switch creation option
+        switch (leftLane.creationOption) { 
+            //case 0
+            case (0) : {
+                ui->leftLaneTrialCreationBehind->setChecked(true);
+                ui->leftLaneTrialCreationFront->setChecked(false);
+                break;
+            }
+    
+            //default
+            default : { 
+                ui->leftLaneTrialCreationBehind->setChecked(false);
+                ui->leftLaneTrialCreationFront->setChecked(true);
+                break;
+            }
+        }
+        
+        //if addtolist
+        if (leftLane.addToList) {
+            //check add to list
+            ui->leftLaneTrialAddToFCW->setChecked(true);
+        }
+        //else
+        else {
+            //uncheck add to list
+            ui->leftLaneTrialAddToFCW->setChecked(false);
+        }
+    }
+    //else if its not checked
+    else {
+        //uncheck the left lane check box
+        ui->leftLaneTrialOn->setChecked(false);
+        
+        //set the movement option
+        ui->leftLaneTrialBlindSpot->setChecked(true);
+        ui->leftLaneTrialCutBehind->setChecked(false);
+        ui->leftLaneTrialCutFront->setChecked(false);
+        ui->leftLaneTrialCutFrontDistance->setText("");
+        ui->leftLaneTrialCutFrontSpeed->setText("");
+        ui->leftLaneTRialRemainLane->setChecked(false);
+        ui->leftLaneTrialRemainLaneMatchET->setChecked(true);
+        ui->leftLaneTrialRemainLaneAbsolute->setChecked(false);
+        ui->leftLaneTrialRemainLaneAbsoluteSpeed->setText("");
+        
+        //set the blinker control
+        ui->leftLaneTrialBlinkerHazards->setChecked(false);
+        ui->leftLaneTrialBlinkerLeft->setChecked(false);
+        ui->leftLaneTrialBlinkerRight->setChecked(false);
+        ui->leftLaneTrialBlinkerNone->setChecked(true);
+        
+        //set the creation option
+        ui->leftLaneTrialCreationBehind->setChecked(true);
+        ui->leftLaneTrialCreationFront->setChecked(false);
+        
+        //set the fcw add to list
+        ui->leftLaneTrialAddToFCW->setChecked(false);
+    }
     return;
 }
 
+//requires:
+//modifies:
+//effects:
 FVLVInstructions MainWindow::getLeadTrial() {
     FVLVInstructions lead;
     //if the lead vehicle is checked
@@ -418,6 +772,9 @@ FVLVInstructions MainWindow::getLeadTrial() {
     return lead;
 }
 
+//requires:
+//modifies:
+//effects:
 void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
     //if its the lead vehicle is checked
     if (tmp.checked) {
@@ -518,6 +875,9 @@ void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
     return;
 }
 
+//requires:
+//modifies:
+//effects:
 FVLVInstructions MainWindow::getFollowTrial() {
     FVLVInstructions follow;
     //if the follow vehicle is checked
@@ -571,6 +931,9 @@ FVLVInstructions MainWindow::getFollowTrial() {
     return follow;
 }
 
+//requires:
+//modifies:
+//effects:
 void MainWindow::loadFollowTrial(FVLVInstructions &tmp){
     //if its the follow vehicle is checked
     if (tmp.checked) {
@@ -737,7 +1100,7 @@ bool MainWindow::checkLength(){
     }
     if (maxTrial != ui->lengthOfRoadLineEdit->text().toDouble(false)) {
         this->maxTrial = ui->lengthOfRoadLineEdit->text().toDouble(false);
-        if (this->trials.size() < maxTrial+1) {
+        if (this->trials.size() < maxTrial) {
             trials.resize(maxTrial+1);
         }
     }
@@ -770,9 +1133,9 @@ void MainWindow::on_nextTrial_clicked()
     QString current = ui->currentTrial->text();
     std::string trial = current.toStdString();
     int trialInt = std::stoi(trial);
-    if (trialInt < maxTrial){
+    if (trialInt < maxTrial - 1){
         Trial tmp = getTrial ();
-        if (trialInt >= trials.size()) {
+        if (trialInt > trials.size()) {
             trials.resize(trialInt+1);
         }
         trials[trialInt] = tmp;
@@ -800,7 +1163,7 @@ void MainWindow::on_prevTrial_clicked()
     int trialInt = std::stoi(trial);
     if (trialInt != 0){
         Trial tmp = getTrial ();
-        if (trialInt >= trials.size()) {
+        if (trialInt > trials.size()) {
             trials.resize(trialInt+1);
         }
         trials[trialInt] = tmp;
@@ -823,9 +1186,18 @@ void MainWindow::on_saveFileButton_clicked()
     if (!checkSettings ()) {
         return;
     }
+    //get the last trial and the file settings
+    int current = ui->currentTrial->text().toInt();
+    if (current > trials.size()){
+        trials.resize(current);
+    }
+    trials[current] = getTrial();
+    getSettings();
+    
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), this->loadFilename, "SCN File (*.scn)");
     this->saveFilename = filename;
     highway.writeFile(filename.toStdString());
+    return;
 }
 
 //requires:
@@ -843,10 +1215,10 @@ void MainWindow::on_goToButton_clicked()
     std::string goTo = goToString.toStdString();
     int goToNumber = std::stoi(goTo);
     int current = ui->currentTrial->text().toDouble(false);
-    if (goToNumber > -1 && goToNumber <= maxTrial){
+    if (goToNumber > -1 && goToNumber < maxTrial){
         Trial tmp = getTrial ();
         //save the tmp based on the current trial
-        if (current >= trials.size()) {
+        if (current > trials.size()) {
             //check to make sure the current trial is gonna fit
             trials.resize(current);
         }
@@ -1157,6 +1529,11 @@ void MainWindow::checkFCWSettings(){
         //check the color
         if (!fcwColor.isValid()) {
             throw ((std::string)"Please choose a color.");
+        }
+        
+        //check the shape and icon
+        if (ui->shapeOption->currentText() == "Icon" && ui->fcwIconName->text().isEmpty()) {
+            throw ((std::string)"Please enter an icon name for frontal crash warning.");
         }
     }
     return;

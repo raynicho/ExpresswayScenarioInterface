@@ -2,10 +2,11 @@
 #include <string>
 #include <vector>
 #include "Helpers.h"
+#include <QColor>
 
 using std::string;
 
-enum shape {Square, Triangle, Circle};
+enum shape {Triangle, Circle, Octagon, Star, Diamond, Icon, Rectangle, Hexagon};
 
 struct FVLVSettings {
 	string SOLModel;
@@ -18,12 +19,12 @@ struct FVLVSettings {
 
 struct FCW {
     bool checked;
+    bool animationOn;
+    double frequency;
+    string iconName;
+    QColor FCWColor;
 	position pos;
-	double frequency;
 	shape imageShape;
-	string color;
-	position start;
-	position end;
 };
 
 struct animation {
@@ -34,8 +35,9 @@ struct animation {
 
 struct MajorSettings {
 	bool generateTraffic;
-	double lengthOfRoad;
+	double numberTrials;
 	bool showBlindSpot;
     FVLVSettings followVehicle;
     FVLVSettings leadVehicle;
+    FCW warningSettings;
 };

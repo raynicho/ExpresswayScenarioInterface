@@ -63,6 +63,8 @@ public:
     void loadLeftLaneTrial (leftLaneControl &);
     
     leftLaneControl getLeftLaneTrial ();
+    
+    void getSettings ();
 
 private slots:
     void on_loadFile_clicked();
