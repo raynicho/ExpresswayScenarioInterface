@@ -11,13 +11,15 @@ Driving scenarios for the NADS MiniSim take months to produce and which is the m
 To use the Expresswat Scenario Interface Tool follow these steps;
 
 (Non Zip Version)
+
 1. Download all files from /exec
-2. 
+
 2. Place the files in a folder on your system
 
 3. Run the application
 
 (Zip)
+
 1. Download the zip file from /exec
 
 2. Unzip the files to a folder on your system
