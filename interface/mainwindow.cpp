@@ -42,7 +42,7 @@ void MainWindow::getSettings() {
     tmpFVLV.maxSpeed = ui->followMaxSpeedLineEdit->text().toDouble(false);
     tmpFVLV.minSpeed = ui->followMinSpeedLineEdit->text().toDouble(false);
     tmpFVLV.maxAccel = ui->followMaxAccelLineEdit->text().toDouble(false);
-    tmpFVLV.minAccel = ui->followMinAccel->text().toDouble(false);
+    tmpFVLV.maxDeccel = ui->followMaxDecel->text().toDouble(false);
     settings.followVehicle = tmpFVLV;
     
     //load the follow vehicle settings
@@ -52,7 +52,7 @@ void MainWindow::getSettings() {
     tmpFVLV.maxSpeed = ui->leadMaxSpeedLineEdit->text().toDouble(false);
     tmpFVLV.minSpeed = ui->leadMinSpeedLineEdit->text().toDouble(false);
     tmpFVLV.maxAccel = ui->leadMaxAccelLineEdit->text().toDouble(false);
-    tmpFVLV.minAccel = ui->leadMinAccelLineEdit->text().toDouble(false);
+    tmpFVLV.maxDeccel = ui->leadMaxDecel->text().toDouble(false);
     settings.leadVehicle = tmpFVLV;
     
     //load the fcw
@@ -93,7 +93,16 @@ void MainWindow::getSettings() {
         }
         
         //if animation is checked, load animation, set animation on
-    
+        if (ui->animationOn->isChecked()) {
+            animation tmpAnimation;
+            tmpAnimation.checked = true;
+            tmpAnimation.start.x = ui->animationStartX->text().toDouble(false);
+            tmpAnimation.start.y = ui->animationStartY->text().toDouble(false);
+            tmpAnimation.start.z = ui->animationStartZ->text().toDouble(false);
+            tmpAnimation.end.x = ui->animationEndX->text().toDouble(false);
+            tmpAnimation.end.y = ui->animationEndY->text().toDouble(false);
+            tmpAnimation.end.z = ui->animationEndZ->text().toDouble(false);
+        }
     }
         
     //load number of trials
@@ -102,6 +111,9 @@ void MainWindow::getSettings() {
     //load boolean values
     settings.showBlindSpot = ui->showBlindSpotWarning->isChecked();
     settings.generateTraffic = ui->generateOpposingTraffic->isChecked();
+    if (settings.generateTraffic) {
+        settings.numberOfVehicles = ui->numberOpposingVehicles->text().toInt(false);
+    }
     
     return;
 }
@@ -128,6 +140,7 @@ roadSideControl MainWindow::getRoadSideTrial() {
             
             //get and set the speed
             roadSide.speed = ui->roadSideTrialPullFrontSpeed->text().toDouble(false);
+            roadSide.distance = ui->roadSideTrialPullFrontDistance->text().toDouble(false);
         }
         //else if the drive on shoulder was checked
         else if (ui->roadSideTrialDriveOnShoulder->isChecked()) {
@@ -203,6 +216,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 //set pull out in front off and speed empty
                 ui->roadSideTrialPullFront->setChecked(false);
                 ui->roadSideTrialPullFrontSpeed->setText("");
+                ui->roadSideTrialPullFrontDistance->setText("");
                 
                 //set drive on shoulder off and speed empty
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
@@ -220,6 +234,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             //set pull out in front on and speed
                 ui->roadSideTrialPullFront->setChecked(true);
                 ui->roadSideTrialPullFrontSpeed->setText(QString::number(roadSide.speed));
+                ui->roadSideTrialPullFrontDistance->setText(QString::number(roadSide.distance));
         
                 //set remain stationary off
                 ui->roadSideTrialRemainStationary->setChecked(false);
@@ -247,6 +262,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 //set pull out in front off and clear speed
                 ui->roadSideTrialPullFront->setChecked(false);
                 ui->roadSideTrialPullFrontSpeed->setText("");
+                ui->roadSideTrialPullFrontDistance->setText("");
     
                 //set pull out in front and stop off, clear distance and speed
                 ui->roadSideTrialPullFrontStop->setChecked(false);
@@ -268,6 +284,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 //set pull out in front off and clear speed
                 ui->roadSideTrialPullFront->setChecked(false);
                 ui->roadSideTrialPullFrontSpeed->setText("");
+                ui->roadSideTrialPullFrontDistance->setText("");
     
                 //set drive on shoulder off and clear speed
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
@@ -1061,6 +1078,7 @@ void MainWindow::loadTrial(int trialNumber) {
 //effects:
 Trial MainWindow::getTrial(){
     Trial tmp;
+    
     tmp.trialNumber = ui->currentTrial->text().toInt(false);
     
     //get follow vehicle
@@ -1074,7 +1092,6 @@ Trial MainWindow::getTrial(){
     
     //get the left lane
     tmp.leftLane = getLeftLaneTrial();
-    
     return tmp;
 }
 
@@ -1135,7 +1152,7 @@ void MainWindow::on_nextTrial_clicked()
     int trialInt = std::stoi(trial);
     if (trialInt < maxTrial - 1){
         Trial tmp = getTrial ();
-        if (trialInt > trials.size()) {
+        if (trialInt >= trials.size()) {
             trials.resize(trialInt+1);
         }
         trials[trialInt] = tmp;
@@ -1163,7 +1180,7 @@ void MainWindow::on_prevTrial_clicked()
     int trialInt = std::stoi(trial);
     if (trialInt != 0){
         Trial tmp = getTrial ();
-        if (trialInt > trials.size()) {
+        if (trialInt >= trials.size()) {
             trials.resize(trialInt+1);
         }
         trials[trialInt] = tmp;
@@ -1187,15 +1204,25 @@ void MainWindow::on_saveFileButton_clicked()
         return;
     }
     //get the last trial and the file settings
-    int current = ui->currentTrial->text().toInt();
-    if (current > trials.size()){
-        trials.resize(current);
+    int current = ui->currentTrial->text().toInt(false);
+    if (current >= trials.size()){
+        trials.resize(current+1);
     }
+    
     trials[current] = getTrial();
     getSettings();
     
+    
+    if (this->loadFilename.isEmpty()) {
+        this->loadFilename = "C://";
+    }
+    
+    
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), this->loadFilename, "SCN File (*.scn)");
     this->saveFilename = filename;
+    
+    highway.processAll (trials, settings);
+    
     highway.writeFile(filename.toStdString());
     return;
 }
@@ -1369,6 +1396,15 @@ void MainWindow::checkTrialRoadSide(){
 
             if (current.toDouble(ok) < 0) {
                 throw((std::string)"Please enter a positive pull out front speed for the roadside vehicle control.");
+            }
+            
+            //check distance
+            if (ui->roadSideTrialPullFrontDistance->text().isEmpty()) {
+                throw((std::string)"Please enter a pull out front distance for the roadside vehicle.");
+            }
+            
+            if (ui->roadSideTrialPullFrontDistance->text().toDouble(false) < 0) {
+                throw((std::string)"Please enter a positive pull out front distance for the roadside vehicle.");
             }
         }
         //if drive on shoulder is selected
@@ -1574,7 +1610,7 @@ void MainWindow::checkFollowVehicleSettings(){
     if (emptyOrNegative(ui->followMaxAccelLineEdit->text())) {
         throw((std::string)"Please make changes to the follow vehicle max acceleration.");
     }
-    if (emptyOrNegative(ui->followMinAccel->text())) {
+    if (emptyOrNegative(ui->followMaxDecel->text())) {
         throw((std::string)"Please make changes to the follow vehicle min acceleration.");
     }
     return;
@@ -1596,7 +1632,7 @@ void MainWindow::checkLeadVehicleSettings(){
     if (emptyOrNegative(ui->leadMaxAccelLineEdit->text())) {
         throw((std::string)"Please make changes to the lead vehicle max acceleration.");
     }
-    if (emptyOrNegative(ui->leadMinAccelLineEdit->text())) {
+    if (emptyOrNegative(ui->leadMaxDecel->text())) {
         throw((std::string)"Please make changes to the lead vehicle min acceleration.");
     }
     return;
@@ -1628,6 +1664,10 @@ bool MainWindow::checkSettings () {
 
         if ((ui->lengthOfRoadLineEdit->text()).toDouble(false) < 0){
             throw((std::string)"Please enter a number of trials.");
+        }
+        
+        if (emptyOrNegative(ui->numberOpposingVehicles->text()) && ui->generateOpposingTraffic->isChecked()) {
+            throw((std::string)"Please make changes to the level of opposing traffic.");
         }
     }
     catch (std::string &e) {

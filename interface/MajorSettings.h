@@ -14,7 +14,7 @@ struct FVLVSettings {
 	double maxSpeed;
 	double minSpeed;
 	double maxAccel;
-	double minAccel;
+	double maxDeccel;
 };
 
 struct FCW {
@@ -35,6 +35,7 @@ struct animation {
 
 struct MajorSettings {
 	bool generateTraffic;
+    int numberOfVehicles;
 	double numberTrials;
 	bool showBlindSpot;
     FVLVSettings followVehicle;

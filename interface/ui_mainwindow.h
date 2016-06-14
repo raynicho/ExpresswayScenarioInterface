@@ -94,13 +94,13 @@ public:
     QLineEdit *leadMinSpeedLineEdit;
     QLabel *followMinAccelLabl_2;
     QLabel *minFollowSpeedLabel_2;
-    QLineEdit *leadMinAccelLineEdit;
+    QLineEdit *leadMaxDecel;
     QLabel *followMinAccelLabl;
     QLabel *followMaxAccelLabel;
     QLabel *minFollowSpeedLabel;
     QLineEdit *followMaxAccelLineEdit;
     QLabel *maxFollowSpeedLabel;
-    QLineEdit *followMinAccel;
+    QLineEdit *followMaxDecel;
     QLineEdit *followMinSpeedLineEdit;
     QLabel *solModelLabel;
     QLineEdit *followDistanceLineEdit;
@@ -119,6 +119,8 @@ public:
     QLineEdit *fcwPositionX;
     QLabel *frequency;
     QLineEdit *lengthOfRoadLineEdit;
+    QLineEdit *numberOpposingVehicles;
+    QLabel *label;
     QGroupBox *trialManager;
     QGroupBox *leadVehicleInstructions;
     QCheckBox *leadTrialOn;
@@ -181,8 +183,10 @@ public:
     QRadioButton *roadSideTrialPullFront;
     QRadioButton *roadSideTrialPullFrontStop;
     QGridLayout *gridLayout_8;
-    QLabel *label_17;
     QLineEdit *roadSideTrialPullFrontSpeed;
+    QLabel *label_17;
+    QLineEdit *roadSideTrialPullFrontDistance;
+    QLabel *label_2;
     QGridLayout *gridLayout_9;
     QLabel *label_19;
     QLineEdit *roadSideTrialDriveOnShoulderSpeed;
@@ -399,9 +403,9 @@ public:
         minFollowSpeedLabel_2 = new QLabel(majorFileSettings);
         minFollowSpeedLabel_2->setObjectName(QStringLiteral("minFollowSpeedLabel_2"));
         minFollowSpeedLabel_2->setGeometry(QRect(310, 130, 61, 16));
-        leadMinAccelLineEdit = new QLineEdit(majorFileSettings);
-        leadMinAccelLineEdit->setObjectName(QStringLiteral("leadMinAccelLineEdit"));
-        leadMinAccelLineEdit->setGeometry(QRect(400, 190, 113, 20));
+        leadMaxDecel = new QLineEdit(majorFileSettings);
+        leadMaxDecel->setObjectName(QStringLiteral("leadMaxDecel"));
+        leadMaxDecel->setGeometry(QRect(400, 190, 113, 20));
         followMinAccelLabl = new QLabel(majorFileSettings);
         followMinAccelLabl->setObjectName(QStringLiteral("followMinAccelLabl"));
         followMinAccelLabl->setGeometry(QRect(40, 190, 91, 16));
@@ -417,9 +421,9 @@ public:
         maxFollowSpeedLabel = new QLabel(majorFileSettings);
         maxFollowSpeedLabel->setObjectName(QStringLiteral("maxFollowSpeedLabel"));
         maxFollowSpeedLabel->setGeometry(QRect(40, 100, 61, 16));
-        followMinAccel = new QLineEdit(majorFileSettings);
-        followMinAccel->setObjectName(QStringLiteral("followMinAccel"));
-        followMinAccel->setGeometry(QRect(130, 190, 113, 20));
+        followMaxDecel = new QLineEdit(majorFileSettings);
+        followMaxDecel->setObjectName(QStringLiteral("followMaxDecel"));
+        followMaxDecel->setGeometry(QRect(130, 190, 113, 20));
         followMinSpeedLineEdit = new QLineEdit(majorFileSettings);
         followMinSpeedLineEdit->setObjectName(QStringLiteral("followMinSpeedLineEdit"));
         followMinSpeedLineEdit->setGeometry(QRect(130, 130, 113, 20));
@@ -443,7 +447,7 @@ public:
         lengthOfRoadLabel->setGeometry(QRect(40, 240, 81, 16));
         generateOpposingTraffic = new QCheckBox(majorFileSettings);
         generateOpposingTraffic->setObjectName(QStringLiteral("generateOpposingTraffic"));
-        generateOpposingTraffic->setGeometry(QRect(300, 240, 221, 21));
+        generateOpposingTraffic->setGeometry(QRect(300, 230, 221, 21));
         fileManager = new QGroupBox(majorFileSettings);
         fileManager->setObjectName(QStringLiteral("fileManager"));
         fileManager->setGeometry(QRect(30, 360, 141, 91));
@@ -474,6 +478,12 @@ public:
         lengthOfRoadLineEdit = new QLineEdit(majorFileSettings);
         lengthOfRoadLineEdit->setObjectName(QStringLiteral("lengthOfRoadLineEdit"));
         lengthOfRoadLineEdit->setGeometry(QRect(130, 240, 111, 20));
+        numberOpposingVehicles = new QLineEdit(majorFileSettings);
+        numberOpposingVehicles->setObjectName(QStringLiteral("numberOpposingVehicles"));
+        numberOpposingVehicles->setGeometry(QRect(410, 260, 113, 20));
+        label = new QLabel(majorFileSettings);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(300, 260, 91, 16));
         lengthOfRoadLabel->raise();
         groupBox_3->raise();
         groupBox_4->raise();
@@ -504,13 +514,13 @@ public:
         leadMinSpeedLineEdit->raise();
         followMinAccelLabl_2->raise();
         minFollowSpeedLabel_2->raise();
-        leadMinAccelLineEdit->raise();
+        leadMaxDecel->raise();
         followMinAccelLabl->raise();
         followMaxAccelLabel->raise();
         minFollowSpeedLabel->raise();
         followMaxAccelLineEdit->raise();
         maxFollowSpeedLabel->raise();
-        followMinAccel->raise();
+        followMaxDecel->raise();
         followMinSpeedLineEdit->raise();
         solModelLabel->raise();
         followDistanceLineEdit->raise();
@@ -526,6 +536,8 @@ public:
         fcwPositionX->raise();
         frequency->raise();
         lengthOfRoadLineEdit->raise();
+        numberOpposingVehicles->raise();
+        label->raise();
         trialManager = new QGroupBox(centralWidget);
         trialManager->setObjectName(QStringLiteral("trialManager"));
         trialManager->setGeometry(QRect(570, 10, 621, 591));
@@ -802,15 +814,25 @@ public:
         gridLayout_8 = new QGridLayout();
         gridLayout_8->setSpacing(6);
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        roadSideTrialPullFrontSpeed = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontSpeed"));
+
+        gridLayout_8->addWidget(roadSideTrialPullFrontSpeed, 0, 1, 1, 1);
+
         label_17 = new QLabel(gridLayoutWidget);
         label_17->setObjectName(QStringLiteral("label_17"));
 
         gridLayout_8->addWidget(label_17, 0, 0, 1, 1);
 
-        roadSideTrialPullFrontSpeed = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontSpeed"));
+        roadSideTrialPullFrontDistance = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontDistance->setObjectName(QStringLiteral("roadSideTrialPullFrontDistance"));
 
-        gridLayout_8->addWidget(roadSideTrialPullFrontSpeed, 0, 1, 1, 1);
+        gridLayout_8->addWidget(roadSideTrialPullFrontDistance, 1, 1, 1, 1);
+
+        label_2 = new QLabel(gridLayoutWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout_8->addWidget(label_2, 1, 0, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_8, 2, 1, 1, 1);
@@ -932,9 +954,9 @@ public:
         maxFollowSpeedLabel_2->setText(QApplication::translate("MainWindow", "Max Speed", 0));
         leadVehicleDistanceLabel->setText(QApplication::translate("MainWindow", "Distance", 0));
         followMaxAccelLabel_2->setText(QApplication::translate("MainWindow", "Max Acceleration", 0));
-        followMinAccelLabl_2->setText(QApplication::translate("MainWindow", "Min Acceleration", 0));
+        followMinAccelLabl_2->setText(QApplication::translate("MainWindow", "Max Deceleration", 0));
         minFollowSpeedLabel_2->setText(QApplication::translate("MainWindow", "Min Speed", 0));
-        followMinAccelLabl->setText(QApplication::translate("MainWindow", "Min Acceleration", 0));
+        followMinAccelLabl->setText(QApplication::translate("MainWindow", "Max Deceleration", 0));
         followMaxAccelLabel->setText(QApplication::translate("MainWindow", "Max Acceleration", 0));
         minFollowSpeedLabel->setText(QApplication::translate("MainWindow", "Min Speed", 0));
         maxFollowSpeedLabel->setText(QApplication::translate("MainWindow", "Max Speed", 0));
@@ -947,6 +969,7 @@ public:
         saveFileButton->setText(QApplication::translate("MainWindow", "Save File", 0));
         label_4->setText(QApplication::translate("MainWindow", "Position", 0));
         frequency->setText(QApplication::translate("MainWindow", "Frequency", 0));
+        label->setText(QApplication::translate("MainWindow", "Number of Vehicles", 0));
         trialManager->setTitle(QApplication::translate("MainWindow", "Trial Manager", 0));
         leadVehicleInstructions->setTitle(QApplication::translate("MainWindow", "Lead Vehicle Instructions", 0));
         leadTrialOn->setText(QString());
@@ -989,6 +1012,7 @@ public:
         roadSideTrialPullFront->setText(QApplication::translate("MainWindow", "Pull Out In Front", 0));
         roadSideTrialPullFrontStop->setText(QApplication::translate("MainWindow", "Pull Out In Front and Stop", 0));
         label_17->setText(QApplication::translate("MainWindow", "Speed", 0));
+        label_2->setText(QApplication::translate("MainWindow", "Distance", 0));
         label_19->setText(QApplication::translate("MainWindow", "Speed", 0));
         prevTrial->setText(QApplication::translate("MainWindow", "Prev", 0));
         goToLinEdit->setText(QApplication::translate("MainWindow", "0", 0));

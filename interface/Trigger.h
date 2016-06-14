@@ -39,7 +39,7 @@ public:
 
 	//constructor that takes in various parameters
     Trigger(bool seq, bool shot, int fireDel, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-        string Short, position Draw, position Pos, vector <Action*> Act) : sequentialActions(seq), oneShot(shot), fireDelFrames(fireDel),debounce(Debounce),
+        string Short, position Draw, position Pos, vector <Action*> &Act) : sequentialActions(seq), oneShot(shot), fireDelFrames(fireDel),debounce(Debounce),
 		activationDelay(actDelay), creationRadius(creRad), lifetime(LifeTime), name(Name), longComment(Long),
 		shortComment(Short), drawPosition(Draw), pos(Pos), Actions(Act) {
 
@@ -117,7 +117,7 @@ public:
 	}
 
 	expressionTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> Act, string Expression) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
+		string Short, position Draw, position Pos, vector <Action*> &Act, string Expression) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
 			LifeTime, Name, Long, Short, Draw, Pos, Act) {
 		expression = Expression;
 	}
@@ -198,7 +198,7 @@ public:
 	roadPadTrigger() : Trigger() {}
 
 	roadPadTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> Act, string type, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
+		string Short, position Draw, position Pos, vector <Action*> &Act, string type, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
 			creRad, LifeTime, Name, Long, Short, Draw, Pos, Act) {
 		typeSet = type;
 		path = Path;
@@ -287,7 +287,7 @@ public:
 	timeTrigger() : Trigger() {}
 
 	timeTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> Act, double Time) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
+		string Short, position Draw, position Pos, vector <Action*> &Act, double Time) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
 			LifeTime, Name, Long, Short, Draw, Pos, Act) {
 		time = Time;
 	}
