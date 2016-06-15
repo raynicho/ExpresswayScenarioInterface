@@ -36,6 +36,5 @@ To use the Expressway Scenario Interface Tool follow these steps;
 Raymond Pressly (raynicho@umich.edu)
 
 ## To Do
-- get major file settings from user interface
 - process major settings so they become part of the scenario file
 - process all trials so that they become part of the scenario file
