@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1199</width>
-    <height>615</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>500</y>
+      <y>510</y>
       <width>511</width>
       <height>71</height>
      </rect>
@@ -301,7 +301,7 @@
       <x>10</x>
       <y>10</y>
       <width>561</width>
-      <height>471</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="title">
@@ -311,7 +311,7 @@
      <property name="geometry">
       <rect>
        <x>270</x>
-       <y>390</y>
+       <y>420</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -324,7 +324,7 @@
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>410</y>
+       <y>440</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -334,7 +334,7 @@
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>410</y>
+       <y>440</y>
        <width>47</width>
        <height>13</height>
       </rect>
@@ -347,7 +347,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>410</y>
+       <y>440</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -357,7 +357,7 @@
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>430</y>
+       <y>460</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -367,7 +367,7 @@
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>410</y>
+       <y>440</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -377,7 +377,7 @@
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>430</y>
+       <y>460</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -387,7 +387,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>430</y>
+       <y>460</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -397,7 +397,7 @@
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>430</y>
+       <y>460</y>
        <width>31</width>
        <height>16</height>
       </rect>
@@ -410,7 +410,7 @@
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>390</y>
+       <y>420</y>
        <width>16</width>
        <height>17</height>
       </rect>
@@ -419,47 +419,21 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>330</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Shape</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="shapeOption">
      <property name="geometry">
       <rect>
        <x>460</x>
-       <y>330</y>
+       <y>360</y>
        <width>81</width>
        <height>22</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>360</y>
-       <width>61</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Icon Name</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="fcwIconName">
      <property name="geometry">
       <rect>
        <x>460</x>
-       <y>360</y>
+       <y>390</y>
        <width>81</width>
        <height>20</height>
       </rect>
@@ -469,7 +443,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>290</y>
+       <y>320</y>
        <width>361</width>
        <height>171</height>
       </rect>
@@ -516,12 +490,38 @@
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>70</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Icon Name</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>40</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Shape</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>280</y>
+       <x>40</x>
+       <y>290</y>
        <width>141</width>
        <height>71</height>
       </rect>
@@ -546,33 +546,241 @@
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>20</y>
-       <width>221</width>
+       <width>261</width>
        <height>201</height>
       </rect>
      </property>
      <property name="title">
       <string>Follow Vehicle</string>
      </property>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>50</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>feet</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>80</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>mph</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_32">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>110</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>mph</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_35">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>140</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s^2</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_37">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>170</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s^2</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="followMinAccelLabl">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Max Deceleration</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="followMaxAccelLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Max Acceleration</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="solModelLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>51</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sol Model</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="minFollowSpeedLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Min Speed</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="followVehicleDistanceLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Distance</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="maxFollowSpeedLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Max Speed</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>290</x>
        <y>20</y>
-       <width>231</width>
+       <width>261</width>
        <height>201</height>
       </rect>
      </property>
      <property name="title">
       <string>Lead Vehicle</string>
      </property>
+     <widget class="QLabel" name="label_21">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>50</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>feet</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_28">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>80</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>mph</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_31">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>110</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>mph</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_38">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>140</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s^2</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_39">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>170</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s^2</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QComboBox" name="leadSolModel">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>40</y>
        <width>111</width>
        <height>22</height>
@@ -582,7 +790,7 @@
     <widget class="QLabel" name="solModelLabel_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>40</y>
        <width>51</width>
        <height>16</height>
@@ -595,7 +803,7 @@
     <widget class="QLineEdit" name="leadDistanceLineEdit">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>70</y>
        <width>113</width>
        <height>20</height>
@@ -605,7 +813,7 @@
     <widget class="QLabel" name="maxFollowSpeedLabel_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>100</y>
        <width>61</width>
        <height>16</height>
@@ -618,7 +826,7 @@
     <widget class="QLabel" name="leadVehicleDistanceLabel">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>70</y>
        <width>47</width>
        <height>13</height>
@@ -631,7 +839,7 @@
     <widget class="QLineEdit" name="leadMaxAccelLineEdit">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>160</y>
        <width>113</width>
        <height>20</height>
@@ -641,7 +849,7 @@
     <widget class="QLabel" name="followMaxAccelLabel_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>160</y>
        <width>91</width>
        <height>16</height>
@@ -654,7 +862,7 @@
     <widget class="QLineEdit" name="leadMaxSpeedLineEdit">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>100</y>
        <width>113</width>
        <height>20</height>
@@ -664,7 +872,7 @@
     <widget class="QLineEdit" name="leadMinSpeedLineEdit">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>130</y>
        <width>113</width>
        <height>20</height>
@@ -674,7 +882,7 @@
     <widget class="QLabel" name="followMinAccelLabl_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>190</y>
        <width>91</width>
        <height>16</height>
@@ -687,7 +895,7 @@
     <widget class="QLabel" name="minFollowSpeedLabel_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>130</y>
        <width>61</width>
        <height>16</height>
@@ -700,79 +908,27 @@
     <widget class="QLineEdit" name="leadMaxDecel">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>390</x>
        <y>190</y>
        <width>113</width>
        <height>20</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="followMinAccelLabl">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>190</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Max Deceleration</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="followMaxAccelLabel">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>160</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Max Acceleration</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="minFollowSpeedLabel">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>130</y>
-       <width>61</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Min Speed</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="followMaxAccelLineEdit">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>160</y>
        <width>113</width>
        <height>20</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="maxFollowSpeedLabel">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>100</y>
-       <width>61</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Max Speed</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="followMaxDecel">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>190</y>
        <width>113</width>
        <height>20</height>
@@ -782,40 +938,30 @@
     <widget class="QLineEdit" name="followMinSpeedLineEdit">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>130</y>
        <width>113</width>
        <height>20</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="solModelLabel">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>40</y>
-       <width>51</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Sol Model</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="followDistanceLineEdit">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>70</y>
        <width>113</width>
        <height>20</height>
       </rect>
      </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
     </widget>
     <widget class="QLineEdit" name="followMaxSpeedLineEdit">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>100</y>
        <width>113</width>
        <height>20</height>
@@ -825,57 +971,31 @@
     <widget class="QComboBox" name="followSolModel">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>40</y>
        <width>111</width>
        <height>22</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="followVehicleDistanceLabel">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>70</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Distance</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="lengthOfRoadLabel">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>240</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Number of Trials</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="generateOpposingTraffic">
-     <property name="geometry">
-      <rect>
-       <x>300</x>
+       <x>50</x>
        <y>230</y>
-       <width>221</width>
-       <height>21</height>
+       <width>121</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>Generate Opposing Traffic Upon Creation</string>
+      <string>&lt;center&gt;Number of Trials&lt;/center&gt;</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="fileManager">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>360</y>
+       <y>390</y>
        <width>141</width>
        <height>91</height>
       </rect>
@@ -914,7 +1034,7 @@
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>360</y>
+       <y>390</y>
        <width>47</width>
        <height>13</height>
       </rect>
@@ -927,7 +1047,7 @@
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>360</y>
+       <y>390</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -937,7 +1057,7 @@
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>330</y>
+       <y>360</y>
        <width>101</width>
        <height>20</height>
       </rect>
@@ -947,7 +1067,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>360</y>
+       <y>390</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -957,7 +1077,7 @@
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>360</y>
+       <y>390</y>
        <width>41</width>
        <height>20</height>
       </rect>
@@ -967,7 +1087,7 @@
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>330</y>
+       <y>360</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -979,9 +1099,9 @@
     <widget class="QLineEdit" name="lengthOfRoadLineEdit">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>240</y>
-       <width>111</width>
+       <x>50</x>
+       <y>250</y>
+       <width>121</width>
        <height>20</height>
       </rect>
      </property>
@@ -989,7 +1109,7 @@
     <widget class="QLineEdit" name="numberOpposingVehicles">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>400</x>
        <y>260</y>
        <width>113</width>
        <height>20</height>
@@ -1009,6 +1129,79 @@
       <string>Number of Vehicles</string>
      </property>
     </widget>
+    <widget class="QLineEdit" name="numberCars">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>290</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_33">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>290</y>
+       <width>21</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cars</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_34">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>290</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Trucks</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="numberTrucks">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>290</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>230</y>
+       <width>261</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Generate Opposing Traffic</string>
+     </property>
+     <widget class="QCheckBox" name="generateOpposingTraffic">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>0</y>
+        <width>16</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <zorder>groupBox_5</zorder>
     <zorder>lengthOfRoadLabel</zorder>
     <zorder>groupBox_3</zorder>
     <zorder>groupBox_4</zorder>
@@ -1023,9 +1216,7 @@
     <zorder>animationEndY</zorder>
     <zorder>label_30</zorder>
     <zorder>animationOn</zorder>
-    <zorder>label_3</zorder>
     <zorder>shapeOption</zorder>
-    <zorder>label_7</zorder>
     <zorder>fcwIconName</zorder>
     <zorder>groupBox_2</zorder>
     <zorder>leadSolModel</zorder>
@@ -1040,19 +1231,12 @@
     <zorder>followMinAccelLabl_2</zorder>
     <zorder>minFollowSpeedLabel_2</zorder>
     <zorder>leadMaxDecel</zorder>
-    <zorder>followMinAccelLabl</zorder>
-    <zorder>followMaxAccelLabel</zorder>
-    <zorder>minFollowSpeedLabel</zorder>
     <zorder>followMaxAccelLineEdit</zorder>
-    <zorder>maxFollowSpeedLabel</zorder>
     <zorder>followMaxDecel</zorder>
     <zorder>followMinSpeedLineEdit</zorder>
-    <zorder>solModelLabel</zorder>
     <zorder>followDistanceLineEdit</zorder>
     <zorder>followMaxSpeedLineEdit</zorder>
     <zorder>followSolModel</zorder>
-    <zorder>followVehicleDistanceLabel</zorder>
-    <zorder>generateOpposingTraffic</zorder>
     <zorder>fileManager</zorder>
     <zorder>label_4</zorder>
     <zorder>fcwPositionZ</zorder>
@@ -1063,6 +1247,10 @@
     <zorder>lengthOfRoadLineEdit</zorder>
     <zorder>numberOpposingVehicles</zorder>
     <zorder>label</zorder>
+    <zorder>numberCars</zorder>
+    <zorder>label_33</zorder>
+    <zorder>label_34</zorder>
+    <zorder>numberTrucks</zorder>
    </widget>
    <widget class="QGroupBox" name="trialManager">
     <property name="geometry">
@@ -1267,7 +1455,7 @@
      <widget class="QLabel" name="label_29">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>80</x>
         <y>270</y>
         <width>47</width>
         <height>13</height>
@@ -1490,6 +1678,29 @@
       </property>
       <property name="text">
        <string>Add To List</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_36">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>290</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Distance</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="leftLaneTrialDistanceFromET">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>310</y>
+        <width>71</width>
+        <height>20</height>
+       </rect>
       </property>
      </widget>
     </widget>

@@ -66,6 +66,10 @@ public:
     
     void getSettings ();
 
+    bool emptyOrPositive (QString &);
+    
+    void checkOpposingTraffic ();
+    
 private slots:
     void on_loadFile_clicked();
 

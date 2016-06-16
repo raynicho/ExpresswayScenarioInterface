@@ -19,26 +19,31 @@ struct FVLVSettings {
 
 struct FCW {
     bool checked;
-    bool animationOn;
     double frequency;
     string iconName;
     QColor FCWColor;
 	position pos;
 	shape imageShape;
+    FCW () : checked(false){}
 };
 
 struct animation {
     bool checked;
     position start;
     position end;
+    animation () : checked(false) {}
 };
 
 struct MajorSettings {
 	bool generateTraffic;
-    int numberOfVehicles;
+    int numberCarsPerTrial;
 	double numberTrials;
+    int numberCars;
+    int numberTrucks;
 	bool showBlindSpot;
     FVLVSettings followVehicle;
     FVLVSettings leadVehicle;
     FCW warningSettings;
+    animation FCWanimation;
+    MajorSettings () : generateTraffic(false), showBlindSpot(false) {}
 };

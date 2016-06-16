@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QStringList solModelChoices;
-    solModelChoices << "DodgeNeon" << "Audi" << "WindStar" << "FordTaurus" << "LandRover" << "Ford_F150Xcab"
+    solModelChoices << "DodgeNeon" << "Audi" << "Windstar" << "FordTaurus" << "LandRover" << "Ford_F150Xcab"
                     << "Deville" << "Towncar" << "BMW_StationWagon" << "PEUGEOT_306";
     ui->followSolModel->addItems(solModelChoices);
     ui->leadSolModel->addItems(solModelChoices);
@@ -28,6 +28,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->umtriLogo->setPixmap(pix);
 
     ui->statusBar->hide();
+    
+    //fill the base settings for testing purposes
+    ui->leadSolModel->setCurrentIndex(4);
+    ui->leadDistanceLineEdit->setText("-400");
+    ui->leadMaxSpeedLineEdit->setText("100");
+    ui->leadMinSpeedLineEdit->setText("50");
+    ui->leadMaxAccelLineEdit->setText("4");
+    ui->leadMaxDecel->setText("-4");
+    
+    ui->followSolModel->setCurrentIndex(6);
+    ui->followDistanceLineEdit->setText("150");
+    ui->followMaxSpeedLineEdit->setText("100");
+    ui->followMinSpeedLineEdit->setText("0");
+    ui->followMaxAccelLineEdit->setText("4");
+    ui->followMaxDecel->setText("-4");
 }
 
 //requires:
@@ -102,6 +117,7 @@ void MainWindow::getSettings() {
             tmpAnimation.end.x = ui->animationEndX->text().toDouble(false);
             tmpAnimation.end.y = ui->animationEndY->text().toDouble(false);
             tmpAnimation.end.z = ui->animationEndZ->text().toDouble(false);
+            settings.FCWanimation = tmpAnimation;
         }
     }
         
@@ -112,7 +128,9 @@ void MainWindow::getSettings() {
     settings.showBlindSpot = ui->showBlindSpotWarning->isChecked();
     settings.generateTraffic = ui->generateOpposingTraffic->isChecked();
     if (settings.generateTraffic) {
-        settings.numberOfVehicles = ui->numberOpposingVehicles->text().toInt(false);
+        settings.numberCarsPerTrial = ui->numberOpposingVehicles->text().toInt(false);
+        settings.numberCars = ui->numberCars->text().toInt(false);
+        settings.numberTrucks = ui->numberTrucks->text().toInt(false);
     }
     
     return;
@@ -1221,9 +1239,7 @@ void MainWindow::on_saveFileButton_clicked()
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"), this->loadFilename, "SCN File (*.scn)");
     this->saveFilename = filename;
     
-    highway.processAll (trials, settings);
-    
-    highway.writeFile(filename.toStdString());
+    highway.writeFile(filename.toStdString(), trials, settings);
     return;
 }
 
@@ -1546,6 +1562,18 @@ bool MainWindow::emptyOrNegative (QString &lineEdit) {
     return false;
 }
 
+bool MainWindow::emptyOrPositive (QString &lineEdit) {
+    bool* ok = 0;
+    ok = false;
+    if (lineEdit.isEmpty()) {
+        return true;
+    }
+    if (lineEdit.toDouble(ok) > 0){
+        return true;
+    }
+    return false;
+}
+
 //requires:
 //modifies:
 //effects:
@@ -1610,8 +1638,8 @@ void MainWindow::checkFollowVehicleSettings(){
     if (emptyOrNegative(ui->followMaxAccelLineEdit->text())) {
         throw((std::string)"Please make changes to the follow vehicle max acceleration.");
     }
-    if (emptyOrNegative(ui->followMaxDecel->text())) {
-        throw((std::string)"Please make changes to the follow vehicle min acceleration.");
+    if (emptyOrPositive(ui->followMaxDecel->text())) {
+        throw((std::string)"Please make changes to the follow vehicle max deceleration.");
     }
     return;
 }
@@ -1620,7 +1648,7 @@ void MainWindow::checkFollowVehicleSettings(){
 //modifies:
 //effects:
 void MainWindow::checkLeadVehicleSettings(){
-    if (emptyOrNegative(ui->leadDistanceLineEdit->text())) {
+    if (emptyOrPositive(ui->leadDistanceLineEdit->text())) {
         throw ((std::string)"Please make changes to the lead vehicle distance.");
     }
     if (emptyOrNegative(ui->leadMaxSpeedLineEdit->text())) {
@@ -1632,8 +1660,26 @@ void MainWindow::checkLeadVehicleSettings(){
     if (emptyOrNegative(ui->leadMaxAccelLineEdit->text())) {
         throw((std::string)"Please make changes to the lead vehicle max acceleration.");
     }
-    if (emptyOrNegative(ui->leadMaxDecel->text())) {
-        throw((std::string)"Please make changes to the lead vehicle min acceleration.");
+    if (emptyOrPositive(ui->leadMaxDecel->text())) {
+        throw((std::string)"Please make changes to the lead vehicle max deceleraion.");
+    }
+    return;
+}
+
+void MainWindow::checkOpposingTraffic () {
+    if (ui->generateOpposingTraffic->isChecked()){
+        if (emptyOrNegative(ui->numberOpposingVehicles->text())) {
+            throw((std::string)"Please make changes to the level of opposing traffic.");
+        }
+        if (emptyOrNegative(ui->numberCars->text())) {
+            throw((std::string)"Please make changes to the number of cars in the opposing traffic ratio.");
+        }
+        if (emptyOrNegative(ui->numberTrucks->text())) {
+            throw((std::string)"Please make changes to the number of trucks in the opposing traffic ratio.");
+        }
+        if (ui->numberCars->text().toInt(false) == 0 && ui->numberTrucks->text().toInt(false) == 0) {
+            throw((std::string)"Either number of trucks or number of cars must be positive for opposing traffic generation.");
+        }
     }
     return;
 }
@@ -1666,9 +1712,8 @@ bool MainWindow::checkSettings () {
             throw((std::string)"Please enter a number of trials.");
         }
         
-        if (emptyOrNegative(ui->numberOpposingVehicles->text()) && ui->generateOpposingTraffic->isChecked()) {
-            throw((std::string)"Please make changes to the level of opposing traffic.");
-        }
+        //opposing traffic
+        checkOpposingTraffic();
     }
     catch (std::string &e) {
         //QMessageBox::information(this, "", "made it here");
