@@ -28,7 +28,7 @@ To use the Expressway Scenario Interface Tool follow these steps;
 
 ## Example
 
-![alt tag](https://cloud.githubusercontent.com/assets/18505724/15976251/87028d3a-2f1f-11e6-9b7a-e21f8e6d6dee.PNG)
+![alt tag](https://raw.githubusercontent.com/raynicho/ExpresswayScenarioInterface/master/docs/interface.PNG)
 
 
 ## Authors and Contributors
