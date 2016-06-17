@@ -42,6 +42,7 @@ struct leftLaneControl {
     int creationOption;
 	double distance;
     double speed;
+    double creationDistance;
 	blinkerControl blinker;
     leftLaneControl () : addToList(false), checked(false), movementOption(-1), laneOption(-1), creationOption(-1), distance(0), speed(0), blinker(None){}
 };

@@ -36,6 +36,8 @@ public:
     virtual void readFromFile(ifstream &, vector<Vehicle*>*) {}
 
     virtual void readFromFile(ifstream &) {}
+    
+    virtual void addVehicle (Vehicle*) {} 
 };
 
 class LogData : public Action {
@@ -409,6 +411,17 @@ public:
 
 	CreateHCSM(int set, double Delay, string Comment) : Action(set, Delay, Comment) {}
 
+    ~CreateHCSM () {
+        for (auto veh : createdVehicles){
+            delete veh; veh = 0;
+        }
+    }
+    
+    void addVehicle(Vehicle* veh){
+        createdVehicles.push_back(veh);
+        return;
+    }
+    
 	void print(ostream &outStream) {
 		string spaces = "      ";
 		string spacesTillTitle = "    ";
@@ -441,14 +454,12 @@ public:
 					Vehicle* newVehicle = new DDO;
 					newVehicle->readFromFile(inputStream);
 					newVehicle->setCreation(true);
-					vehiclePtr->push_back(newVehicle);
 					createdVehicles.push_back(newVehicle);
 				}
 				else if (current == "Ado") {
 					Vehicle* newVehicle = new ADO;
 					newVehicle->readFromFile(inputStream);
 					newVehicle->setCreation(true);
-					vehiclePtr->push_back(newVehicle);
 					createdVehicles.push_back(newVehicle);
 				}
 				else {

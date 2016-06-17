@@ -529,6 +529,9 @@ leftLaneControl MainWindow::getLeftLaneTrial(){
             leftLane.creationOption = 1;
         }
         
+        //get the creation distance
+        leftLane.creationDistance = ui->leftLaneTrialDistanceFromET->text().toDouble(false);
+        
         //if the fcw is selected
         if (ui->leftLaneTrialAddToFCW->isChecked()){
             leftLane.addToList = true;
@@ -708,6 +711,9 @@ void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
             }
         }
         
+        //load the creation distance
+        ui->leftLaneTrialDistanceFromET->setText(QString::number(leftLane.creationDistance));
+        
         //if addtolist
         if (leftLane.addToList) {
             //check add to list
@@ -744,6 +750,9 @@ void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
         //set the creation option
         ui->leftLaneTrialCreationBehind->setChecked(true);
         ui->leftLaneTrialCreationFront->setChecked(false);
+        
+        //reset the creation distance
+        ui->leftLaneTrialDistanceFromET->setText("");
         
         //set the fcw add to list
         ui->leftLaneTrialAddToFCW->setChecked(false);
@@ -1469,6 +1478,11 @@ void MainWindow::checkTrialLeftLane() {
     bool *ok = 0;
     ok = false;
     if (ui->leftLaneTrialOn->checkState() == Qt::Checked) {
+        //check that the creation distance is positive and not empty
+        if (ui->leftLaneTrialDistanceFromET->text().isEmpty() || ui->leftLaneTrialDistanceFromET->text().toDouble(false) < 0) {
+            throw ((std::string)"Please make corrections to the left lane creation distance.");
+        }
+        
         //if cut in front of driver is selected
         if (ui->leftLaneTrialCutFront->isChecked()) {
             //check distance

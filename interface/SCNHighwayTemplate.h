@@ -369,14 +369,14 @@ public:
         return;
     }
     
-    void processLeftLane (leftLaneControl &leftLane, ostream &outStream) {
+    void processLeftLane (leftLaneControl &leftLane, ostream &outStream, int trialNum) {
         //create the vehicle
         string SolName = getRandSol(false);
         int color = getRandSolColor(SolName);
         double LifeTime = 0;
         double delay = 0;
         double CrRad = 0;
-        string Name = "\"LV\"";
+        string leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
         string Long = "\"\"";
         string Short = "\"\"";
         bool autoBreak = false;
@@ -385,24 +385,65 @@ public:
         double laneOff = 0.78;
         double maxLatOff = 9;
         double distVal1 = 54.6;
-        double initVel = 0;
-        string RoadPos = "\"r1_0_113520:0:266.44:0.78\""; 
-        string Path  = "-1";        
+        double initVel = 65;
+        string Path  = "-1";
+        string RoadPos;
+
+        //if the creation position in front
+        if (leftLane.creationOption == 1) {
+            //A is 1 (Northern Roadway), B is 1 (inside lane
+            RoadPos = "\"r1_0_113520:1:";
+                    
+            //C is based on the trial number ((trial number * trial length + trial number * trialsetup) + creationDistance), D is 0 
+            RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) + leftLane.creationDistance) + ":0\"";
+            
+        }
+        //if the creation position is behind
+        else {
+            //A is 1 (Northern Roadway), B is 1 (inside lane
+            RoadPos = "\"r1_0_113520:1:";
+                    
+            //C is based on the trial number ((trial number * trial length + trial number * trialsetup) - creationDistance), D is 0 
+            RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) - leftLane.creationDistance) + ":0\"";           
+        }
         
-        ADO lead(color, LifeTime, delay, CrRad, Name, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
-        lead.setCreation(false);
-            //alter the position accordingly
+        ADO left(color, LifeTime, delay, CrRad, leftVehName, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
+        left.setCreation(true);
         
-        //generate the creation action
+        //generate the creation action, add the vehicle
         Action* act = new CreateHCSM(0, 0, "");
-                
-            //alter the position accordingly
+        Vehicle* leftPtr = new ADO (left);
+        act->addVehicle(leftPtr);
         
         //generate the roadpad trigger
+        bool seq = false;
+        bool shot = true;
+        double Delay = 0;
+        double Debounce = 0;
+        double actDelay = 0;
+        double creRad = 2000;
+        double life = 0;
+        string name = "\"CreateLeft_" + std::to_string(trialNum) + "\"";
+        string longComment = "\" \"";
+        string shortComment = "\" \"";
+        double posX = 450;
+        double posY = (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320;
+        position Draw;
+        Draw.x = posX;
+        Draw.y = posY;
+        position Pos = Draw;
+        vector <Action*> Act;
+        Act.push_back(act);
+        string type = "\"ExternalDriver\"";
+        double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
+        double endYpos = beginYPos + 20;
+        string path = "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) +
+                "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"";
         
-            //alter the position accordingly
-            
+        roadPadTrigger roadTrigger (seq, shot, Delay, Debounce, actDelay, creRad, life, name, longComment,
+            shortComment, Draw, Pos, Act, type, path);
         
+        roadTrigger.filePrint(outStream);
         
         //movement option 0
         
@@ -414,6 +455,30 @@ public:
         
         //blinker control
         
+        //create action to make it slow down
+        Action* slowDown = new SetDial(0, 0, "\" \"", leftVehName, "\"ForcedVelocity\" \"40 \"", "\"Ado/ForcedVelocity\"");
+        
+        //create roadpad trigger to hold slow down action
+        Act.pop_back();
+        Act.push_back(slowDown);
+        position slowDraw = Draw;
+        slowDraw.y = slowDraw.y + trialLengthFt;
+        string slowPath = "\"R:r1_0_113520:0[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]:1[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]\"";
+        roadPadTrigger slowDownTrigger (0, 1, 0, 0, 0, 2000, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act, type, slowPath);
+        slowDownTrigger.filePrint(outStream);
+        
+        //create action to delete the vehicle
+        /*Action* del = new DeleteHCSM (0, 0, "\" \"", leftVehName);
+        
+        //create roadpad trigger to hold the deletion action
+        position deleteDraw = Draw;
+        deleteDraw.y = deleteDraw.y + trialLengthFt + trialSetupLengthFt;
+        Act.pop_back();
+        Act.push_back(del);
+        
+        string deletionPath = "\"R:r1_0_113520:0[" + std::to_string((trialNum + 1) * (trialLengthFt + trialSetupLengthFt)) + ":" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt) + 20) + "]:1[" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt)) + ":" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt) + 20) + "]\"";;
+        roadPadTrigger deletionTrigger (0, 1, 0, 0, 0, 2000, 0, "\"DeleteLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", deleteDraw, deleteDraw, Act, type, deletionPath);
+        deletionTrigger.filePrint(outStream);*/
         return;
     }
     
@@ -453,7 +518,7 @@ public:
                     processRoadSide(trial.roadSide, outStream);
                 }
                 if (trial.leftLane.checked) {
-                    processLeftLane(trial.leftLane, outStream);
+                    processLeftLane(trial.leftLane, outStream, trial.trialNumber);
                 }
                 if (trial.followVehicle.checked){
                     processFollowVehicle(trial.followVehicle, outStream);
