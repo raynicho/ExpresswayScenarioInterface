@@ -29,7 +29,7 @@ using std::ofstream;
 class SCNHighwayTemplate {
 private:
 	const double trialLengthFt = 3937;
-    const double trialSetupLengthFt = 656;
+    const double trialSetupLengthFt = 1500;
 	double roadwayStartX = 0;
 	double roadwayStartY = 0;
 	SCNHeader header;
@@ -373,21 +373,8 @@ public:
         //create the vehicle
         string SolName = getRandSol(false);
         int color = getRandSolColor(SolName);
-        double LifeTime = 0;
-        double delay = 0;
-        double CrRad = 0;
-        string leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
-        string Long = "\"\"";
-        string Short = "\"\"";
-        bool autoBreak = false;
-        bool velInitMatch = false;
-        int distType = 1;
-        double laneOff = 0.78;
-        double maxLatOff = 9;
-        double distVal1 = 54.6;
-        double initVel = 65;
-        string Path  = "-1";
         string RoadPos;
+        string leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
 
         //if the creation position in front
         if (leftLane.creationOption == 1) {
@@ -400,85 +387,95 @@ public:
         }
         //if the creation position is behind
         else {
-            //A is 1 (Northern Roadway), B is 1 (inside lane
+            //A is 1 (Northern Roadway), B is 1 (inside lane)
             RoadPos = "\"r1_0_113520:1:";
                     
             //C is based on the trial number ((trial number * trial length + trial number * trialsetup) - creationDistance), D is 0 
             RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) - leftLane.creationDistance) + ":0\"";           
         }
         
-        ADO left(color, LifeTime, delay, CrRad, leftVehName, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
+        ADO left(color, 0, 0, 0, "\"Left_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
         left.setCreation(true);
         
         //generate the creation action, add the vehicle
-        Action* act = new CreateHCSM(0, 0, "");
+        Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
         Vehicle* leftPtr = new ADO (left);
         act->addVehicle(leftPtr);
         
+        //blinker control
+        string dial = "\"VisualState\" ";
+        switch (leftLane.blinker) {
+            case (Left) : {
+                dial = dial + "\"2;20000\"";
+                break;
+            }
+            case (Hazards) : {
+                dial = dial + "\"1;20000\"";
+                break;
+            }
+            case (Right) : {
+                dial = dial + "\"4;20000\"";
+                break;
+            }
+        }
+        
         //generate the roadpad trigger
-        bool seq = false;
-        bool shot = true;
-        double Delay = 0;
-        double Debounce = 0;
-        double actDelay = 0;
-        double creRad = 2000;
-        double life = 0;
-        string name = "\"CreateLeft_" + std::to_string(trialNum) + "\"";
-        string longComment = "\" \"";
-        string shortComment = "\" \"";
-        double posX = 450;
-        double posY = (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320;
         position Draw;
-        Draw.x = posX;
-        Draw.y = posY;
-        position Pos = Draw;
+        Draw.x = 450;
+        Draw.y = (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320;
         vector <Action*> Act;
         Act.push_back(act);
-        string type = "\"ExternalDriver\"";
+        if (leftLane.blinker != None) {
+            Action* reset = new ResetDial (0, 0, "\"ResetBlinkerLeft_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
+            Act.push_back(reset);
+            Action* blinker = new SetDial(0, 0, "\"SetBlinkerLeft_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
+            Act.push_back(blinker);
+        }
         double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
         double endYpos = beginYPos + 20;
-        string path = "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) +
-                "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"";
-        
-        roadPadTrigger roadTrigger (seq, shot, Delay, Debounce, actDelay, creRad, life, name, longComment,
-            shortComment, Draw, Pos, Act, type, path);
-        
-        roadTrigger.filePrint(outStream);
         
         //movement option 0
+        //set the initial speed according to the creation position
+        if (leftLane.movementOption == 0) {
+            //if its created in front
+            if (leftLane.creationOption == 1) {
+                Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+                Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"90\"", "\"Ado/ForcedVelocity\"")
+            }
+            else {
+                
+            }
+            roadPadTrigger roadTrigger (true, false, 0, 0, 0, 2000, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+            roadTrigger.filePrint(outStream);
+        }
         
         //movement option 1
+        else if (leftLane.movementOption == 1){
+            
+        }
         
         //movement option 2
+        else if (leftLane.movementOption == 2) {
+            
+        }
         
         //movement option 3
-        
-        //blinker control
+        else {
+            
+        }
         
         //create action to make it slow down
         Action* slowDown = new SetDial(0, 0, "\" \"", leftVehName, "\"ForcedVelocity\" \"40 \"", "\"Ado/ForcedVelocity\"");
         
         //create roadpad trigger to hold slow down action
-        Act.pop_back();
-        Act.push_back(slowDown);
+        vector<Action*> Act2;
+        Act2.push_back(slowDown);
         position slowDraw = Draw;
         slowDraw.y = slowDraw.y + trialLengthFt;
         string slowPath = "\"R:r1_0_113520:0[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]:1[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]\"";
-        roadPadTrigger slowDownTrigger (0, 1, 0, 0, 0, 2000, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act, type, slowPath);
+        roadPadTrigger slowDownTrigger (0, 1, 0, 0, 0, 2000, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act2, leftVehName, slowPath);
+        slowDownTrigger.setTypeSet(false);
         slowDownTrigger.filePrint(outStream);
-        
-        //create action to delete the vehicle
-        /*Action* del = new DeleteHCSM (0, 0, "\" \"", leftVehName);
-        
-        //create roadpad trigger to hold the deletion action
-        position deleteDraw = Draw;
-        deleteDraw.y = deleteDraw.y + trialLengthFt + trialSetupLengthFt;
-        Act.pop_back();
-        Act.push_back(del);
-        
-        string deletionPath = "\"R:r1_0_113520:0[" + std::to_string((trialNum + 1) * (trialLengthFt + trialSetupLengthFt)) + ":" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt) + 20) + "]:1[" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt)) + ":" + std::to_string((trialNum+1) * (trialLengthFt + trialSetupLengthFt) + 20) + "]\"";;
-        roadPadTrigger deletionTrigger (0, 1, 0, 0, 0, 2000, 0, "\"DeleteLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", deleteDraw, deleteDraw, Act, type, deletionPath);
-        deletionTrigger.filePrint(outStream);*/
         return;
     }
     
@@ -611,17 +608,6 @@ public:
 		ifstream inputStream;
 		inputStream.open(SCNFilePath);
 
-        /*
-        //if its not open
-		if (!inputStream.is_open()) {
-			//throw an error to be caught in main
-			std::exception e("Filename not entered correctly. Exiting program.");
-			inputStream.close();
-			throw e;
-		}
-        */
-        
-
 		//begin reading the file by reading the header
 		this->readHeader(inputStream);
 
@@ -732,7 +718,6 @@ public:
 			}
 			getline(inputStream, inputCase);
 		}
-		//cout << "Completed reading the file.\n";
 		return;
 	}
 };

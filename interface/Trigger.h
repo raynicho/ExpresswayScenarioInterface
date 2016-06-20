@@ -15,6 +15,7 @@ using std::ifstream;
 
 class Trigger {
 protected:
+    int setOption;
 	bool oneShot;
 	bool sequentialActions;
 	int priority = 0;
@@ -99,13 +100,11 @@ public:
 		return;
 	}
 
-	~Trigger() {
-		//delete the actions
-		for (unsigned int i = 0; i < Actions.size(); i++) {
-			delete Actions[i];
-			Actions[i] = 0;
-		}
-	}
+    ~Trigger(){
+        for (auto action : Actions) {
+            delete action;
+        }
+    }
 };
 
 class expressionTrigger : public Trigger {
@@ -186,28 +185,53 @@ public:
 		}
 		return;
 	}
+    
+    /*~expressionTrigger () {
+        //delete the actions
+		for (unsigned int i = 0; i < Actions.size(); i++) {
+            if (Actions[i] != 0) {
+                delete Actions[i];
+                Actions[i] = 0;
+            }
+        }
+    }*/
 };
 
 class roadPadTrigger : public Trigger {
 private:
+    //true if by typeset
+    bool byTypeSet;
 	string typeSet;
 	string path;
 
 public:
 
-	roadPadTrigger() : Trigger() {}
+	roadPadTrigger() : Trigger() {
+        byTypeSet = true;
+    }
 
 	roadPadTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
 		string Short, position Draw, position Pos, vector <Action*> &Act, string type, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
 			creRad, LifeTime, Name, Long, Short, Draw, Pos, Act) {
 		typeSet = type;
 		path = Path;
+        byTypeSet = true;
 	}
+    
+    void setTypeSet (bool isTypeSet) {
+        byTypeSet = isTypeSet;
+        return;
+    }
 
 	void filePrint(ostream &outStream) {
 		outStream << "HCSM RoadPadTrigger\n";
 		this->writeBasics(outStream);
-		outStream << "  ByTypeSet " << this->typeSet << " \n";
+        if (byTypeSet) {
+            outStream << "  ByTypeSet " << this->typeSet << " \n";
+        }
+        else {
+            outStream << "  ByNameSet " << this->typeSet << "\n";
+        }
 		outStream << "  Path " << path << " \n";
 		outStream << "  NthFromStart 0 \n  NthFromEnd 0 \n  VehicleAhead 0 \n  VehicleBehind 0 \n";
 		this->printActions(outStream);
@@ -268,8 +292,13 @@ public:
 				inputStream >> this->path;
 			}
 			else if (current == "ByTypeSet") {
+                byTypeSet = true;
 				inputStream >> this->typeSet;
 			}
+            else if (current == "ByNameSet") {
+                byTypeSet = false;
+                inputStream >> this->typeSet;
+            }
 			else if (current == "NthFromStart" || current == "NthFromEnd" || current == "VehicleAhead" || current == "VehicleBehind") {
 				inputStream >> current;
 			}
@@ -277,6 +306,16 @@ public:
 		}
 		return;
 	}
+    
+    /*~roadPadTrigger () {
+        //delete the actions
+        for (unsigned int i = 0; i < Actions.size(); i++) {
+            if (Actions[i] != 0) {
+                delete Actions[i];
+                Actions[i] = 0;
+            }
+        }
+    }*/
 };
 
 class timeTrigger : public Trigger {
@@ -357,4 +396,14 @@ public:
 		}
 		return;
 	}
+    
+    /*~timeTrigger () {
+        //delete the actions
+        for (unsigned int i = 0; i < Actions.size(); i++) {
+            if (Actions[i] != 0) {
+                delete Actions[i];
+                Actions[i] = 0;
+            }
+        }
+    }*/
 };
