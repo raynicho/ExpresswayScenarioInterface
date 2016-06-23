@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>1199</width>
-    <height>613</height>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Expressway Scenario Interface</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="umtriLogo">
@@ -1935,7 +1935,6 @@
    <zorder>leadTrialForceLaneChangeSpeed</zorder>
    <zorder>leadTrialForceLaneChangeAcceleration</zorder>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

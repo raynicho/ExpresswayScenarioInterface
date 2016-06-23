@@ -91,7 +91,7 @@ public:
     virtual void filePrint(ostream &) {}
 
 	//virtual funciton for reading the Trigger; different for each type of Trigger
-    virtual void fileRead(ifstream &, vector<Vehicle*>*) {}
+    virtual void fileRead(ifstream &) {}
 
 	void printActions(ostream &outStream) {
 		for (unsigned int i = 0; i < Actions.size(); i++) {
@@ -130,7 +130,7 @@ public:
 		return;
 	}
 
-	void fileRead(ifstream &inputStream, vector<Vehicle*> *vehiclesPtr) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 		//while not at the end, continue reading in
@@ -179,7 +179,7 @@ public:
                 inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehiclesPtr));
+				Actions.push_back(readInAction(inputStream));
 			}
 			inputStream >> current;
 		}
@@ -239,7 +239,7 @@ public:
 		return;
 	}
 
-	void fileRead(ifstream &inputStream, vector<Vehicle*> *vehiclesPtr) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 
@@ -286,7 +286,7 @@ public:
                 inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehiclesPtr));
+				Actions.push_back(readInAction(inputStream));
 			}
 			else if (current == "Path") {
 				inputStream >> this->path;
@@ -340,7 +340,7 @@ public:
 		return;
 	}
 
-	void fileRead(ifstream &inputStream, vector<Vehicle*> *vehiclesPtr) {
+	void fileRead(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 
@@ -390,7 +390,7 @@ public:
                 inputStream >> pos.x >> pos.y >> pos.z;
 			}
 			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream, vehiclesPtr));
+				Actions.push_back(readInAction(inputStream));
 			}
 			inputStream >> current;
 		}

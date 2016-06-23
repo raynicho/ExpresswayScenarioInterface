@@ -34,6 +34,8 @@ public:
     virtual void print(ostream &) {}
 
     virtual void readFromFile(ifstream &) {}
+    
+    virtual void setInitialVel (double &) {}
 
 	void setCreation(bool wasICreated) {
 		createdByTrigger = wasICreated;
@@ -78,6 +80,11 @@ public:
 			LifeTime, delay, CrRad, Name, Long, Short, SolName), autoControlBreakLights(autoBreak), velCtrlInitMatchOvVel(velInitMatch),
 		velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlDistVal1(distVal1), velCtrlInitVel(initVel), roadPos(RoadPos), path(Path) {}
 
+    void setInitialVel(double &velocity) {
+        velCtrlInitVel = velocity;
+        return;
+    }
+    
 	void printUnused(ostream &outStream, string spaces) {
 		outStream << spaces << "RunMode \"eRemote_Control\"\n";				outStream << spaces << "RandomSol 0\n";
 		outStream << spaces << "CreateRelOffsLonUsingExpr 0 \n";			outStream << spaces << "AutoControlHeadLights 0\n";					outStream << spaces << "UseReaDel 1\n";

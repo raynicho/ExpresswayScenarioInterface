@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
                     
     QPixmap pix("C:/Users/raynicho/Desktop/SCNHighwayTemplate/Docs/UMTRI-logo.png");
     ui->umtriLogo->setPixmap(pix);
-
-    ui->statusBar->hide();
     
     //fill the base settings for testing purposes
     ui->leadSolModel->setCurrentIndex(4);
@@ -132,7 +130,6 @@ void MainWindow::getSettings() {
         settings.numberCars = ui->numberCars->text().toInt(false);
         settings.numberTrucks = ui->numberTrucks->text().toInt(false);
     }
-    
     return;
 }
 
@@ -1156,7 +1153,8 @@ bool MainWindow::checkLength(){
 //effects: prompts the user for a file to load and then loads the file
 void MainWindow::on_loadFile_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://", "SCN File (*.scn)");
+    //C:\Users\raynicho\Desktop\SCNHighwayTemplate\SCNExampleFiles
+    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://Users//raynicho//Desktop//SCNHighwayTemplate//SCNExampleFiles", "SCN File (*.scn)");
     this->loadFilename=filename;
     highway.readFile(loadFilename.toStdString());
 }

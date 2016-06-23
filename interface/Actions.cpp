@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-Action* readInAction(ifstream &inputStream, vector<Vehicle*>* vehiclesPtr) {
+Action* readInAction(ifstream &inputStream) {
     string actionType;
     Action* act = 0;
     inputStream >> actionType;
@@ -22,7 +22,7 @@ Action* readInAction(ifstream &inputStream, vector<Vehicle*>* vehiclesPtr) {
     }
     else if (actionType == "CreateHcsm") {
         act = new CreateHCSM ();
-        act->readFromFile(inputStream, vehiclesPtr);
+        act->readFromFile(inputStream);
     }
     else if (actionType == "SetVar") {
         act = new SetVar();

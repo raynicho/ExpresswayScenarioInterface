@@ -28,8 +28,8 @@ using std::ofstream;
 
 class SCNHighwayTemplate {
 private:
-	const double trialLengthFt = 3937;
-    const double trialSetupLengthFt = 1500;
+	const double trialLengthFt = 3750;
+    const double trialSetupLengthFt = 1250;
 	double roadwayStartX = 0;
 	double roadwayStartY = 0;
 	SCNHeader header;
@@ -101,121 +101,53 @@ public:
     void generateFollowVehicle (FVLVSettings &followVehicle, ostream &outStream) {
         //create the vehicle
         int color = getRandSolColor(followVehicle.SOLModel);
-        double LifeTime = 0;
-        double delay = 0;
-        double CrRad = 0;
-        string Name = "\"FV\"";
-        string Long = "\"\"";
-        string Short = "\"\"";
-        string SolName = followVehicle.SOLModel;
-        bool autoBreak = false;
-        bool velInitMatch = false;
-        int distType = 1;
-        double laneOff = 0.78;
-        double maxLatOff = 9;
-        double distVal1 = 54.6;
-        double initVel = 0;
-        string RoadPos = "\"r1_0_113520:0:30.99:0.80\""; 
-        string Path  = "-1";        
+        string SolName = followVehicle.SOLModel; 
         
-        ADO follow(color, LifeTime, delay, CrRad, Name, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
+        ADO follow(color, 0, 0, 0, "\"FV\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 0, "\"r1_0_113520:0:30.99:0.80\"", "-1");
         follow.setCreation(false);
         
-        //create the set dial action for the maintain gap       
-        int set = 0;
-        double Delay = 0;
-        string Comment = "\"FV_Keep_Distance\"";
-        string nameSet = "\"FV\"";
+        //create the set dial action for the maintain gap
         string Dial = "\"MaintainGap\" \"ExternalDriver;d " + std::to_string(followVehicle.distance) + ";" + std::to_string(followVehicle.maxSpeed) + ";" + std::to_string(followVehicle.minSpeed) + ";4;4;" + std::to_string(followVehicle.maxAccel) + ";" + std::to_string(followVehicle.maxDeccel) + ";-1;-1;-1;-1\"";
-        string dialPath = "\"Ado/MaintainGap\"";
-        Action* keep = new SetDial (set, Delay, Comment, nameSet, Dial, dialPath);
+        Action* keep = new SetDial (0, 0, "\"FV_Keep_Distance\"", "\"FV\"", Dial, "\"Ado/MaintainGap\"");
         
         //create the gap maintain trigger
-        bool seq = false;
-        bool shot = false;
-        double timeDelay = 0;
-        double Debounce = 0;
-        double actDelay = 0;
-        double creRad = 0;
-        double Life = 0;
-        string name = "\"FV_Keep_Distance\"";
-        string LongComment = "\"\"";
-        string ShortComment = "\"\"";
         position Draw;
         position Pos;
         Draw.x = 52; Draw.y = -1480; Draw.z = 0;
         Pos.x = 52; Pos.y = -1480; Pos.z = 0;
         vector <Action*> Act;
-        Act.push_back(keep);
-        string Expression = "\"1=1\"";        
+        Act.push_back(keep);      
         
-        expressionTrigger maintain(seq, shot, timeDelay, Debounce, actDelay, creRad, Life, name, LongComment, ShortComment, Draw, Pos, Act, Expression);
+        expressionTrigger maintain(false, false, 0, 0, 0, 0, 0, "\"FV_Keep_Distance\"", "\"\"", "\"\"", Draw, Pos, Act, "\"1=1\"");
         
         //print the vehicle and the trigger
         follow.print(outStream);
         maintain.filePrint(outStream);
-        
         return;
     }
     
     void generateLeadVehicle (FVLVSettings &leadVehicle, ostream &outStream) {
         //create the vehicle
         int color = getRandSolColor(leadVehicle.SOLModel);
-        double LifeTime = 0;
-        double delay = 0;
-        double CrRad = 0;
-        string Name = "\"LV\"";
-        string Long = "\"\"";
-        string Short = "\"\"";
         string SolName = leadVehicle.SOLModel;
-        bool autoBreak = false;
-        bool velInitMatch = false;
-        int distType = 1;
-        double laneOff = 0.78;
-        double maxLatOff = 9;
-        double distVal1 = 54.6;
-        double initVel = 0;
-        string RoadPos = "\"r1_0_113520:0:266.44:0.78\""; 
-        string Path  = "-1";        
         
-        ADO lead(color, LifeTime, delay, CrRad, Name, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
+        ADO lead(color, 0, 0, 0, "\"LV\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 0, "\"r1_0_113520:0:266.44:0.78\"", "-1");
         lead.setCreation(false);
         
         //create the maintain gap action
-        int set = 0;
-        double Delay = 0;
-        string Comment = "\"LV_Keep_Distance\"";
-        string nameSet = "\"LV\"";
         string Dial = "\"MaintainGap\" \"ExternalDriver;d " + std::to_string(leadVehicle.distance) + ";" + std::to_string(leadVehicle.maxSpeed) + ";" + std::to_string(leadVehicle.minSpeed) + ";4;4;" + std::to_string(leadVehicle.maxAccel) + ";" + std::to_string(leadVehicle.maxDeccel) + ";-1;-1;-1;-1\"";
-        string dialPath = "\"Ado/MaintainGap\"";
-        Action* keep = new SetDial (set, Delay, Comment, nameSet, Dial, dialPath);
+        Action* keep = new SetDial (0, 0, "\"LV_Keep_Distance\"", "\"LV\"", Dial, "\"Ado/MaintainGap\"");
         
         //create the gap maintain trigger
-        bool seq = false;
-        bool shot = false;
-        double timeDelay = 0;
-        double Debounce = 0;
-        double actDelay = 0;
-        double creRad = 0;
-        double Life = 0;
-        string name = "\"LV_Keep_Distance\"";
-        string LongComment = "\"\"";
-        string ShortComment = "\"\"";
         position Draw;
-        position Pos;
         Draw.x = 62; Draw.y = -1480; Draw.z = 0;
-        Pos.x = 62; Pos.y = -1480; Pos.z = 0;
         vector <Action*> Act;
-        Act.push_back(keep);
-        string Expression = "\"1=1\"";        
-        
-        expressionTrigger maintain (seq, shot, timeDelay, Debounce, actDelay, creRad, Life, name, LongComment, ShortComment, Draw, Pos, Act, Expression);
-        
-        
+        Act.push_back(keep);        
+        expressionTrigger maintain (false, false, 0, 0, 0, 0, 0, "\"LV_Keep_Distance\"", "\"\"", "\"\"", Draw, Draw, Act, "\"1=1\"");
+                
         //print the vehicle and the trigger
         lead.print(outStream);
         maintain.filePrint(outStream);
-        
         return;
     }
     
@@ -286,9 +218,9 @@ public:
         else if (sol == "\"BMW_StationWagon\"") {
             return rand() % 5;
         }
-        else if (sol == "\"DumpTruck\"" || sol == "\"CokeTruck\"" || sol == "\"cargill_semi_freightliner_red\"" || sol == "\"semi_peterbilt_yel_Walmart\"" || sol == "\"schoolbus\"" || sol == "\"CementTruck\"" || sol == "\"GarbageTruck\"" || sol == "\"semi_peterbilt_white_FordRacing\"") {
-            return 0;
-        }
+        //else if (sol == "\"DumpTruck\"" || sol == "\"CokeTruck\"" || sol == "\"cargill_semi_freightliner_red\"" || sol == "\"semi_peterbilt_yel_Walmart\"" || sol == "\"schoolbus\"" || sol == "\"CementTruck\"" || sol == "\"GarbageTruck\"" || sol == "\"semi_peterbilt_white_FordRacing\"") {
+            //return 0;
+        //}
         return 0;
     }
     
@@ -306,21 +238,6 @@ public:
         int laneOffset = 1;
         int carsLeft = numberOfCars;
         int trucksLeft = numberOfTrucks;
-        
-        //constants for the vehicle
-        double LifeTime = 0;
-        double delay = 0;
-        double CrRad = 2000;
-        string Long = "\"\"";
-        string Short = "\"\"";
-        bool autoBreak = false;
-        bool velInitMatch = false;
-        int distType = 1;
-        double laneOff = 0.78;
-        double maxLatOff = 9;
-        double distVal1 = 54.6;
-        double initVel = 65;
-        string Path  = "-1";
         
         //iterate from 1 to the max number of trials
         for (int i = numberTrials; i >= 2; i--) {
@@ -350,7 +267,7 @@ public:
                 name = "\"Opposite" + std::to_string(i) + "_" + std::to_string(k) + "\"";
                 
                 //create the vehicle
-                ADO opposite (color, LifeTime, delay, CrRad, name, Long, Short, SolName, autoBreak, velInitMatch, distType, laneOff, maxLatOff, distVal1, initVel, RoadPos, Path);
+                ADO opposite (color, 0, 0, 2000, name, "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
                 opposite.setCreation(false);
                 
                 //write the vehicle to the filestream
@@ -397,26 +314,37 @@ public:
         ADO left(color, 0, 0, 0, "\"Left_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
         left.setCreation(true);
         
-        //generate the creation action, add the vehicle
-        Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
-        Vehicle* leftPtr = new ADO (left);
-        act->addVehicle(leftPtr);
+        //generate the creation action, add the vehicle, blinker dials
+        //Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+        //Vehicle* leftPtr = new ADO (left);
+        //leftPtr->setInitialVel();
+        //act->addVehicle(leftPtr);
+        Action* reset = 0;
+        Action* blinker = 0;
+        //Act.push_back(act);
+        //Act.push_back(reset);
+        //Act.push_back(blinker);
         
         //blinker control
         string dial = "\"VisualState\" ";
         switch (leftLane.blinker) {
             case (Left) : {
-                dial = dial + "\"2;20000\"";
-                break;
-            }
-            case (Hazards) : {
                 dial = dial + "\"1;20000\"";
                 break;
             }
-            case (Right) : {
+            case (Hazards) : {
                 dial = dial + "\"4;20000\"";
                 break;
             }
+            case (Right) : {
+                dial = dial + "\"2;20000\"";
+                break;
+            }
+        }
+        
+        if (leftLane.blinker != None) {
+            reset = new ResetDial (0, 0, "\"LeftResetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
+            blinker = new SetDial(0, 0, "\"LeftSetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
         }
         
         //generate the roadpad trigger
@@ -424,34 +352,145 @@ public:
         Draw.x = 450;
         Draw.y = (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320;
         vector <Action*> Act;
-        Act.push_back(act);
-        if (leftLane.blinker != None) {
-            Action* reset = new ResetDial (0, 0, "\"ResetBlinkerLeft_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
-            Act.push_back(reset);
-            Action* blinker = new SetDial(0, 0, "\"SetBlinkerLeft_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
-            Act.push_back(blinker);
-        }
         double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
         double endYpos = beginYPos + 20;
+        double initVeloc = 0;
         
         //movement option 0
         //set the initial speed according to the creation position
         if (leftLane.movementOption == 0) {
             //if its created in front
             if (leftLane.creationOption == 1) {
-                Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
-                Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"90\"", "\"Ado/ForcedVelocity\"")
-            }
-            else {
+                initVeloc = 30;
+                //reset the speed and then force the velocity to be 90 miles an hour
+                //Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+                //Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"30\"", "\"Ado/ForcedVelocity\"");
                 
+                //add both actions to the roadpad trigger
+                //Act.push_back(resetSpeed);
+                //Act.push_back(setSpeed);
             }
-            roadPadTrigger roadTrigger (true, false, 0, 0, 0, 2000, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+            //otherwise it is created behind
+            else {
+                initVeloc = 90;
+                //reset the speed and then force the velocity to be 30 miles an hours
+                //Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+                //Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"90\"", "\"Ado/ForcedVelocity\"");
+                
+                //add both actions to the roadpad trigger
+                //Act.push_back(resetSpeed);
+                //Act.push_back(setSpeed);
+            }
+            
+            //generate the creation action, add the vehicle, blinker dials
+            Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+            Vehicle* leftPtr = new ADO (left);
+            leftPtr->setInitialVel(initVeloc);
+            act->addVehicle(leftPtr);
+            Act.push_back(act);
+            Act.push_back(reset);
+            Act.push_back(blinker);
+            roadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
             roadTrigger.filePrint(outStream);
+            
+            //generate the action to reset the velocity and then match the Et velocity
+            //Action* resetBeforeMatching = new ResetDial (0, 0, "\"LeftResetSpeedBeforeMatch_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+            Action* setToMatch = new SetDial (0, 0, "\"LeftMatchSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+            
+            //generate the expression trigger to match velocity
+            position pos = Draw;
+            pos.x = pos.x + 70;
+            vector <Action*> blindActions;
+            //blindActions.push_back(resetBeforeMatching);
+            blindActions.push_back(setToMatch);
+            expressionTrigger blindSpot (true, false, 0, 0, 0, trialLengthFt, 0, "\"LeftBlindSpot_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", pos, pos, blindActions, "\" GetObjDistPow2('Left_" + std::to_string(trialNum) + "') < 10 * 10\"");
+            blindSpot.filePrint(outStream);
         }
         
         //movement option 1
         else if (leftLane.movementOption == 1){
+            //if the creation is in front
+            if (leftLane.creationOption == 1) {
+                initVeloc = 30;
+                //set speed to 30 mph
+                //Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+                //Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"30\"", "\"Ado/ForcedVelocity\"");
+                
+                //add both actions to the roadpad trigger
+                //Act.push_back(resetSpeed);
+                //Act.push_back(setSpeed);
+            }
+            //if the creation is behind
+            else {
+                initVeloc = 90;
+                //set speed to 90 mph
+                //Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+                //Action* setSpeed = new SetDial (0, 0, "\"LeftSetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"90\"", "\"Ado/ForcedVelocity\"");
+                
+                //add both actions to the roadpad trigger
+                //Act.push_back(resetSpeed);
+                //Act.push_back(setSpeed);
+            }
             
+            //generate the creation action, add the vehicle, blinker dials
+            Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+            Vehicle* leftPtr = new ADO (left);
+            leftPtr->setInitialVel(initVeloc);
+            act->addVehicle(leftPtr);
+            Act.push_back(act);
+            Act.push_back(reset);
+            Act.push_back(blinker);
+            roadPadTrigger roadTrigger (true, true, 0, 0, 0, 2000, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+            roadTrigger.filePrint(outStream);
+            
+            //create expression trigger once within distance (40 ft) (one shot), actions include: reseting speed dial, setting speed dial to match et, lane change, then resetting speed dial again
+            Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+            Action* matchSpeed = new SetDial (0, 0, "\"LeftMatchSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+            Action* resetLaneChange = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"LaneChange\" \"right;1;2\"", "\"Ado/LaneChange\"");
+            Action* laneChange = new SetDial (0, 0, "\"LeftChangeRight_" + std::to_string(trialNum) + "\"", leftVehName, "\"LaneChange\" \"right;1;2\"", "\"Ado/LaneChange\"");
+            
+            vector<Action*> changeRightActions;
+            changeRightActions.push_back(resetSpeed);
+            changeRightActions.push_back(matchSpeed);
+            changeRightActions.push_back(resetLaneChange);
+            changeRightActions.push_back(laneChange);
+            changeRightActions.push_back(resetSpeed);
+            
+            position pos = Draw;
+            pos.x = pos.x + 70;
+            expressionTrigger leftChangeRight (true, true, 0, 0, 0, trialLengthFt, 0, "\"LeftChangeRight_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", pos, pos, changeRightActions, "\"GetObjDistPow2('Left_" + std::to_string(trialNum) + "') < 40 * 40\"");
+            leftChangeRight.filePrint(outStream);
+            
+            //create another expression trigger to match the external driver once within that 40 ft range
+            //Action* resetSpeedAfterChange = new ResetDial (0, 0, "\"LeftResetSpeedAfterChange_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+            Action* matchSpeedAfterChange = new SetDial (0, 0, "\"LeftMatchSpeedAfterChange_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+            vector <Action*> afterChangeActions;
+            //afterChangeActions.push_back(resetSpeedAfterChange);
+            afterChangeActions.push_back(matchSpeedAfterChange);
+            position afterChange = pos;
+            afterChange.x = afterChange.x + 70;
+            expressionTrigger matchSpeedAfterChangeTrigger (false, false, 0, 0, 0, trialLengthFt, 0, "\"LeftMatchAfterChange_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", afterChange, afterChange, afterChangeActions, "\"GetObjDistPow2('Left_" + std::to_string(trialNum) + "') < 40 * 40\"");
+            matchSpeedAfterChangeTrigger.filePrint(outStream);
+            
+            //create roadpad trigger towards end of trial
+            //need to add position
+            position changeLanePos = Draw;
+            changeLanePos.y = changeLanePos.y + trialLengthFt - 100;
+            double pathBegin = trialNum*(trialSetupLengthFt + trialLengthFt) + trialLengthFt - 100;
+            double pathEnd = pathBegin + 20;
+            string changeAtEndPath = "\"R:r1_0_113520:0[" + std::to_string(pathBegin) + ":" + std::to_string(pathEnd) + "]:1[" + std::to_string(pathBegin) + ":" + std::to_string(pathEnd) + "]\"";
+            
+            Action* deleteMatchEt = new DeleteHCSM (0, 0, "\"\"", "\"LeftMatchAfterChange_" + std::to_string(trialNum) + "\"");
+            Action* resetChangeAtEnd = new ResetDial (0, 0, "LeftResetLaneChangeAtEnd_" + std::to_string(trialNum) + "\"", leftVehName, "\"LaneChange\" \"right;1;2\"", "\"Ado/LaneChange\"");
+            Action* changeAtEndAct = new SetDial (0, 0, "\"LeftChangeLeft_" + std::to_string(trialNum) + "\"", leftVehName, "\"LaneChange\" \"left;1;2\"", "\"Ado/LaneChange\"");
+            vector<Action*> changeLaneAtEndActions;
+            changeLaneAtEndActions.push_back(deleteMatchEt);
+            changeLaneAtEndActions.push_back(resetChangeAtEnd);
+            changeLaneAtEndActions.push_back(changeAtEndAct);
+            
+            roadPadTrigger changeLaneAtEnd (true, true, 0, 0, 0, trialLengthFt, 0, "\"LeftChangeAtEnd_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", changeLanePos, changeLanePos, changeLaneAtEndActions, leftVehName, changeAtEndPath);
+            changeLaneAtEnd.setTypeSet(false);
+            changeLaneAtEnd.filePrint(outStream);
         }
         
         //movement option 2
@@ -465,15 +504,17 @@ public:
         }
         
         //create action to make it slow down
-        Action* slowDown = new SetDial(0, 0, "\" \"", leftVehName, "\"ForcedVelocity\" \"40 \"", "\"Ado/ForcedVelocity\"");
+        Action* resetSlowDown = new ResetDial (0, 0, "\" \"", leftVehName, "\"ForcedVelocity\" \" \"", "\"Ado/ForcedVelocity\"");
+        Action* slowDown = new SetDial(0, 0, "\" \"", leftVehName, "\"ForcedVelocity\" \"25\"", "\"Ado/ForcedVelocity\"");
         
         //create roadpad trigger to hold slow down action
         vector<Action*> Act2;
+        Act2.push_back(resetSlowDown);
         Act2.push_back(slowDown);
         position slowDraw = Draw;
         slowDraw.y = slowDraw.y + trialLengthFt;
         string slowPath = "\"R:r1_0_113520:0[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]:1[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]\"";
-        roadPadTrigger slowDownTrigger (0, 1, 0, 0, 0, 2000, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act2, leftVehName, slowPath);
+        roadPadTrigger slowDownTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act2, leftVehName, slowPath);
         slowDownTrigger.setTypeSet(false);
         slowDownTrigger.filePrint(outStream);
         return;
@@ -647,7 +688,6 @@ public:
 	}
 
 	void readRest(ifstream &inputStream) {
-        vector<Vehicle*>* vehPtr = &vehicles;
 		string inputCase;
 		getline(inputStream, inputCase);
 		while (!inputStream.eof()) {
@@ -677,17 +717,17 @@ public:
 			}
 			else if (inputCase == "HCSM ExpressionTrigger") {
 				Trigger* newTrigger = new expressionTrigger;
-                newTrigger->fileRead(inputStream, vehPtr);
+                newTrigger->fileRead(inputStream);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM RoadPadTrigger") {
 				Trigger* newTrigger = new roadPadTrigger;
-                newTrigger->fileRead(inputStream, vehPtr);
+                newTrigger->fileRead(inputStream);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM TimeTrigger") {
 				Trigger* newTrigger = new timeTrigger;
-                newTrigger->fileRead(inputStream, vehPtr);
+                newTrigger->fileRead(inputStream);
 				triggers.push_back(newTrigger);
 			}
 			else if (inputCase == "HCSM Ddo") {

@@ -33,8 +33,6 @@ public:
 
     virtual void print(ostream &) {}
 
-    virtual void readFromFile(ifstream &, vector<Vehicle*>*) {}
-
     virtual void readFromFile(ifstream &) {}
     
     virtual void addVehicle (Vehicle*) {} 
@@ -435,7 +433,7 @@ public:
 		return;
 	}
 
-	void readFromFile(ifstream &inputStream, vector<Vehicle*>* vehiclePtr) {
+	void readFromFile(ifstream &inputStream) {
 		string current;
 		inputStream >> current;
 		while (current != "&&&&End&&&&") {
@@ -474,6 +472,6 @@ public:
 	}
 };
 
-Action* readInAction(ifstream &, vector<Vehicle*>*);
+Action* readInAction(ifstream &);
 
 #endif
