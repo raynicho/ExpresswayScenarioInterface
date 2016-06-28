@@ -22,6 +22,8 @@ void Action::print(ostream &, bool) {}
 void Action::readFromFile(ifstream &) {}
 
 void Action::addVehicle (Vehicle*) {}
+
+void Action::addTrigger(Trigger *) {}
                                                 /*Action Class*/
 /*********************************************************************************************************/
 
@@ -500,7 +502,13 @@ void CreateHCSM::readFromFile(ifstream &inputStream) {
         inputStream >> current;
     }
     return;
+}    
+    
+void CreateHCSM::addTrigger (Trigger* trig) {
+    createdTriggers.push_back(trig);
+    return;
 }
+
                                                 /*CreateHCSM Class*/
 /*********************************************************************************************************/
 

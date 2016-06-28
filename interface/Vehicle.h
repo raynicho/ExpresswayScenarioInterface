@@ -110,6 +110,7 @@ private:
 	bool dependent;
 	bool dependentOwnVeh;
 	int visualState; //0, 1, or 2
+    int refPoint;
     position dependentRefPoint;
 	vector <double> dirs;
 	vector <bool> dirsDef;

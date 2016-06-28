@@ -54,7 +54,7 @@ public:
     
     void processFollowVehicle (FVLVInstructions &, ostream &);
     
-    void processRoadSide(roadSideControl &, ostream &);
+    void processRoadSide(roadSideControl &, ostream &, int);
     
     void generateFollowVehicle (FVLVSettings &, ostream &);
     

@@ -34,6 +34,8 @@ public:
     virtual void readFromFile(ifstream &);
     
     virtual void addVehicle (Vehicle*);
+    
+    virtual void addTrigger (Trigger*);
 };
 
 class LogData : public Action {
@@ -164,6 +166,8 @@ public:
 	void print(ostream &, bool);
 
 	void readFromFile(ifstream &);
+    
+    void addTrigger (Trigger*);
 };
 
 Action* readInAction(ifstream &);

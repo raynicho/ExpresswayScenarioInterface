@@ -14,8 +14,7 @@ struct position {
     double x;
     double y;
     double z = 0;
-    position(double X, double Y) : x(X), y(Y) {
-    }
+    position(double X, double Y) : x(X), y(Y) {}
     position() : x(0), y(0) {}
     position(double X, double Y, double Z) : x(X), y(Y), z(Z) {}
 };
@@ -26,6 +25,7 @@ struct trajectory {
     double speed;
     double xDir;
     double yDir;
+    trajectory (double X, double Y, double Speed, double XDir, double YDir) : x(X), y(Y), speed(Speed), xDir(XDir), yDir(YDir) {}
 };
 
 struct color {
