@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MAJORSETTINGS_H
+#define MAJORSETTINGS_H
+
 #include <string>
 #include <vector>
 #include "Helpers.h"
@@ -47,3 +49,5 @@ struct MajorSettings {
     animation FCWanimation;
     MajorSettings () : generateTraffic(false), showBlindSpot(false) {}
 };
+
+#endif

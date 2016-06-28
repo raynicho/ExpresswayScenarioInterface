@@ -1,5 +1,6 @@
 #ifndef HELPERS_H
 #define HELPERS_H
+
 #include <vector>
 #include <string>
 #include <fstream>
@@ -46,4 +47,4 @@ struct state {
     string stateString;
 };
 
-#endif // HELPERS_H
+#endif

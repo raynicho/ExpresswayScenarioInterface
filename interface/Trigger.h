@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TRIGGER_H
+#define TRIGGER_H
+
 #include <string>
 #include <vector>
 #include "Helpers.h"
@@ -13,9 +15,12 @@ using std::vector;
 using std::ostream;
 using std::ifstream;
 
+class Action;
+
 class Trigger {
 protected:
     int setOption;
+    bool created;
 	bool oneShot;
 	bool sequentialActions;
 	int priority = 0;
@@ -33,171 +38,53 @@ protected:
 
 public:
 	//default constructor for a Trigger
-	Trigger() : sequentialActions(false), oneShot(false), debounce(0), activationDelay(0), creationRadius(0), lifetime(0) {
-	}
-
-	//copy constructor
-
+	Trigger();
 	//constructor that takes in various parameters
-    Trigger(bool seq, bool shot, int fireDel, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-        string Short, position Draw, position Pos, vector <Action*> &Act) : sequentialActions(seq), oneShot(shot), fireDelFrames(fireDel),debounce(Debounce),
-		activationDelay(actDelay), creationRadius(creRad), lifetime(LifeTime), name(Name), longComment(Long),
-		shortComment(Short), drawPosition(Draw), pos(Pos), Actions(Act) {
+    Trigger(bool, bool, int, double, double, double, double, string, string,
+        string, position, position, vector <Action*> &);
 
-	}
+    void setCreation (bool);
+    
+	string getShortComment();
 
-	string getShortComment() {
-		return this->shortComment;
-	}
+	string getLongComment();
 
-	string getLongComment() {
-		return this->longComment;
-	}
+	string getName();
 
-	string getName() {
-		return this->name;
-	}
-
-	position getPosition() {
-		return this->pos;
-	}
+	position getPosition();
 
 	//responsible for adding in an action to the vector of actions
-	void addAction(Action *newAction) {
-		Actions.push_back(newAction);
-		return;
-	}
+	void addAction(Action *);
 
-	void writeBasics(ostream &outStream) {
-		outStream << "  Position " << std::scientific << std::setprecision(7);
-		outStream << this->pos.x << " " << this->pos.y << " " << this->pos.z << " " << '\n';
-		outStream << "  LongComment" << this->longComment << " " << '\n';
-		outStream << "  ShortComment" << this->shortComment << " " << '\n';
-		outStream << "  ActvDel " << this->activationDelay << " " << '\n';
-		outStream << "  CrRad " << this->creationRadius << " " << '\n';
-		outStream << "  Debounce " << this->debounce << " " << '\n';
-		outStream << "  FireDelFrames " << this->fireDelFrames << " " << '\n';
-		outStream << "  Lifetime " << this->lifetime << " " << '\n';
-		outStream << "  Name " << this->name << " " << '\n';
-		outStream << "  OneShot " << this->oneShot << " " << '\n';
-		outStream << "  Priority " << this->priority << " " << '\n';
-		outStream << "  SeqAct " << this->sequentialActions << " " << '\n';
-		outStream << "  DrawPosition ";
-		outStream << this->drawPosition.x << " " << this->drawPosition.y << " " << this->drawPosition.z << " " << '\n';
-		return;
-	}
+	void writeBasics(ostream &);
 
 	//virtual function for printing the Trigger tp an output stream; different for each type of Trigger
-    virtual void filePrint(ostream &) {}
+    virtual void filePrint(ostream &);
 
 	//virtual funciton for reading the Trigger; different for each type of Trigger
-    virtual void fileRead(ifstream &) {}
+    virtual void fileRead(ifstream &);
 
-	void printActions(ostream &outStream) {
-		for (unsigned int i = 0; i < Actions.size(); i++) {
-			Actions[i]->print(outStream);
-		}
-		return;
-	}
+	void printActions(ostream &);
 
-    ~Trigger(){
-        for (auto action : Actions) {
-            delete action;
-        }
-    }
+    ~Trigger();
 };
 
-class expressionTrigger : public Trigger {
+class ExpressionTrigger : public Trigger {
 private:
 	string expression;
 
 public:
-	expressionTrigger() : Trigger() {
-	}
+	ExpressionTrigger();
 
-	expressionTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> &Act, string Expression) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
-			LifeTime, Name, Long, Short, Draw, Pos, Act) {
-		expression = Expression;
-	}
-
-	void filePrint(ostream &outStream) {
-		outStream << "HCSM ExpressionTrigger" << '\n';
-		outStream << "  Expression " << this->expression << " " << '\n';
-		this->writeBasics(outStream);
-		this->printActions(outStream);
-		outStream << "&&&&End&&&&" << '\n';
-		return;
-	}
-
-	void fileRead(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		//while not at the end, continue reading in
-		while (current != "&&&&End&&&&") {
-			//if if is the position
-            if (current == "Position") {
-                inputStream >> pos.x >> pos.y >> pos.z;
-			}
-			else if (current == "Expression") {
-				getline(inputStream, expression);
-			}
-			else if (current == "LongComment") {
-				getline(inputStream, this->longComment);
-			}
-			else if (current == "ShortComment") {
-				getline(inputStream, this->shortComment);
-			}
-			else if (current == "ActvDel") {
-				inputStream >> this->activationDelay;
-			}
-			else if (current == "CrRad") {
-				inputStream >> this->creationRadius;
-			}
-			else if (current == "Debounce") {
-				inputStream >> this->debounce;
-			}
-			else if (current == "FireDelFrames") {
-				inputStream >> this->fireDelFrames;
-			}
-			else if (current == "Lifetime") {
-				inputStream >> this->lifetime;
-			}
-			else if (current == "Name") {
-				getline(inputStream, name);
-			}
-			else if (current == "OneShot") {
-				inputStream >> this->oneShot;
-			}
-			else if (current == "Priority") {
-				inputStream >> this->priority;
-			}
-			else if (current == "SeqAct") {
-				inputStream >> this->sequentialActions;
-			}
-            else if (current == "DrawPosition") {
-                inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
-			}
-			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	ExpressionTrigger(bool, bool, double, double, double, double, double, string, string,
+		string, position, position, vector <Action*> &, string);
     
-    /*~expressionTrigger () {
-        //delete the actions
-		for (unsigned int i = 0; i < Actions.size(); i++) {
-            if (Actions[i] != 0) {
-                delete Actions[i];
-                Actions[i] = 0;
-            }
-        }
-    }*/
+	void filePrint(ostream &);
+
+	void fileRead(ifstream &);
 };
 
-class roadPadTrigger : public Trigger {
+class RoadPadTrigger : public Trigger {
 private:
     //true if by typeset
     bool byTypeSet;
@@ -205,205 +92,31 @@ private:
 	string path;
 
 public:
+	RoadPadTrigger();
 
-	roadPadTrigger() : Trigger() {
-        byTypeSet = true;
-    }
-
-	roadPadTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> &Act, string type, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
-			creRad, LifeTime, Name, Long, Short, Draw, Pos, Act) {
-		typeSet = type;
-		path = Path;
-        byTypeSet = true;
-	}
+	RoadPadTrigger(bool, bool, double, double, double, double, double, string, string,
+		string, position, position, vector <Action*> &, string, string);
     
-    void setTypeSet (bool isTypeSet) {
-        byTypeSet = isTypeSet;
-        return;
-    }
+    void setTypeSet (bool);
 
-	void filePrint(ostream &outStream) {
-		outStream << "HCSM RoadPadTrigger\n";
-		this->writeBasics(outStream);
-        if (byTypeSet) {
-            outStream << "  ByTypeSet " << this->typeSet << " \n";
-        }
-        else {
-            outStream << "  ByNameSet " << this->typeSet << "\n";
-        }
-		outStream << "  Path " << path << " \n";
-		outStream << "  NthFromStart 0 \n  NthFromEnd 0 \n  VehicleAhead 0 \n  VehicleBehind 0 \n";
-		this->printActions(outStream);
-		outStream << "&&&&End&&&&\n";
-		return;
-	}
+	void filePrint(ostream &);
 
-	void fileRead(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-
-		//while not at the end, continue reading in
-		while (current != "&&&&End&&&&") {
-			//if if is the position
-            if (current == "Position") {
-                inputStream >> pos.x >> pos.y >> pos.z;
-			}
-			else if (current == "LongComment") {
-				getline(inputStream, this->longComment);
-			}
-			else if (current == "ShortComment") {
-				getline(inputStream, this->shortComment);
-			}
-			else if (current == "ActvDel") {
-				inputStream >> this->activationDelay;
-			}
-			else if (current == "CrRad") {
-				inputStream >> this->creationRadius;
-			}
-			else if (current == "Debounce") {
-				inputStream >> this->debounce;
-			}
-			else if (current == "FireDelFrames") {
-				inputStream >> this->fireDelFrames;
-			}
-			else if (current == "Lifetime") {
-				inputStream >> this->lifetime;
-			}
-			else if (current == "Name") {
-				getline(inputStream, name);
-			}
-			else if (current == "OneShot") {
-				inputStream >> this->oneShot;
-			}
-			else if (current == "Priority") {
-				inputStream >> this->priority;
-			}
-			else if (current == "SeqAct") {
-				inputStream >> this->sequentialActions;
-			}
-			else if (current == "DrawPosition") {
-                inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
-			}
-			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
-			}
-			else if (current == "Path") {
-				inputStream >> this->path;
-			}
-			else if (current == "ByTypeSet") {
-                byTypeSet = true;
-				inputStream >> this->typeSet;
-			}
-            else if (current == "ByNameSet") {
-                byTypeSet = false;
-                inputStream >> this->typeSet;
-            }
-			else if (current == "NthFromStart" || current == "NthFromEnd" || current == "VehicleAhead" || current == "VehicleBehind") {
-				inputStream >> current;
-			}
-			inputStream >> current;
-		}
-		return;
-	}
-    
-    /*~roadPadTrigger () {
-        //delete the actions
-        for (unsigned int i = 0; i < Actions.size(); i++) {
-            if (Actions[i] != 0) {
-                delete Actions[i];
-                Actions[i] = 0;
-            }
-        }
-    }*/
+	void fileRead(ifstream &);
 };
 
-class timeTrigger : public Trigger {
+class TimeTrigger : public Trigger {
 private:
 	double time;
 
 public:
-	timeTrigger() : Trigger() {}
+	TimeTrigger();
 
-	timeTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-		string Short, position Draw, position Pos, vector <Action*> &Act, double Time) : Trigger(seq, shot, delay, Debounce, actDelay, creRad,
-			LifeTime, Name, Long, Short, Draw, Pos, Act) {
-		time = Time;
-	}
+	TimeTrigger(bool, bool, double, double, double, double, double, string, string,
+		string, position, position, vector <Action*> &, double);
 
-	void filePrint(ostream &outStream) {
-		outStream << "HCSM TimeTrigger" << '\n';
-		outStream << "  Time " << std::setprecision(7) << std::scientific << this->time << " " << '\n';
-		this->writeBasics(outStream);
-		this->printActions(outStream);
-		outStream << "&&&&End&&&&" << '\n';
-		return;
-	}
+	void filePrint(ostream &);
 
-	void fileRead(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-
-		//while not at the end, continue reading in
-		while (current != "&&&&End&&&&") {
-			//if if is the position
-			if (current == "Position") {
-                inputStream >> pos.x >> pos.y >> pos.z;
-			}
-			else if (current == "Time") {
-				inputStream >> this->time;
-			}
-			else if (current == "LongComment") {
-				getline(inputStream, this->longComment);
-			}
-			else if (current == "ShortComment") {
-				getline(inputStream, this->shortComment);
-			}
-			else if (current == "ActvDel") {
-				inputStream >> this->activationDelay;
-			}
-			else if (current == "CrRad") {
-				inputStream >> this->creationRadius;
-			}
-			else if (current == "Debounce") {
-				inputStream >> this->debounce;
-			}
-			else if (current == "FireDelFrames") {
-				inputStream >> this->fireDelFrames;
-			}
-			else if (current == "Lifetime") {
-				inputStream >> this->lifetime;
-			}
-			else if (current == "Name") {
-				getline(inputStream, name);
-			}
-			else if (current == "OneShot") {
-				inputStream >> this->oneShot;
-			}
-			else if (current == "Priority") {
-				inputStream >> this->priority;
-			}
-			else if (current == "SeqAct") {
-				inputStream >> this->sequentialActions;
-			}
-			else if (current == "DrawPosition") {
-                inputStream >> pos.x >> pos.y >> pos.z;
-			}
-			else if (current == "HCSM") {
-				Actions.push_back(readInAction(inputStream));
-			}
-			inputStream >> current;
-		}
-		return;
-	}
-    
-    /*~timeTrigger () {
-        //delete the actions
-        for (unsigned int i = 0; i < Actions.size(); i++) {
-            if (Actions[i] != 0) {
-                delete Actions[i];
-                Actions[i] = 0;
-            }
-        }
-    }*/
+	void fileRead(ifstream &);
 };
+
+#endif

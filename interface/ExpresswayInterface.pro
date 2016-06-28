@@ -15,7 +15,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    Actions.cpp
+    Actions.cpp \
+    SCNHeader.cpp \
+    SCNHighwayTemplate.cpp \
+    Trigger.cpp \
+    StaticObject.cpp \
+    Vehicle.cpp \
+    VirtualObject.cpp
 
 HEADERS  += mainwindow.h \
     Actions.h \

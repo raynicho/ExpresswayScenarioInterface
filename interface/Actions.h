@@ -1,17 +1,20 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Vehicle.h"
 #include <vector>
 #include "Helpers.h"
+#include "Trigger.h"
 
 using std::vector;
 using std::ostream;
 using std::ifstream;
 using std::string;
 
+class Trigger;
 
 class Action {
 protected:
@@ -20,22 +23,17 @@ protected:
 	string comment;
 
 public:
-    Action(): delay(0), instigatorSet(0) {}
+    Action();
 
-    Action(int set, double Delay, string Comment) : instigatorSet(set), delay(Delay), comment(Comment) {}
+    Action(int, double, string);
 
-    void printBasics(ostream &outStream) {
-        outStream << "      Comment " << this->comment << '\n';
-        outStream << "      Delay " << this->delay << '\n';
-        outStream << "      InstigatorSet " << this->instigatorSet << '\n';
-        return;
-    }
+    void printBasics(ostream &, bool);
 
-    virtual void print(ostream &) {}
+    virtual void print(ostream &, bool);
 
-    virtual void readFromFile(ifstream &) {}
+    virtual void readFromFile(ifstream &);
     
-    virtual void addVehicle (Vehicle*) {} 
+    virtual void addVehicle (Vehicle*);
 };
 
 class LogData : public Action {
@@ -44,45 +42,13 @@ private:
 	double streamVal;
 
 public:
-	LogData() : Action() {}
+	LogData();
 
-    LogData(int set, double Delay, string Comment, int Stream, double val) : Action(set, Delay, Comment) {
-		stream = Stream;
-		streamVal = val;
-	}
+    LogData(int, double, string, int, double);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM LogData\n";
-		this->printBasics(outStream);
-		outStream << "      Stream " << this->stream << '\n';
-		outStream << "      StreamVal " << this->streamVal << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "Stream") {
-				inputStream >> this->stream;
-			}
-			else if (current == "StreamVal") {
-				inputStream >> this->streamVal;
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class SetDial : public Action {
@@ -92,51 +58,13 @@ private:
 	string buttonDialPath;
 
 public:
-	SetDial() : Action() {}
+	SetDial();
 
-    SetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action(set, Delay, Comment) {
-		byNameSet = nameSet;
-		dial = Dial;
-		buttonDialPath = dialPath;
-	}
+    SetDial(int, double, string, string, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM SetDial\n";
-		this->printBasics(outStream);
-		outStream << "      ByNameSet " << this->byNameSet << '\n';
-		outStream << "      Dial " << this->dial << '\n';
-		outStream << "      ButtonDialPath " << this->buttonDialPath << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "ByNameSet") {
-				getline(inputStream, byNameSet);
-			}
-			else if (current == "Dial") {
-				getline(inputStream, dial);
-			}
-			else if (current == "ButtonDialPath") {
-				getline(inputStream, buttonDialPath);
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class ResetDial : public Action {
@@ -146,58 +74,15 @@ private:
 	string buttonDialPath;
 
 public:
-	ResetDial() : Action() {}
+	ResetDial();
 
-    ResetDial(int set, double Delay, string Comment, string nameSet, string Dial, string dialPath) : Action(set, Delay, Comment) {
-		byNameSet = nameSet;
-		dial = Dial;
-		buttonDialPath = dialPath;
-	}
+    ResetDial(int, double, string, string, string, string);
 
-    ResetDial(int set, double Delay, string Comment, string Dial, string dialPath) : Action(set, Delay, Comment) {
-		byNameSet = "null";
-		dial = Dial;
-		buttonDialPath = dialPath;
-	}
+    ResetDial(int, double, string, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM ResetDial\n";
-		this->printBasics(outStream);
-		if (byNameSet != "null") {
-			outStream << "      ByNameSet " << this->byNameSet << '\n';
-		}
-		outStream << "      Dial " << this->dial << '\n';
-		outStream << "      ButtonDialPath " << this->buttonDialPath << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "ByNameSet") {
-				getline(inputStream, byNameSet);
-			}
-			else if (current == "Dial") {
-				getline(inputStream, dial);
-			}
-			else if (current == "ButtonDialPath") {
-				getline(inputStream, buttonDialPath);
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class DeleteHCSM : public Action {
@@ -205,40 +90,13 @@ private:
 	string byNameSet;
 
 public:
-	DeleteHCSM() : Action() {}
+	DeleteHCSM();
 
-	DeleteHCSM(int set, double Delay, string Comment, string ByNameSet) : Action(set, Delay, Comment) {
-		byNameSet = ByNameSet;
-	}
+	DeleteHCSM(int, double, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM DeleteHcsm\n";
-		this->printBasics(outStream);
-		outStream << "      ByNameSet " << this->byNameSet << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "ByNameSet") {
-				getline(inputStream, byNameSet);
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class SetVar : public Action {
@@ -248,50 +106,13 @@ private:
 	string varValue;
 
 public:
-	SetVar() : Action() {}
+	SetVar();
 
-	SetVar(int set, double Delay, string Comment, bool isExpression, string VarName, string VarValue) : Action(set, Delay, Comment) {
-		varValIsExpression = isExpression;
-		varName = VarName;
-		varValue = VarValue;
-	}
+	SetVar(int, double, string, bool, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM SetVar\n";
-		this->printBasics(outStream);
-		outStream << "      VarName " << this->varName << '\n';
-		outStream << "      VarValue " << this->varValue << '\n';
-		outStream << "      IsVarValExpression " << this->varValIsExpression << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "VarName") {
-				getline(inputStream, varName);
-			}
-			else if (current == "VarValue") {
-				getline(inputStream, varValue);
-			}
-			else if (current == "IsVarValExpression") {
-				inputStream >> this->varValIsExpression;
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class SetButton : public Action {
@@ -300,45 +121,13 @@ private:
 	string buttonPath;
 
 public:
-	SetButton() : Action() {}
+	SetButton();
 
-	SetButton(int set, double Delay, string Comment, string Button, string ButtonPath) : Action(set, Delay, Comment) {
-		button = Button;
-		buttonPath = ButtonPath;
-	}
+	SetButton(int, double, string, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM SetButton\n";
-		this->printBasics(outStream);
-		outStream << "      Button " << this->button << '\n';
-		outStream << "      ButtonDialPath " << this->buttonPath << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "Button") {
-				getline(inputStream, button);
-			}
-			else if (current == "ButtonDialPath") {
-				getline(inputStream, buttonPath);
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class WriteCell : public Action {
@@ -349,127 +138,32 @@ private:
 	string cellData;
 
 public:
-	WriteCell() : Action() {}
+	WriteCell();
 
-	WriteCell(int set, double Delay, string Comment, bool isVar, int type, string CellName, string data) : Action(set, Delay, Comment) {
-		isVariable = isVar;
-		cellType = type;
-		cellName = CellName;
-		cellData = data;
-	}
+	WriteCell(int, double, string, bool, int, string, string);
 
-	void print(ostream &outStream) {
-		outStream << "    HCSM WriteCell\n";
-		this->printBasics(outStream);
-		outStream << "      CellName " << this->cellName << '\n';
-		outStream << "      CellData " << this->cellData << '\n';
-		outStream << "      CellType " << this->cellType << '\n';
-		outStream << "      CellVar " << this->isVariable << '\n';
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "CellName") {
-				getline(inputStream, cellName);
-			}
-			else if (current == "CellData") {
-				getline(inputStream, cellData);
-			}
-			else if (current == "CellType") {
-				inputStream >> this->cellType;
-			}
-			else if (current == "CellVar") {
-				inputStream >> this->isVariable;
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 class CreateHCSM : public Action {
-private:
+protected:
 	vector<Vehicle*> createdVehicles;
+    vector<Trigger*> createdTriggers;
 
 public:
-	CreateHCSM() : Action() {}
+	CreateHCSM();
 
-	CreateHCSM(int set, double Delay, string Comment) : Action(set, Delay, Comment) {}
+	CreateHCSM(int, double, string);
 
-    ~CreateHCSM () {
-        for (auto veh : createdVehicles){
-            delete veh; veh = 0;
-        }
-    }
+    ~CreateHCSM ();
     
-    void addVehicle(Vehicle* veh){
-        createdVehicles.push_back(veh);
-        return;
-    }
+    void addVehicle(Vehicle*);
     
-	void print(ostream &outStream) {
-		string spaces = "      ";
-		string spacesTillTitle = "    ";
-		outStream << spacesTillTitle << "HCSM CreateHcsm\n";
-		this->printBasics(outStream);
-		
-		for (unsigned int i = 0; i < createdVehicles.size(); i++) {
-			createdVehicles[i]->print(outStream);
-		}
-		outStream << "    &&&&End&&&&\n";
-		return;
-	}
+	void print(ostream &, bool);
 
-	void readFromFile(ifstream &inputStream) {
-		string current;
-		inputStream >> current;
-		while (current != "&&&&End&&&&") {
-			if (current == "Comment") {
-				getline(inputStream, comment);
-			}
-			else if (current == "Delay") {
-				inputStream >> this->delay;
-			}
-			else if (current == "InstigatorSet") {
-				inputStream >> this->instigatorSet;
-			}
-			else if (current == "HCSM") {
-				inputStream >> current;
-				if (current == "Ddo") {
-					Vehicle* newVehicle = new DDO;
-					newVehicle->readFromFile(inputStream);
-					newVehicle->setCreation(true);
-					createdVehicles.push_back(newVehicle);
-				}
-				else if (current == "Ado") {
-					Vehicle* newVehicle = new ADO;
-					newVehicle->readFromFile(inputStream);
-					newVehicle->setCreation(true);
-					createdVehicles.push_back(newVehicle);
-				}
-				else {
-					while (current != "&&&&End&&&&") {
-						inputStream >> current;
-					}
-				}
-			}
-			inputStream >> current;
-		}
-		return;
-	}
+	void readFromFile(ifstream &);
 };
 
 Action* readInAction(ifstream &);

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TRIAL_H
+#define TRIAL_H
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -71,3 +73,5 @@ struct Trial {
 	FVLVInstructions leadVehicle;
     Trial () : trialNumber(-1), roadSide(), leftLane(), followVehicle(), leadVehicle(){}
 };
+
+#endif
