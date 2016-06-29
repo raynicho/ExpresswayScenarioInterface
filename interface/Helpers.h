@@ -5,7 +5,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include "Helpers.h"
 
 using std::string;
 using std::vector;
@@ -26,6 +25,7 @@ struct trajectory {
     double xDir;
     double yDir;
     trajectory (double X, double Y, double Speed, double XDir, double YDir) : x(X), y(Y), speed(Speed), xDir(XDir), yDir(YDir) {}
+    trajectory () : x(0), y(0), speed(0), xDir(0), yDir(0) {}
 };
 
 struct color {

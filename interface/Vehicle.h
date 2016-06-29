@@ -49,6 +49,7 @@ private:
 	bool autoControlBreakLights;
 	bool velCtrlInitMatchOvVel;
 	int velCtrlDistType;
+    int visualState;
     double velCtrlDistVal2;
 	double laneOffset;
 	double maxLatOffset;
@@ -66,6 +67,8 @@ public:
     void setInitialVel(double);
     
     void setVelocitySettings (double, double , double);
+    
+    void setVisualState (int);
     
 	void printUnused(ostream &, string);
 

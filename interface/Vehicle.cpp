@@ -8,7 +8,7 @@ Vehicle::Vehicle() : createdByTrigger(false), colorIndex(1), lifetime(0), actvDe
 
 Vehicle::Vehicle(int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName) :
     colorIndex(color), lifetime(LifeTime), actvDel(delay), crRad(CrRad), name(Name), longComment(Long), shortComment(Short),
-    solName(SolName) {}
+    solName(SolName), createdByTrigger(false) {}
 
 void Vehicle::print(ostream &) {}
 
@@ -44,10 +44,9 @@ void Vehicle::printBasics(ostream &outStream, string spaces) {
 /*********************************************************************************************************/
                                              
 /*********************************************************************************************************/
-                                            /*ADO*/
+					    /*ADO*/
 ADO::ADO() : Vehicle(), autoControlBreakLights(false), velCtrlInitMatchOvVel(false), velCtrlDistType(2), laneOffset(-0.49), maxLatOffset(9),
-    velCtrlDistVal1(62), path ("-1") {
-    velCtrlDistVal2 = -1;
+    velCtrlDistVal1(62), path ("-1"), velCtrlDistVal2(-1), visualState(0) {
 }
 
 ADO::ADO(int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName, bool autoBreak,
@@ -55,6 +54,7 @@ ADO::ADO(int color, double LifeTime, double delay, double CrRad, string Name, st
         LifeTime, delay, CrRad, Name, Long, Short, SolName), autoControlBreakLights(autoBreak), velCtrlInitMatchOvVel(velInitMatch),
     velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlDistVal1(distVal1), velCtrlInitVel(initVel), roadPos(RoadPos), path(Path) {
     velCtrlDistVal2 = -1;
+    visualState = 0;
 }
 
 void ADO::setInitialVel(double velocity) {
@@ -69,18 +69,23 @@ void ADO::setVelocitySettings (double velCtrlType, double velCtrlVal1, double ve
     return;
 }
 
+void ADO::setVisualState (int state) {
+    visualState = state;
+    return;
+}
+
 void ADO::printUnused(ostream &outStream, string spaces) {
-    outStream << spaces << "RunMode \"eRemote_Control\"\n";				outStream << spaces << "RandomSol 0\n";
+    outStream << spaces << "RunMode \"eRemote_Control\"\n";			outStream << spaces << "RandomSol 0\n";
     outStream << spaces << "CreateRelOffsLonUsingExpr 0 \n";			outStream << spaces << "AutoControlHeadLights 0\n";					outStream << spaces << "UseReaDel 1\n";
-    outStream << spaces << "LatOffsType 0\n";							outStream << spaces << "CreateRelLatInFeet 0\n";
-    outStream << spaces << "PathSearchDepth 2\n";						outStream << spaces << "StdToAccType 0\n";
-    outStream << spaces << "StdToDecType 0\n";							outStream << spaces << "StdToAccType 0\n";
-    outStream << spaces << "DecToAccType 0\n";							outStream << spaces << "Accel2Catch 0\n";
-    outStream << spaces << "VelCtrlFollowSpeedLimit 0\n";				outStream << spaces << "NormVel2Kp 7.0000000E-001\n";
-    outStream << spaces << "LcvFall 1.5000000E+000 2.0000000E+000\n";	outStream << spaces << "LcvFreq 3.0000000E-002 5.0000000E-002\n";
+    outStream << spaces << "LatOffsType 0\n";					outStream << spaces << "CreateRelLatInFeet 0\n";
+    outStream << spaces << "PathSearchDepth 2\n";				outStream << spaces << "StdToAccType 0\n";
+    outStream << spaces << "StdToDecType 0\n";					outStream << spaces << "StdToAccType 0\n";
+    outStream << spaces << "DecToAccType 0\n";					outStream << spaces << "Accel2Catch 0\n";
+    outStream << spaces << "VelCtrlFollowSpeedLimit 0\n";			outStream << spaces << "NormVel2Kp 7.0000000E-001\n";
+    outStream << spaces << "LcvFall 1.5000000E+000 2.0000000E+000\n";		outStream << spaces << "LcvFreq 3.0000000E-002 5.0000000E-002\n";
     outStream << spaces << "EmergDecClip -1.1000000E+001\n";			outStream << spaces << "FollowTimeMax 2.0000000E+000\n";
     outStream << spaces << "FollowTimeMin 1.0000000E+000\n";			outStream << spaces << "LcvRAmpl 1.0000000E-001 5.0000000E-001\n";
-    outStream << spaces << "StdToDecVal1 9.0000000E-001\n";				outStream << spaces << "DynModel \"Non Linear\"\n";
+    outStream << spaces << "StdToDecVal1 9.0000000E-001\n";			outStream << spaces << "DynModel \"Non Linear\"\n";
     outStream << spaces << "LogFile \"\"\n";
     return;
 }
@@ -113,6 +118,10 @@ void ADO::print(ostream &outStream) {
     
     if (velCtrlInitVel != -1) {
         outStream << spaces << "VelCtrlInitVel " << velCtrlInitVel << "\n";
+    }
+    
+    if (visualState != 0) {
+	outStream << spaces << "VisualState " << visualState << "\n";
     }
 
     this->printBasics(outStream, spaces);
@@ -178,6 +187,9 @@ void ADO::readFromFile(ifstream &inputStream) {
         else if (current == "VelCtrlDistVal2") {
             inputStream >> velCtrlDistVal2;
         }
+	else if (current == "VisualState") {
+	    inputStream >> visualState;
+	}
         inputStream >> current;
     }
     return;
@@ -255,6 +267,9 @@ void DDO::readFromFile(ifstream &inputStream) {
         else if (current == "SolName") {
             inputStream >> this->solName;
         }
+	else if (current == "RefPoint") {
+	    inputStream >> this->refPoint;
+	}
         inputStream >> current;
     }
     return;
@@ -295,9 +310,11 @@ void DDO::print(ostream &outStream) {
     outStream << spaces << "Dependent " << dependent << '\n';
     outStream << spaces << "DependentOwnVeh " << dependentOwnVeh << '\n';
     outStream << spaces << "VisualState " << visualState << '\n';
-    outStream << spaces << "DependentRefPosition " << dependentRefPoint.x << dependentRefPoint.y 
-        << dependentRefPoint.z << '\n';
-
+    if (dependent) {
+	outStream << spaces << "RefPoint " << this->refPoint << "\n";
+	outStream << spaces << "DependentRefPosition " << dependentRefPoint.x << dependentRefPoint.y 
+	    << dependentRefPoint.z << '\n';
+    }
     outStream << spaces << "Dirs " << std::setprecision(7) << std::scientific;
     for (unsigned int i = 0; i < dirs.size(); i++) {
         outStream << dirs[i] << " ";
@@ -311,9 +328,11 @@ void DDO::print(ostream &outStream) {
     outStream << '\n';
 
     for (unsigned int i = 0; i < trajs.size(); i++) {
-        outStream << "Traj " << trajs[i].x << " " << trajs[i].y << trajs[i].speed << " " << trajs[i].xDir << trajs[i].yDir;
+        outStream << spaces << "Traj " << trajs[i].x << " " << trajs[i].y << " " << trajs[i].speed << " " << trajs[i].xDir << " " << trajs[i].yDir;
         outStream << '\n';
     }
+    
+    outStream << spacesTillTitle << "&&&&End&&&&\n";
     return;
 }
                                             /*DDO*/
