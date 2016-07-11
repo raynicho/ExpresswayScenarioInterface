@@ -1,5 +1,9 @@
 #include "SCNHighwayTemplate.h"
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+
 SCNHighwayTemplate::~SCNHighwayTemplate() {
     //delete the vehicles
     for (unsigned int i = 0; i < vehicles.size(); i++) {
@@ -14,30 +18,418 @@ SCNHighwayTemplate::~SCNHighwayTemplate() {
 
 //constructor
 SCNHighwayTemplate::SCNHighwayTemplate () {
-    const int seed = 10;
-    srand(10);
+    const int seed = 13;
+    srand(seed);
     
-    carSolModels.push_back("\"Audi\"");
-    carSolModels.push_back("\"ChevyBlazer\"");
-    carSolModels.push_back("\"Deville\"");
-    carSolModels.push_back("\"DodgeNeon\"");
-    carSolModels.push_back("\"LandRover\"");
-    carSolModels.push_back("\"PEUGEOT_306\"");        
-    carSolModels.push_back("\"Windstar\"");
-    carSolModels.push_back("\"Towncar\"");
-    carSolModels.push_back("\"FordTaurus\"");
-    carSolModels.push_back("\"BMW_StationWagon\"");
+    carSolModels.push_back("\"Audi\"");                 carSolModels.push_back("\"ChevyBlazer\"");
+    carSolModels.push_back("\"Deville\"");              carSolModels.push_back("\"DodgeNeon\"");
+    carSolModels.push_back("\"LandRover\"");            carSolModels.push_back("\"PEUGEOT_306\"");        
+    carSolModels.push_back("\"Windstar\"");             carSolModels.push_back("\"Towncar\"");
+    carSolModels.push_back("\"FordTaurus\"");           carSolModels.push_back("\"BMW_StationWagon\"");
     
-    truckSolModels.push_back("\"Ford_F150Xcab\"");
-    truckSolModels.push_back("\"Freightliner_Semi\"");
-    truckSolModels.push_back("\"DumpTruck\"");
-    truckSolModels.push_back("\"CokeTruck\"");
-    truckSolModels.push_back("\"cargill_semi_freightliner_red\"");
-    truckSolModels.push_back("\"semi_peterbilt_yel_Walmart\"");
-    truckSolModels.push_back("\"schoolbus\"");
-    truckSolModels.push_back("\"CementTruck\"");
-    truckSolModels.push_back("\"GarbageTruck\"");
-    truckSolModels.push_back("\"semi_peterbilt_white_FordRacing\"");
+    truckSolModels.push_back("\"Ford_F150Xcab\"");      truckSolModels.push_back("\"Freightliner_Semi\"");
+    truckSolModels.push_back("\"DumpTruck\"");          truckSolModels.push_back("\"CokeTruck\"");
+    truckSolModels.push_back("\"schoolbus\"");          truckSolModels.push_back("\"cargill_semi_freightliner_red\"");
+    truckSolModels.push_back("\"CementTruck\"");        truckSolModels.push_back("\"semi_peterbilt_yel_Walmart\"");
+    truckSolModels.push_back("\"GarbageTruck\"");       truckSolModels.push_back("\"semi_peterbilt_white_FordRacing\"");
+}
+
+void SCNHighwayTemplate::leftLaneSlowDown (int trialNum, string leftVehName, ostream &outStream, vector<Action*> &slowDownActions) {
+    //create action to make it slow down
+    Action* resetSlowDown = new ResetDial (0, 0, "\"LeftResetBeforeSlowDown_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \" \"", "\"Ado/ForcedVelocity\"");
+    Action* slowDown = new SetDial(0, 0, "\"LeftSlowDown_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"20\"", "\"Ado/ForcedVelocity\"");
+    
+    //create roadpad trigger to hold slow down action
+    slowDownActions.push_back(resetSlowDown);
+    slowDownActions.push_back(slowDown);
+    
+    position slowDraw (450, (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320 + trialLengthFt, 0);
+    string slowPath = "\"R:r1_0_113520:0[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]:1[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]\"";
+    
+    RoadPadTrigger slowDownTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, slowDownActions, leftVehName, slowPath);
+    slowDownTrigger.setTypeSet(false);
+    slowDownTrigger.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::leftLaneBlindSpot (int trialNum, leftLaneControl &leftLane, ostream &outStream) {
+    //create the vehicle
+    string  RoadPos = "\"r1_0_113520:1:";    
+    string  SolName = getRandSol(false);
+    string  leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
+    int     matchETDistance = 60;               
+    int     color = getRandSolColor(SolName);   
+    double  initVeloc = 0;
+    
+    //if the creation position in front
+    if (leftLane.creationOption == 1) {                
+        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) + creationDistance), D is 0 
+        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) + leftLane.creationDistance) + ":0\"";
+        
+        //velocity options
+        initVeloc = 35;
+        matchETDistance = 20;
+    }
+    //if the creation position is behind
+    else {                
+        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) - creationDistance), D is 0 
+        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) - leftLane.creationDistance) + ":0\"";
+        
+        //velocity options
+        initVeloc = 90;
+    }
+    
+    ADO left(color, 0, 0, 0, "\"Left_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
+    left.setCreation(true);
+    
+    //blinker control
+    switch (leftLane.blinker) {
+        case (Left) : {
+            left.setVisualState(1);
+            break;
+        }
+        case (Hazards) : {
+            left.setVisualState(4);
+            break;
+        }
+        case (Right) : {
+            left.setVisualState(2);
+            break;
+        }
+    }
+    
+    //generate the roadpad trigger that creates the ADO
+    position Draw (450, (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320, 0);
+    
+    vector <Action*> creationActions;
+    double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
+    
+    //generate the creation action, add the vehicle
+    Action* createADO = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+    
+    Vehicle* leftPtr = new ADO (left);
+    leftPtr->setInitialVel(initVeloc);  leftPtr->setVelocitySettings(0, initVeloc, 1.0051923E-240);
+    createADO->addVehicle(leftPtr);
+    
+    creationActions.push_back(createADO);
+    
+    RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, creationActions, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(beginYPos + 20) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(beginYPos + 20) + "]\"");
+    roadTrigger.filePrint(outStream);
+    
+    //generate the action to reset the velocity and then match the Et velocity
+    Action* setToMatch = new SetDial (0, 0, "\"LeftMatchSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+    
+    //generate the expression trigger to match velocity
+    Draw.x = Draw.x + 70;
+    vector <Action*> blindActions;
+    blindActions.push_back(setToMatch);
+    ExpressionTrigger blindSpot (true, false, 0, 0, 0, trialLengthFt, 0, "\"LeftBlindSpot_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", Draw, Draw, blindActions, "\" GetObjDistPow2('Left_" + std::to_string(trialNum) + "') < " + std::to_string(matchETDistance) + " * " + std::to_string(matchETDistance) + "\"");
+    blindSpot.filePrint(outStream);
+    
+    vector<Action*> slowDownActions;
+    Action* deleteMatchET = new DeleteHCSM (0, 0, "\"LeftDeleteBlindTrigger_" + std::to_string(trialNum) + "\"", "\"LeftBlindSpot_" + std::to_string(trialNum) + "\"");
+    slowDownActions.push_back(deleteMatchET);
+    
+    leftLaneSlowDown(trialNum, leftVehName, outStream, slowDownActions);
+    
+    return;
+}
+
+void SCNHighwayTemplate::leftLaneCutBehind (int trialNum, leftLaneControl &leftLane, ostream &outStream) {    
+    return;
+}
+
+void SCNHighwayTemplate::leftLaneCutFront (int trialNum, leftLaneControl &leftLane, ostream &outStream) {
+    double      trialBeginning = -1320 +  trialNum * (trialLengthFt + trialSetupLengthFt);
+    double      laneChangeAngle = M_PI_2 - atan (12/leftLane.distance);
+    double      laneChangeHypotenuse = sqrt(leftLane.distance * leftLane.distance + 144);
+    position    ddoReferencePoint (388, trialBeginning + trialLengthFt/12, 0);
+    string      SOLModel = getRandSol(false);
+    string      rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
+    int         color = getRandSolColor(SOLModel);
+    int         visState = 0;
+    int         referencePointID;
+    
+    vector <double>         Dirs;
+    vector <bool>           DirsDef;
+    vector <trajectory>     Trajs;
+    
+    //speed up the lead vehicle
+    speedLeadVehicle(trialNum, outStream, 85);    
+    
+    //ddo creation point and a traffic point
+    trajectory creationPoint (376, 0, leftLane.speed * .5, 0, 1);
+    
+    if (leftLane.creationOption == 1) { //front        
+        //generate the creation point
+        creationPoint.y = trialBeginning + leftLane.creationDistance;
+        Trajs.push_back(creationPoint);
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+        
+        //one traffic point
+        trajectory trafficPoint1 (376, creationPoint.y + trialLengthFt/12, leftLane.speed * .5, 0, 1);
+        Trajs.push_back(trafficPoint1);
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+    }
+    else {
+        //generate the creation point
+        creationPoint.y = trialBeginning - leftLane.creationDistance;
+        Trajs.push_back(creationPoint);
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+        
+        //generate only one straight line point
+        trajectory trafficPoint1 (376, creationPoint.y + trialLengthFt/12, leftLane.speed * .5, 0, 1);
+        Trajs.push_back(trafficPoint1);
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+    }
+    
+    //ddo begin lane change points
+    trajectory beginLaneChange (376, (Trajs.back()).y + 100, leftLane.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(beginLaneChange);
+    Dirs.push_back(laneChangeAngle);
+    DirsDef.push_back(1);
+    
+    //ddo lane change right
+    trajectory lanePoint1 (382, beginLaneChange.y + laneChangeHypotenuse/2, leftLane.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint1);
+    Dirs.push_back(laneChangeAngle);
+    DirsDef.push_back(1);
+    
+    trajectory lanePoint2 (388, lanePoint1.y + laneChangeHypotenuse/2, leftLane.speed * (.75), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint2);
+    Dirs.push_back(laneChangeAngle);
+    DirsDef.push_back(1);
+    
+    //ddo rest of path
+    double      remainingRoadway = trialBeginning + trialLengthFt - lanePoint2.y;
+    double      remainingPathIncrementLength = remainingRoadway / 10;
+    trajectory  remainingTraj (388, lanePoint2.y, leftLane.speed * (.85), 0, 1);
+    for (unsigned int i = 0; i < 10; ++i) {
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+        
+        remainingTraj.y += remainingPathIncrementLength;
+        Trajs.push_back(remainingTraj);
+        
+        remainingTraj.speed = leftLane.speed;
+    }
+    
+    //ddo lane change left
+    double      deletionLaneChangeAngle = atan(12/250) + M_PI_2;
+    double      deletionLaneChangeHypotenuse = sqrt(144 + 62500);
+    
+    trajectory pullLeft1 (388, trialBeginning + trialLengthFt + 40, leftLane.speed, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+    Trajs.push_back(pullLeft1);
+    Dirs.push_back(deletionLaneChangeAngle);
+    DirsDef.push_back(1);    
+    
+    trajectory pullLeft2 (382, pullLeft1.y + deletionLaneChangeHypotenuse * .5, 25, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+    Trajs.push_back(pullLeft2);
+    Dirs.push_back(deletionLaneChangeAngle);
+    DirsDef.push_back(1);
+    
+    trajectory pullLeft3 (376, pullLeft2.y + deletionLaneChangeHypotenuse * .5, 25, 0, 1);
+    Trajs.push_back(pullLeft3);
+    Dirs.push_back(M_PI_2);
+    DirsDef.push_back(1);
+    
+    //set the visual state
+    switch (leftLane.blinker) {
+    case (Right) : { 
+        visState = 2;
+        break;
+    }
+    case (Left) : {
+        visState = 1;
+        break;   
+    }
+    case (Hazards) : {
+        visState = 4;
+        break;
+    }
+    }
+    
+    //create the ddo
+    Vehicle* leftLaneVeh = new DDO (referencePointID, color, 0, 0, leftLane.creationDistance, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, ddoReferencePoint, Dirs, DirsDef, Trajs);
+    
+    //if creation point is behind the et
+    if (leftLane.creationOption == 0) {        
+        //use a trigger to create the ddo
+        string          createLeftLanePath = "\"R:r1_0_113520:0[" + std::to_string(trialBeginning) + ":" + std::to_string(trialBeginning + 20) + "]:1[" + std::to_string(trialBeginning) + ":" + std::to_string(trialBeginning + 20) + "]\"";;
+        position        createLeftLaneDraw (450, trialBeginning, 0);
+        Action*         createLeftLaneAction = new CreateHCSM (0, 0, "\"LeftCreateVeh_" + std::to_string(trialNum) + "\"");
+        vector <Action*> createLeftLaneActions;
+        
+        leftLaneVeh->setCreation(true);
+        createLeftLaneAction->addVehicle(leftLaneVeh);
+        createLeftLaneActions.push_back(createLeftLaneAction);
+        
+        RoadPadTrigger  createLeftLane (true, true, 0, 0, 0, trialLengthFt, 0, "\"LeftCreateVehicle_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", createLeftLaneDraw, createLeftLaneDraw, createLeftLaneActions, "\"ExternalDriver\"", createLeftLanePath);
+        createLeftLane.filePrint(outStream);
+    }
+    //else if the creation is behind
+    else {
+        //just have the creation radius be the creation distance
+        leftLaneVeh->print(outStream);
+    }
+    return;
+}
+
+void SCNHighwayTemplate::leftLaneRemainLane (int trialNum, leftLaneControl &leftLane, ostream &outStream) {
+    //create the vehicle
+    string RoadPos = "\"r1_0_113520:1:";    string leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
+    string SolName = getRandSol(false);     position Draw (450, (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320, 0);
+    double initVeloc = 0;                   double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
+    double endYpos = beginYPos + 20;        int color = getRandSolColor(SolName);
+    vector <Action*> creationActions;       vector<Action*> endTrialActions;
+    
+    //if the creation position in front
+    if (leftLane.creationOption == 1) {
+        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) + creationDistance), D is 0 
+        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) + leftLane.creationDistance) + ":0\"";
+    }
+    //if the creation position is behind
+    else {        
+        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) - creationDistance), D is 0 
+        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) - leftLane.creationDistance) + ":0\"";           
+    }
+    
+    ADO left(color, 0, 0, 0, "\"Left_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
+    left.setCreation(true);
+    
+    //blinker control
+    switch (leftLane.blinker) {
+        case (Left) : {
+            left.setVisualState(1);
+            break;
+        }
+        case (Hazards) : {
+            left.setVisualState(4);
+            break;
+        }
+        case (Right) : {
+            left.setVisualState(2);
+            break;
+        }
+    }
+    
+    //if it is match the et
+    if (leftLane.laneOption == 1) {
+        //intial velocity is 60 and fixed
+        Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+        Vehicle* leftPtr = new ADO (left);
+        initVeloc = 60;
+        leftPtr->setInitialVel(initVeloc);
+        leftPtr->setVelocitySettings(0, 60, 1.0051923E-240);
+        act->addVehicle(leftPtr);
+        creationActions.push_back(act);
+        
+        //create the expression trigger to match the et
+        vector <Action*> matchETActions;
+        Action* setLeftVelocity = new SetDial (0, 0, "\"LeftMatchET_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+        matchETActions.push_back(setLeftVelocity);
+        position matchETPosition = Draw;
+        matchETPosition.x += 140;
+        
+        ExpressionTrigger matchETTrigger (true, false, 0, 0, 0, trialLengthFt, 0, "\"LeftMatchET_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", matchETPosition, matchETPosition, matchETActions, "\"1=1\"");  
+        Trigger* matchETTriggerPtr = new ExpressionTrigger(matchETTrigger);
+        
+        //create the action to create the expression trigger match et and also one to reset the velocity of the left vehicle
+        Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+        creationActions.push_back (resetSpeed);
+        Action* createMatchEt = new CreateHCSM (0, 0, "\"LeftCreateMatchETTrigger_" + std::to_string(trialNum) + "\"");
+        createMatchEt->addTrigger(matchETTriggerPtr);
+        
+        //write the create vehicle trigger
+        position createMatchETPos = Draw;
+        createMatchETPos.x += 70;
+        vector<Action*> createMatchActions;
+        createMatchActions.push_back(createMatchEt);
+        RoadPadTrigger createMatchRoadTrigger (true, true, 5, 0, 0, trialLengthFt, 0, "\"LeftCreateMatchET_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", createMatchETPos, createMatchETPos, createMatchActions,"\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+        createMatchRoadTrigger.filePrint(outStream);
+        
+        RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, creationActions, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+        roadTrigger.filePrint(outStream);           
+        
+        //create action to delete match et trigger
+        Action* deleteMatchEt = new DeleteHCSM (0, 0, "\"LeftDeleteMatchET_" + std::to_string(trialNum) + "\"", "\"LeftMatchET_" + std::to_string(trialNum) + "\"");
+        endTrialActions.push_back(deleteMatchEt);
+    }
+    //else it is an absolute value
+    else {
+        //initial velocity is the absolute value and fixed
+        initVeloc = leftLane.speed;
+        Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
+        Vehicle* leftPtr = new ADO (left);
+        initVeloc = leftLane.speed;
+        leftPtr->setInitialVel(initVeloc);
+        leftPtr->setVelocitySettings(0, leftLane.speed, 1.0051923E-240);
+        act->addVehicle(leftPtr);
+        creationActions.push_back(act);
+        
+        //write the create vehicle trigger
+        RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, creationActions, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
+        roadTrigger.filePrint(outStream);  
+    }
+    
+    leftLaneSlowDown(trialNum, leftVehName, outStream, endTrialActions);
+    return;
+}
+
+void SCNHighwayTemplate::speedLeadVehicle (int trialNum, ostream &outStream, int speed){
+    //road pad trigger to reset lead vehicle speed
+    double resetLVPathStart = (trialNum * (trialLengthFt + trialSetupLengthFt)) - trialSetupLengthFt;
+    position resetLVSpeedDraw (450, -1320 + resetLVPathStart, 0);
+    vector <Action*> resetLVSpeedActions;
+    
+    string resetLVSpeedHelperPath = std::to_string(resetLVPathStart) + ":" + std::to_string(resetLVPathStart + 10);
+    string resetLVSpeedPath = "\"R:r1_0_113520:0[" + resetLVSpeedHelperPath + "]:1[" + resetLVSpeedHelperPath + "]\"";
+    
+    Action *resetLVSpeed = new ResetDial (0, 0, "\"ResetLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    resetLVSpeedActions.push_back(resetLVSpeed);
+    
+    RoadPadTrigger resetLVSpeedTrigger (false, true, 0, 0, 0, trialLengthFt, 0, "\"ResetLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetLVSpeedDraw, resetLVSpeedDraw, resetLVSpeedActions, "\"LV\"", resetLVSpeedPath);
+    resetLVSpeedTrigger.setTypeSet(false);
+    resetLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to set the lead vehicle speed
+    double setLVPathStart = resetLVPathStart + 80;
+    double setLVPathEnd = setLVPathStart + (trialLengthFt + trialSetupLengthFt)/2;
+    
+    position setLVSpeedDraw (450, -1320 + setLVPathStart, 0);
+    vector <Action*> setLVSpeedActions;
+    
+    string setLVSpeedHelperPath = std::to_string(setLVPathStart) + ":" + std::to_string(setLVPathEnd);
+    string setLVSpeedPath = "\"R:r1_0_113520:0[" + setLVSpeedHelperPath + "]:1[" + setLVSpeedHelperPath + "]\"";
+    
+    Action* setLVSpeed = new SetDial (0, 0, "\"SetLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"" + std::to_string(speed) + "\"", "\"Ado/ForcedVelocity\"");
+    setLVSpeedActions.push_back(setLVSpeed);
+    
+    RoadPadTrigger setLVSpeedTrigger (false, false, 0, 0, 0, trialLengthFt, 0, "\"SetLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", setLVSpeedDraw, setLVSpeedDraw, setLVSpeedActions, "\"LV\"", setLVSpeedPath);
+    setLVSpeedTrigger.setTypeSet(false);
+    setLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to reset the lead vehicle speed
+    double resetEndLVPathStart = setLVPathEnd + 40;
+    double resetEndLVPathEnd = resetEndLVPathStart + 40;
+    
+    position resetEndLVDraw (450, -1320 + resetEndLVPathStart, 0);
+    vector <Action*> resetEndLVActions;
+    
+    string resetEndLVHelperPath = std::to_string(resetEndLVPathStart) + ":" + std::to_string(resetEndLVPathEnd);
+    string resetEndLVPath = "\"R:r1_0_113520:0[" + resetEndLVHelperPath + "]:1[" + resetEndLVHelperPath + "]\"";
+    
+    Action* resetEndLV = new ResetDial (0, 0, "\"ResetEndLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    resetEndLVActions.push_back(resetEndLV);
+    
+    RoadPadTrigger resetEndLVTrigger (false,  true, 0, 0, 0, trialLengthFt, 0, "\"ResetEndLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetEndLVDraw, resetEndLVDraw, resetEndLVActions, "\"LV\"", resetEndLVPath);
+    resetEndLVTrigger.setTypeSet(false);
+    resetEndLVTrigger.filePrint(outStream);
+    return;
 }
 
 void SCNHighwayTemplate::processLeadVehicle (FVLVInstructions &leadVehicle, ostream &outStream) {
@@ -50,127 +442,283 @@ void SCNHighwayTemplate::processFollowVehicle (FVLVInstructions &followVehicle, 
     return;
 }
 
+void SCNHighwayTemplate::roadSidePullFrontStop (int trialNum, roadSideControl &roadSide, ostream &outStream) {
+    speedLeadVehicle(trialNum, outStream, 90);
+    
+    string SOLModel = getRandSol(false);
+    int color = getRandSolColor(SOLModel);
+    string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
+    position fake;
+    
+    double laneChangeAngle = atan(12/roadSide.distance) + M_PI_2;
+    double laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
+    
+    //dirs
+    vector<double> Dirs;    Dirs.push_back(laneChangeAngle);
+    
+    //dirsdef
+    vector<bool> DirsDef;   DirsDef.push_back(1);
+    
+    //trajectories
+    vector <trajectory> Trajs;
+    
+    //creation point
+    trajectory creationTrajectory(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(creationTrajectory);
+    
+    //lane change points
+    Dirs.push_back(laneChangeAngle);//point 1
+    DirsDef.push_back(1);
+    trajectory lanePoint1 (394, creationTrajectory.y + laneChangeHypotenuse/2, roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint1);
+            
+    Dirs.push_back(laneChangeAngle);//point 2
+    DirsDef.push_back(1);
+    trajectory lanePoint2 (388, lanePoint1.y + laneChangeHypotenuse/2, 0, cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint2);
+    
+    //reference point
+    fake.x = 388;
+    fake.y = -1320 + trialNum * (trialLengthFt + trialSetupLengthFt);
+    
+    //visual state
+    int visState = 0;
+    switch (roadSide.blinker) {
+        case (Left) : {
+            visState = 1;
+            break;
+        }
+        case (Right) : {
+            visState = 2;
+            break;
+        }
+        case (Hazards) : {
+            visState = 4;
+        break;
+        }
+    }
+    
+    //write the vehicle
+    DDO pullFront (1, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
+    pullFront.print(outStream);
+}
+
+void SCNHighwayTemplate::roadSideDriveShoulder (int trialNum, roadSideControl &roadSide, ostream &outStream) {
+    string SOLModel = getRandSol(false);
+    int color = getRandSolColor(SOLModel);
+    string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
+    position fake;
+    
+    //create the ddo
+    vector <double> Dirs;
+    Dirs.push_back(1.57);
+
+    vector <bool> DirsDef;
+    DirsDef.push_back(false);
+    
+    vector <trajectory> Trajs;
+    trajectory tempTraj (400, -1320 + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed, 0, 1);
+    Trajs.push_back(tempTraj);
+    for (int i = 1; i < 10; ++i) {
+        DirsDef.push_back(true);
+        Dirs.push_back(1.57);
+        tempTraj.y = tempTraj.y + trialLengthFt/10;
+        Trajs.push_back(tempTraj);
+    }
+
+    tempTraj.y = tempTraj.y + trialLengthFt/10;
+    tempTraj.speed = 25;
+    Trajs.push_back(tempTraj);
+    DirsDef.push_back(true);
+    Dirs.push_back(1.57);
+
+    int visState = 0;
+    switch (roadSide.blinker) {
+        case (Right) : {
+            visState = 2;
+            break;
+        }
+        case (Left) : {
+            visState = 1;
+            break;
+        }
+        case (Hazards) : {
+            visState = 4;
+            break;
+        }
+    }
+
+    DDO driveShoulderDDO (color, 0, 5, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, false, true, visState, fake, Dirs, DirsDef, Trajs);
+    driveShoulderDDO.print(outStream);
+}
+
+void SCNHighwayTemplate::roadSideStationary (int trialNum, roadSideControl &roadSide, ostream &outStream) {
+    //create the ddo
+    string SOLModel = getRandSol(false);
+    int color = getRandSolColor(SOLModel);
+    string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
+    position fake;
+    
+    vector<double> Dirs; 
+    Dirs.push_back(1.5707963);
+
+    vector<bool> DirsDef;
+    DirsDef.push_back(0);
+
+    vector <trajectory> Trajs;
+    trajectory stationaryTrajectory (400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), 1, 0, 0);
+    Trajs.push_back(stationaryTrajectory);
+
+    int visState = 0;
+    switch (roadSide.blinker) {
+        case (Left) : {
+            visState = 1;
+            break;
+        }
+        case (Right) : {
+            visState = 2;
+            break;
+        }
+        case (Hazards) : {
+            visState = 4;
+        break;
+        }
+    }
+
+    DDO stationaryDDO (color, 0, 0, trialLengthFt, rightVehName, "\" \"", "\" \"", SOLModel, false, true, visState, fake, Dirs, DirsDef, Trajs);
+    stationaryDDO.print(outStream);
+}
+
+void SCNHighwayTemplate::roadSidePullFront (int trialNum, roadSideControl &roadSide, ostream &outStream){
+    string SOLModel = getRandSol(false);
+    int color = getRandSolColor(SOLModel);
+    string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
+    position fake;
+    
+    speedLeadVehicle(trialNum, outStream, 90);
+    
+    double laneChangeAngle = atan(12/roadSide.distance) + M_PI_2;
+    double laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
+    
+    //dirs
+    vector<double> Dirs;
+    Dirs.push_back(laneChangeAngle);
+    
+    //dirsdef
+    vector<bool> DirsDef;
+    DirsDef.push_back(1);
+    
+    //trajectories
+    vector <trajectory> Trajs;
+    
+    //creation point
+    trajectory creationTrajectory(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(creationTrajectory);
+    
+    //lane change points
+    Dirs.push_back(laneChangeAngle);//point 1
+    DirsDef.push_back(1);
+    trajectory lanePoint1 (394, creationTrajectory.y + laneChangeHypotenuse/2, roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint1);
+            
+    Dirs.push_back(laneChangeAngle);//point 2
+    DirsDef.push_back(1);
+    trajectory lanePoint2 (388, lanePoint1.y + laneChangeHypotenuse/2, roadSide.speed * 0.75, cos(laneChangeAngle), sin(laneChangeAngle));
+    Trajs.push_back(lanePoint2);
+    
+    //rest of the path
+    double remainingPath =  (-1320 + trialNum * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) - lanePoint2.y;
+    double remainingPathIncrementLength = remainingPath / 10;
+    trajectory remain (388, lanePoint2.y, roadSide.speed * 0.85, 0, 1);
+    for (int i = 0; i < 10; i++) {
+        Dirs.push_back(M_PI_2);
+        DirsDef.push_back(1);
+        
+        remain.y += remainingPathIncrementLength;
+        Trajs.push_back(remain);
+        
+        remain.speed = roadSide.speed;
+    }
+    
+    //deletion option: pull to the right
+    double deletionLaneChangeAngle = atan(12/250);
+    double deletionLaneChangeHypotenuse = sqrt(144 + 62500);
+    if (roadSide.deletionOption == 0) {
+        deletionLaneChangeAngle = M_PI_2 - deletionLaneChangeAngle;
+        Dirs.push_back(deletionLaneChangeAngle);
+        DirsDef.push_back(1);
+        trajectory pullRight1 (388, (-1320 + trialNum * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) + 40, roadSide.speed, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+        Trajs.push_back(pullRight1);
+        
+        Dirs.push_back(deletionLaneChangeAngle);
+        DirsDef.push_back(1);
+        trajectory pullRight2 (394, pullRight1.y + deletionLaneChangeHypotenuse/2, roadSide.speed, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+        Trajs.push_back(pullRight2);
+        
+        Dirs.push_back(1.57);
+        DirsDef.push_back(1);
+        trajectory pullRight3 (400, pullRight2.y + deletionLaneChangeHypotenuse/2, 25, 0, 1);
+        Trajs.push_back(pullRight3);
+    }
+    
+    //deletion option: pull to the left
+    else {
+        deletionLaneChangeAngle += M_PI_2;
+        Dirs.push_back(deletionLaneChangeAngle);
+        DirsDef.push_back(1);
+        trajectory pullLeft1 (388, (-1320 + trialNum * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) + 40, roadSide.speed, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+        Trajs.push_back(pullLeft1);
+        
+        Dirs.push_back(deletionLaneChangeAngle);
+        DirsDef.push_back(1);
+        trajectory pullLeft2 (382, pullLeft1.y + deletionLaneChangeHypotenuse/2, 25, cos(deletionLaneChangeAngle), sin(deletionLaneChangeAngle));
+        Trajs.push_back(pullLeft2);
+        
+        Dirs.push_back(1.57);
+        DirsDef.push_back(1);
+        trajectory pullLeft3 (376, pullLeft2.y + deletionLaneChangeHypotenuse/2, 25, 0, 1);
+        Trajs.push_back(pullLeft3);
+    }
+    
+    //reference point
+    fake.x = 388;
+    fake.y = -1320 + trialNum * (trialLengthFt + trialSetupLengthFt);
+    
+    //visual state
+    int visState = 0;
+    switch (roadSide.blinker) {
+        case (Left) : {
+            visState = 1;
+            break;
+        }
+        case (Right) : {
+            visState = 2;
+            break;
+        }
+        case (Hazards) : {
+            visState = 4;
+        break;
+        }
+    }
+    
+    //write the vehicle
+    DDO pullFront (1, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
+    pullFront.print(outStream);
+    return;
+}
+
 void SCNHighwayTemplate::processRoadSide(roadSideControl &roadSide, ostream &outStream, int trialNum) {
     if (roadSide.movementOption == 0) {
-	//create the ddo
-	string SOLModel = getRandSol(false);
-	int color = getRandSolColor(SOLModel);
-	string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
-	position fake;
-	
-	vector<double> Dirs; 
-	Dirs.push_back(1.5707963);
-	
-	vector<bool> DirsDef;
-	DirsDef.push_back(0);
-	
-	vector <trajectory> Trajs;
-	trajectory stationaryTrajectory (400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), 1, 0, 0);
-	Trajs.push_back(stationaryTrajectory);
-	
-	int visState = 0;
-	switch (roadSide.blinker) {
-	    case (Left) : {
-		visState = 1;
-		break;
-	    }
-	    case (Right) : {
-		visState = 2;
-		break;
-	    }
-	    case (Hazards) : {
-		visState = 4;
-		break;
-	    }
-	}
-	Vehicle* stationaryDDO = new DDO (color, 0, 0, trialLengthFt, rightVehName, "\" \"", "\" \"", SOLModel, false, true, visState, fake, Dirs, DirsDef, Trajs);
-	stationaryDDO->print(outStream);
+        roadSideStationary(trialNum, roadSide, outStream);
     }
     else if (roadSide.movementOption == 1) {
-	string SOLModel = getRandSol(false);
-	int color = getRandColor(SOLModel);
-	
-	
-	//create the ddo
-	
-	    //set the visual state
-	
-	    //created at what disctance?
-	
-	    //whats the path?
-	
-	    //cut in at certain distance at certain speed	
-	
-	//roadpad trigger after the ddo pull out path
-	    
-	    //create the ado
-	
-		//set the visual state
-	    
-	    //reset ado inhibit lane change
-	
-	    //set the ado inhibit lane change
-	
-	//roadpad trigger after the ddo pull out path to have the ado match the external driver
-	
-	//roadpad trigger at end of trial
-	
-	    //delete the ado
-	
-	    //create the ddo
-	
-		//if deletion option is left
-		
-		//if deletion option is right
-		
+        roadSidePullFront(trialNum, roadSide, outStream);
     }
     else if (roadSide.movementOption == 2) {
-	//create the ddo
-	string SOLModel = getRandSol(false);
-	int color = getRandSolColor(SOLModel);
-	string rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
-	position fake;
-	
-	vector <double> Dirs;
-	Dirs.push_back(1.57);
-	
-	vector <bool> DirsDef;
-	DirsDef.push_back(false);
-	
-	vector <trajectory> Trajs;
-	trajectory tempTraj (400, -1320 + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed, 0, 1);
-	Trajs.push_back(tempTraj);
-	for (int i = 1; i < 10; ++i) {
-	    DirsDef.push_back(true);
-	    Dirs.push_back(1.57);
-	    tempTraj.y = tempTraj.y + trialLengthFt/10;
-	    Trajs.push_back(tempTraj);
-	}
-	
-	tempTraj.y = tempTraj.y + trialLengthFt/10;
-	tempTraj.speed = 25;
-	Trajs.push_back(tempTraj);
-	DirsDef.push_back(true);
-	Dirs.push_back(1.57);
-	
-	int visState = 0;
-	switch (roadSide.blinker) {
-	    case (Right) : {
-		visState = 2;
-	    }
-	    case (Left) : {
-		visState = 1;
-	    }
-	    case (Hazards) : {
-		visState = 4;
-	    }
-	}
-	
-	Vehicle* driveShoulderDDO = new DDO (color, 0, 5, 500, rightVehName, "\"\"", "\"\"", SOLModel, false, true, visState, fake, Dirs, DirsDef, Trajs);
-	driveShoulderDDO->print(outStream);
+        roadSideDriveShoulder(trialNum, roadSide, outStream);
     }
     else {
-	
+        roadSidePullFrontStop(trialNum, roadSide, outStream);
     }
     return;
 }
@@ -307,14 +855,13 @@ void SCNHighwayTemplate::generateTraffic (int numberTrials, int numberCarsPerTri
     double increationLength = (trialLengthFt + trialSetupLengthFt)/numberCarsPerTrial;
     double lowerRange = currentY - increationLength;
     double yPos;
-    int lanePos;
-    string SolName;
-    string name;
-    int color;
+    
+    string SolName;     string name;
     string RoadPos;
-    int laneOffset = 1;
-    int carsLeft = numberOfCars;
-    int trucksLeft = numberOfTrucks;
+    
+    int color;                      int laneOffset = 1;
+    int carsLeft = numberOfCars;    int trucksLeft = numberOfTrucks;
+    int lanePos;
     
     //iterate from 1 to the max number of trials
     for (int i = numberTrials; i >= 2; i--) {
@@ -364,107 +911,10 @@ void SCNHighwayTemplate::generateTraffic (int numberTrials, int numberCarsPerTri
 }
 
 void SCNHighwayTemplate::processLeftLane (leftLaneControl &leftLane, ostream &outStream, int trialNum) {
-    //create the vehicle
-    string SolName = getRandSol(false);
-    int color = getRandSolColor(SolName);
-    string RoadPos;
-    string leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
-
-    //if the creation position in front
-    if (leftLane.creationOption == 1) {
-        //A is 1 (Northern Roadway), B is 1 (inside lane
-        RoadPos = "\"r1_0_113520:1:";
-                
-        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) + creationDistance), D is 0 
-        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) + leftLane.creationDistance) + ":0\"";
-        
-    }
-    //if the creation position is behind
-    else {
-        //A is 1 (Northern Roadway), B is 1 (inside lane)
-        RoadPos = "\"r1_0_113520:1:";
-                
-        //C is based on the trial number ((trial number * trial length + trial number * trialsetup) - creationDistance), D is 0 
-        RoadPos = RoadPos + std::to_string(((trialLengthFt + trialSetupLengthFt)*trialNum) - leftLane.creationDistance) + ":0\"";           
-    }
-    
-    ADO left(color, 0, 0, 0, "\"Left_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", SolName, false, false, 1, 0.78, 9, 54.6, 65, RoadPos, "-1");
-    left.setCreation(true);
-    
-    //blinker control
-    string dial = "\"VisualState\" ";
-    switch (leftLane.blinker) {
-        case (Left) : {
-            dial = dial + "\"1;20000\"";
-            break;
-        }
-        case (Hazards) : {
-            dial = dial + "\"4;20000\"";
-            break;
-        }
-        case (Right) : {
-            dial = dial + "\"2;20000\"";
-            break;
-        }
-    }
-    
-    //generate the roadpad trigger
-    position Draw;
-    Draw.x = 450;
-    Draw.y = (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320;
-    vector <Action*> Act;
-    double beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
-    double endYpos = beginYPos + 20;
-    double initVeloc = 0;
-    
-    vector<Action*> Act2;
-    
     //movement option 0
     //set the initial speed according to the creation position
     if (leftLane.movementOption == 0) {
-        int matchETDistance = 60;
-        
-        //if its created in front
-        if (leftLane.creationOption == 1) {
-            initVeloc = 35;
-            matchETDistance = 20;
-        }
-        //otherwise it is created behind
-        else {
-            initVeloc = 90;
-        }
-        
-        //generate the creation action, add the vehicle, blinker dials
-        Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
-        Vehicle* leftPtr = new ADO (left);
-        leftPtr->setInitialVel(initVeloc);
-        leftPtr->setVelocitySettings(0, initVeloc, 1.0051923E-240);
-        act->addVehicle(leftPtr);
-        Act.push_back(act);
-        
-        if (leftLane.blinker != None) {
-            Action* reset = new ResetDial (0, 0, "\"LeftResetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
-            Action* blinker = new SetDial(0, 0, "\"LeftSetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
-            Act.push_back(reset);
-            Act.push_back(blinker);
-        }
-        
-        RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
-        roadTrigger.filePrint(outStream);
-        
-        //generate the action to reset the velocity and then match the Et velocity
-        Action* setToMatch = new SetDial (0, 0, "\"LeftMatchSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
-        
-        //generate the expression trigger to match velocity
-        position pos = Draw;
-        pos.x = pos.x + 70;
-        vector <Action*> blindActions;
-        blindActions.push_back(setToMatch);
-        ExpressionTrigger blindSpot (true, false, 0, 0, 0, trialLengthFt, 0, "\"LeftBlindSpot_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", pos, pos, blindActions, "\" GetObjDistPow2('Left_" + std::to_string(trialNum) + "') < " + std::to_string(matchETDistance) + " * " + std::to_string(matchETDistance) + "\"");
-        blindSpot.filePrint(outStream);
-        
-        Action* deleteMatchET = new DeleteHCSM (0, 0, "\"LeftDeleteBlindTrigger_" + std::to_string(trialNum) + "\"", "\"LeftBlindSpot_" + std::to_string(trialNum) + "\"");
-        Act2.push_back(deleteMatchET);
+        leftLaneBlindSpot(trialNum, leftLane, outStream);
     }
     
     //movement option 1
@@ -479,94 +929,8 @@ void SCNHighwayTemplate::processLeftLane (leftLaneControl &leftLane, ostream &ou
     
     //movement option 3
     else {
-        //if it is match the et
-        if (leftLane.laneOption == 1) {
-            //intial velocity is 60 and fixed
-            Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
-            Vehicle* leftPtr = new ADO (left);
-            initVeloc = 60;
-            leftPtr->setInitialVel(initVeloc);
-            leftPtr->setVelocitySettings(0, 60, 1.0051923E-240);
-            act->addVehicle(leftPtr);
-            Act.push_back(act);
-            
-            //set the blinker
-            if (leftLane.blinker != None) {
-                Action* reset = new ResetDial (0, 0, "\"LeftResetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
-                Action* blinker = new SetDial(0, 0, "\"LeftSetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
-                Act.push_back(reset);
-                Act.push_back(blinker);
-            }
-            
-            //create the expression trigger to match the et
-            vector <Action*> matchETActions;
-            Action* setLeftVelocity = new SetDial (0, 0, "\"LeftMatchET_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
-            matchETActions.push_back(setLeftVelocity);
-	    position matchETPosition = Draw;
-	    matchETPosition.x += 140;
-            
-            ExpressionTrigger matchETTrigger (true, false, 0, 0, 0, trialLengthFt, 0, "\"LeftMatchET_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", matchETPosition, matchETPosition, matchETActions, "\"1=1\"");  
-	    Trigger* matchETTriggerPtr = new ExpressionTrigger(matchETTrigger);
-            
-            //create the action to create the expression trigger match et and also one to reset the velocity of the left vehicle
-            Action* resetSpeed = new ResetDial (0, 0, "\"LeftResetSpeed_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
-            Act.push_back (resetSpeed);
-            Action* createMatchEt = new CreateHCSM (0, 0, "\"LeftCreateMatchETTrigger_" + std::to_string(trialNum) + "\"");
-	    createMatchEt->addTrigger(matchETTriggerPtr);
-            
-            //write the create vehicle trigger
-	    position createMatchETPos = Draw;
-	    createMatchETPos.x += 70;
-	    vector<Action*> createMatchActions;
-	    createMatchActions.push_back(createMatchEt);
-	    RoadPadTrigger createMatchRoadTrigger (true, true, 5, 0, 0, trialLengthFt, 0, "\"LeftCreateMatchET_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", createMatchETPos, createMatchETPos, createMatchActions,"\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
-	    createMatchRoadTrigger.filePrint(outStream);
-	    
-            RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
-            roadTrigger.filePrint(outStream);           
-            
-            //create action to delete match et trigger
-            Action* deleteMatchEt = new DeleteHCSM (0, 0, "\"LeftDeleteMatchET_" + std::to_string(trialNum) + "\"", "\"LeftMatchET_" + std::to_string(trialNum) + "\"");
-	    Act2.push_back(deleteMatchEt);
-        }
-        //else it is an absolute value
-        else {
-            //initial velocity is the absolute value and fixed
-            Action* act = new CreateHCSM(0, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"");
-            Vehicle* leftPtr = new ADO (left);
-            initVeloc = leftLane.speed;
-            leftPtr->setInitialVel(initVeloc);
-            leftPtr->setVelocitySettings(0, leftLane.speed, 1.0051923E-240);
-            act->addVehicle(leftPtr);
-            Act.push_back(act);
-	    
-	    //set the blinker
-	    if (leftLane.blinker != None) {
-                Action* reset = new ResetDial (0, 0, "\"LeftResetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, "\"VisualState\" \"16;2\"", "\"Ado/VisualState\"");
-                Action* blinker = new SetDial(0, 0, "\"LeftSetBlinker_" + std::to_string(trialNum) + "\"", leftVehName, dial, "\"Ado/VisualState\"");
-                Act.push_back(reset);
-                Act.push_back(blinker);
-            }
-	    
-            //write the create vehicle trigger
-	    RoadPadTrigger roadTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"CreateLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", Draw, Draw, Act, "\"ExternalDriver\"", "\"R:r1_0_113520:0[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]:1[" + std::to_string(beginYPos) + ":" + std::to_string(endYpos) + "]\"");
-            roadTrigger.filePrint(outStream);  
-        }
+        leftLaneRemainLane(trialNum, leftLane, outStream);
     }
-    
-    //create action to make it slow down
-    Action* resetSlowDown = new ResetDial (0, 0, "\"LeftResetBeforeSlowDown_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \" \"", "\"Ado/ForcedVelocity\"");
-    Action* slowDown = new SetDial(0, 0, "\"LeftSlowDown_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \"25\"", "\"Ado/ForcedVelocity\"");
-    
-    //create roadpad trigger to hold slow down action
-    Act2.push_back(resetSlowDown);
-    Act2.push_back(slowDown);
-    position slowDraw = Draw;
-    slowDraw.y = slowDraw.y + trialLengthFt;
-    string slowPath = "\"R:r1_0_113520:0[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]:1[" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt) + ":" + std::to_string(trialNum*(trialLengthFt + trialSetupLengthFt) + trialLengthFt + 20) + "]\"";
-    RoadPadTrigger slowDownTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"SlowLeft_" + std::to_string(trialNum) + "\"", "\" \"", "\" \"", slowDraw, slowDraw, Act2, leftVehName, slowPath);
-    slowDownTrigger.setTypeSet(false);
-    slowDownTrigger.filePrint(outStream);
     return;
 }
 
@@ -708,11 +1072,6 @@ void SCNHighwayTemplate::readFile(string SCNFilePath) {
     //close the file when done
     inputStream.close();
 
-    //write the header and see what happens
-    //ofstream out;
-    //out.open("C:\\Users\\raynicho\\Desktop\\SCNHighwayTemplate\\SCNExampleFiles\\test.txt");
-    //header.print(out);
-    //out.close();
     return;
 }
 

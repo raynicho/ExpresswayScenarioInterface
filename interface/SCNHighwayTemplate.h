@@ -94,6 +94,26 @@ public:
 	void readInStaticObjManager(ifstream &);
 
 	void readRest(ifstream &);
+    
+    void speedLeadVehicle (int, ostream &, int);
+    
+    void roadSidePullFront (int, roadSideControl &, ostream &);
+    
+    void roadSideStationary (int, roadSideControl &, ostream &);
+    
+    void roadSidePullFrontStop (int, roadSideControl &, ostream &);
+    
+    void roadSideDriveShoulder (int, roadSideControl &, ostream &);
+    
+    void leftLaneBlindSpot (int, leftLaneControl &leftLane, ostream &outStream);
+    
+    void leftLaneCutBehind (int, leftLaneControl &, ostream &);
+    
+    void leftLaneCutFront (int, leftLaneControl &, ostream &);
+    
+    void leftLaneRemainLane (int, leftLaneControl &, ostream &);
+    
+    void leftLaneSlowDown (int, string, ostream &, vector<Action*> &);
 };
 
 #endif

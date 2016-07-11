@@ -203,7 +203,7 @@ roadSideControl MainWindow::getRoadSideTrial() {
         }
         
         //get the deletion
-        if (ui->roadSideTrialDeletionPullToSide) {
+        if (ui->roadSideTrialDeletionPullToSide->isChecked()) {
             roadSide.deletionOption = 0;
         }
         else { 
@@ -413,6 +413,7 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
         //uncheck pull out in front and clear text
         ui->roadSideTrialPullFront->setChecked(false);
         ui->roadSideTrialPullFrontSpeed->setText("");
+        ui->roadSideTrialPullFrontDistance->setText("");
         
         //uncheck drive on shoulder and clear text
         ui->roadSideTrialDriveOnShoulder->setChecked(false);

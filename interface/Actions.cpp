@@ -96,7 +96,7 @@ void SetDial::print(ostream &outStream, bool created) {
     }
     outStream << spacesTillTitle << "HCSM SetDial\n";
     this->printBasics(outStream, created);
-    outStream << spacesTillTitle << "ByNameSet " << this->byNameSet << '\n';
+    outStream << spaces << "ByNameSet " << this->byNameSet << '\n';
     outStream << spaces << "Dial " << this->dial << '\n';
     outStream << spaces << "ButtonDialPath " << this->buttonDialPath << '\n';
     outStream << spacesTillTitle << "&&&&End&&&&\n";

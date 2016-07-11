@@ -44,7 +44,7 @@ void Vehicle::printBasics(ostream &outStream, string spaces) {
 /*********************************************************************************************************/
                                              
 /*********************************************************************************************************/
-					    /*ADO*/
+                                            /*ADO*/
 ADO::ADO() : Vehicle(), autoControlBreakLights(false), velCtrlInitMatchOvVel(false), velCtrlDistType(2), laneOffset(-0.49), maxLatOffset(9),
     velCtrlDistVal1(62), path ("-1"), velCtrlDistVal2(-1), visualState(0) {
 }
@@ -52,10 +52,14 @@ ADO::ADO() : Vehicle(), autoControlBreakLights(false), velCtrlInitMatchOvVel(fal
 ADO::ADO(int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName, bool autoBreak,
     bool velInitMatch, int distType, double laneOff, double maxLatOff, double distVal1, double initVel, string RoadPos, string Path) : Vehicle(color,
         LifeTime, delay, CrRad, Name, Long, Short, SolName), autoControlBreakLights(autoBreak), velCtrlInitMatchOvVel(velInitMatch),
-    velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlDistVal1(distVal1), velCtrlInitVel(initVel), roadPos(RoadPos), path(Path) {
-    velCtrlDistVal2 = -1;
-    visualState = 0;
-}
+        velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlDistVal1(distVal1), velCtrlInitVel(initVel), roadPos(RoadPos), path(Path), velCtrlDistVal2(-1),
+        visualState(0){}
+
+ADO::ADO (int color, int visState, int velCtrlVal1, int velCtrlVal2, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName, bool autoBreak,
+    bool velInitMatch, int distType, double laneOff, double maxLatOff, double initVel, string RoadPos, string Path) : Vehicle(color, LifeTime, delay, CrRad, Name, Long, Short, SolName),
+        visualState (visState), velCtrlDistVal1 (velCtrlVal1), velCtrlDistVal2 (velCtrlVal2), autoControlBreakLights(autoBreak), velCtrlInitMatchOvVel(velInitMatch), 
+        velCtrlDistType(distType), laneOffset(laneOff), maxLatOffset(maxLatOff), velCtrlInitVel(initVel), 
+        roadPos(RoadPos), path(Path) {}
 
 void ADO::setInitialVel(double velocity) {
     velCtrlInitVel = velocity;
@@ -207,6 +211,12 @@ DDO::DDO(int color, double LifeTime, double delay, double CrRad, string Name, st
     dependentOwnVeh(DependentOwn), visualState(visState), dependentRefPoint(refPoint), dirs(Dirs), dirsDef(DirsDef),
     trajs(Trajs) {}
 
+DDO::DDO(int ref, int color, double LifeTime, double delay, double CrRad, string Name, string Long, string Short, string SolName,
+    bool Dependent, bool DependentOwn, int visState, position targetPoint, vector<double> Dirs, vector<bool> DirsDef,
+    vector <trajectory> Trajs) : Vehicle(color, LifeTime, delay, CrRad, Name, Long, Short, SolName), refPoint(ref), dependent(Dependent),
+    dependentOwnVeh(DependentOwn), visualState(visState), dependentRefPoint(targetPoint), dirs(Dirs), dirsDef(DirsDef),
+    trajs(Trajs) {}
+
 void DDO::readFromFile(ifstream &inputStream) {
     string current;
     inputStream >> current;
@@ -311,9 +321,9 @@ void DDO::print(ostream &outStream) {
     outStream << spaces << "DependentOwnVeh " << dependentOwnVeh << '\n';
     outStream << spaces << "VisualState " << visualState << '\n';
     if (dependent) {
-	outStream << spaces << "RefPoint " << this->refPoint << "\n";
-	outStream << spaces << "DependentRefPosition " << dependentRefPoint.x << dependentRefPoint.y 
-	    << dependentRefPoint.z << '\n';
+        outStream << spaces << "RefPoint " << this->refPoint << "\n";
+        outStream << spaces << "DependentRefPoint " << dependentRefPoint.x << " " << dependentRefPoint.y 
+	    << " " << dependentRefPoint.z << '\n';
     }
     outStream << spaces << "Dirs " << std::setprecision(7) << std::scientific;
     for (unsigned int i = 0; i < dirs.size(); i++) {

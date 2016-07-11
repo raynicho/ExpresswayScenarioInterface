@@ -64,6 +64,9 @@ public:
 	ADO(int, double, double, double, string, string, string, string, bool,
 		bool, int, double, double, double, double, string, string);
 
+    ADO (int, int, int, int, double, double, double, string, string, string, string, bool,
+        bool, int, double, double, double, string, string);
+    
     void setInitialVel(double);
     
     void setVelocitySettings (double, double , double);
@@ -125,6 +128,8 @@ public:
 	DDO(int, double, double, double, string, string, string, string,
 		bool, bool, int, position, vector<double>, vector<bool>,
 		vector <trajectory>);
+    
+    DDO::DDO(int, int, double, double, double, string, string, string, string, bool, bool, int, position, vector<double>, vector<bool>, vector <trajectory>);
 
 	void readFromFile(ifstream &);
 

@@ -46,8 +46,8 @@ void Trigger::writeBasics(ostream &outStream) {
     }
     outStream << spaces << "Position " << std::scientific << std::setprecision(7);
     outStream << spaces << this->pos.x << " " << this->pos.y << " " << this->pos.z << " " << '\n';
-    outStream << spaces << "LongComment" << this->longComment << " " << '\n';
-    outStream << spaces << "ShortComment" << this->shortComment << " " << '\n';
+    outStream << spaces << "LongComment " << this->longComment << " " << '\n';
+    outStream << spaces << "ShortComment " << this->shortComment << " " << '\n';
     outStream << spaces << "ActvDel " << this->activationDelay << " " << '\n';
     outStream << spaces << "CrRad " << this->creationRadius << " " << '\n';
     outStream << spaces << "Debounce " << this->debounce << " " << '\n';
@@ -171,12 +171,8 @@ RoadPadTrigger::RoadPadTrigger() : Trigger() {
 }
 
 RoadPadTrigger::RoadPadTrigger(bool seq, bool shot, double delay, double Debounce, double actDelay, double creRad, double LifeTime, string Name, string Long,
-    string Short, position Draw, position Pos, vector <Action*> &Act, string type, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
-        creRad, LifeTime, Name, Long, Short, Draw, Pos, Act) {
-    typeSet = type;
-    path = Path;
-    byTypeSet = true;
-}
+    string Short, position Draw, position Pos, vector <Action*> &Act, string TypeSet, string Path) : Trigger(seq, shot, delay, Debounce, actDelay,
+        creRad, LifeTime, Name, Long, Short, Draw, Pos, Act), typeSet (TypeSet), path(Path), byTypeSet (true) {}
 
 void RoadPadTrigger::setTypeSet (bool isTypeSet) {
     byTypeSet = isTypeSet;
@@ -187,12 +183,12 @@ void RoadPadTrigger::filePrint(ostream &outStream) {
     outStream << "HCSM RoadPadTrigger\n";
     this->writeBasics(outStream);
     if (byTypeSet) {
-        outStream << "  ByTypeSet " << this->typeSet << " \n";
+        outStream << "  ByTypeSet " << this->typeSet << "\n";
     }
     else {
         outStream << "  ByNameSet " << this->typeSet << "\n";
     }
-    outStream << "  Path " << path << " \n";
+    outStream << "  Path " << std::setprecision(7) << std::scientific << path << " \n";
     outStream << "  NthFromStart 0 \n  NthFromEnd 0 \n  VehicleAhead 0 \n  VehicleBehind 0 \n";
     this->printActions(outStream);
     outStream << "&&&&End&&&&\n";
