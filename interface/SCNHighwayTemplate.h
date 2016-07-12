@@ -97,6 +97,8 @@ public:
     
     void speedLeadVehicle (int, ostream &, int);
     
+    void slowFollowVehicle (int, ostream &, int);
+    
     void roadSidePullFront (int, roadSideControl &, ostream &);
     
     void roadSideStationary (int, roadSideControl &, ostream &);

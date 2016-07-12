@@ -23,7 +23,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -214,13 +213,12 @@ public:
     QLabel *currentTrial;
     QGroupBox *followVehicleInstruction;
     QCheckBox *followTrialOn;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1199, 613);
+        MainWindow->resize(1199, 606);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         umtriLogo = new QLabel(centralWidget);
@@ -234,7 +232,7 @@ public:
         followTrialDistance->setGeometry(QRect(740, 90, 113, 20));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(640, 130, 129, 42));
+        verticalLayoutWidget->setGeometry(QRect(640, 130, 131, 46));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -283,7 +281,7 @@ public:
         leadTrialVelocityChange->setGeometry(QRect(930, 110, 101, 17));
         verticalLayoutWidget_2 = new QWidget(centralWidget);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(950, 130, 129, 42));
+        verticalLayoutWidget_2->setGeometry(QRect(950, 130, 131, 46));
         verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -614,7 +612,7 @@ public:
         roadSideTrialOn->setGeometry(QRect(140, 0, 16, 17));
         verticalLayoutWidget_4 = new QWidget(roadSideVehicleControl);
         verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
-        verticalLayoutWidget_4->setGeometry(QRect(20, 290, 81, 42));
+        verticalLayoutWidget_4->setGeometry(QRect(20, 290, 81, 46));
         verticalLayout_5 = new QVBoxLayout(verticalLayoutWidget_4);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -642,7 +640,7 @@ public:
         label_23->setGeometry(QRect(200, 200, 31, 16));
         gridLayoutWidget_2 = new QWidget(roadSideVehicleControl);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(10, 210, 131, 42));
+        gridLayoutWidget_2->setGeometry(QRect(10, 210, 131, 46));
         gridLayout_2 = new QGridLayout(gridLayoutWidget_2);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -680,7 +678,7 @@ public:
         label_29->setGeometry(QRect(80, 270, 47, 13));
         verticalLayoutWidget_6 = new QWidget(leftLaneVehicleControl);
         verticalLayoutWidget_6->setObjectName(QStringLiteral("verticalLayoutWidget_6"));
-        verticalLayoutWidget_6->setGeometry(QRect(10, 290, 61, 42));
+        verticalLayoutWidget_6->setGeometry(QRect(10, 290, 61, 46));
         verticalLayout_7 = new QVBoxLayout(verticalLayoutWidget_6);
         verticalLayout_7->setSpacing(6);
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
@@ -702,7 +700,7 @@ public:
         leftLaneTrialOn->setGeometry(QRect(130, 0, 16, 17));
         gridLayoutWidget_5 = new QWidget(leftLaneVehicleControl);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(10, 220, 121, 42));
+        gridLayoutWidget_5->setGeometry(QRect(10, 220, 122, 46));
         gridLayout_5 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -823,7 +821,7 @@ public:
         leftLaneTrialDistanceFromET->setGeometry(QRect(90, 310, 71, 20));
         gridLayoutWidget = new QWidget(trialManager);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(20, 260, 291, 165));
+        gridLayoutWidget->setGeometry(QRect(20, 260, 291, 167));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -973,9 +971,6 @@ public:
         label_14->raise();
         leadTrialForceLaneChangeSpeed->raise();
         leadTrialForceLaneChangeAcceleration->raise();
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
 
@@ -984,7 +979,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Expressway Scenario Interface", 0));
         umtriLogo->setText(QString());
         label_8->setText(QApplication::translate("MainWindow", "Max Follow Distance", 0));
         followTrialVelocityChangeMatchExternalDriver->setText(QApplication::translate("MainWindow", "Match External Driver", 0));
