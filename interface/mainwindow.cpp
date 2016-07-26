@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
                  << "Hexagon";
     ui->shapeOption->addItems(shapeOptions);
                     
-    QPixmap pix("C:/Users/raynicho/Desktop/SCNHighwayTemplate/Docs/UMTRI-logo.png");
+    QPixmap pix("UMTRI-logo.png");
+    //C:/Users/raynicho/Desktop/SCNHighwayTemplate/Docs/UMTRI-logo.png
     ui->umtriLogo->setPixmap(pix);
     
     //fill the base settings for testing purposes
@@ -43,9 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->followMaxDecel->setText("-4");
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::getSettings() {
     //load the lead vehicle settings
     FVLVSettings tmpFVLV;
@@ -133,9 +131,6 @@ void MainWindow::getSettings() {
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 roadSideControl MainWindow::getRoadSideTrial() {
     roadSideControl roadSide;
     //if roadside is checked
@@ -213,9 +208,6 @@ roadSideControl MainWindow::getRoadSideTrial() {
     return roadSide;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     //if road side is selected
     if (roadSide.checked) {
@@ -448,9 +440,6 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 leftLaneControl MainWindow::getLeftLaneTrial(){
     leftLaneControl leftLane;
     //if left lane is checked
@@ -541,9 +530,6 @@ leftLaneControl MainWindow::getLeftLaneTrial(){
     return leftLane;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
     //if the left lane is checked
     if (leftLane.checked) {
@@ -758,19 +744,13 @@ void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 FVLVInstructions MainWindow::getLeadTrial() {
     FVLVInstructions lead;
     //if the lead vehicle is checked
     if (ui->leadTrialOn->isChecked()) {
         //set the bool for the lead vehicle being checked
         lead.checked=true;
-        
-        //get the lead distance
-        lead.maxFollow = (ui->leadTrialMaxLeadDistance->text()).toDouble(false);
-        
+                
         //if the velocity change is checked
         if (ui->leadTrialVelocityChange->isChecked()) {
             //set the bool
@@ -802,10 +782,14 @@ FVLVInstructions MainWindow::getLeadTrial() {
             //set the bool
             lead.forceLaneChange = true;
             
-            //get the acceleration and speed
-            lead.forceLaneSpeed = ui->leadTrialForceLaneChangeSpeed->text().toDouble(false);
-            lead.forceLaneAcceleration = ui->leadTrialForceLaneChangeAcceleration->text().toDouble(false);
-        }
+            //get the option for lane change
+            if (ui->leadTrialChangeRight->isChecked()) {
+                lead.laneChangeOption = 1;
+            }
+            else {
+                lead.laneChangeOption = 0;
+            }
+         }
         //otherwise set it to false
         else {
             lead.forceLaneChange = false;
@@ -814,17 +798,11 @@ FVLVInstructions MainWindow::getLeadTrial() {
     return lead;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
     //if its the lead vehicle is checked
     if (tmp.checked) {
         //check the box
         ui->leadTrialOn->setCheckState(Qt::Checked);
-
-        //set the dsitance
-        ui->leadTrialMaxLeadDistance->setText(QString::number(tmp.maxFollow));
 
         //if the velocity change is checked
         if (tmp.velocityChange) {
@@ -870,20 +848,24 @@ void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
             //check the box
             ui->leadTrialForceLaneChange->setCheckState(Qt::Checked);
             
-            //set the speed
-            ui->leadTrialForceLaneChangeSpeed->setText(QString::number(tmp.forceLaneSpeed));
-            
-            //set the acceleration
-            ui->leadTrialForceLaneChangeAcceleration->setText(QString::number(tmp.forceLaneAcceleration));
+            //set the lane option
+            if (tmp.laneChangeOption == 0) {
+                ui->leadTrialChangeLeft->setChecked(true);
+                ui->leadTrialChangeRight->setChecked(false);
+            }
+            else {
+                ui->leadTrialChangeLeft->setChecked(false);
+                ui->leadTrialChangeRight->setChecked(true);
+            }
         }
         //if the force lane change is not checked
         else {
             //uncheck the box
             ui->leadTrialForceLaneChange->setCheckState(Qt::Unchecked);
             
-            //clear the speed and acceleration
-            ui->leadTrialForceLaneChangeAcceleration->setText("");
-            ui->leadTrialForceLaneChangeSpeed->setText("");
+            //check the left lane and uncheck the right lane
+            ui->leadTrialChangeLeft->setChecked(true);
+            ui->leadTrialChangeRight->setChecked(false);
         }
 
     }
@@ -891,9 +873,6 @@ void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
     else {
         //uncheck the follow vehicle
         ui->leadTrialOn->setCheckState(Qt::Unchecked);
-        
-        //clear the max follow distance
-        ui->leadTrialMaxLeadDistance->setText("");
         
         //set velocity change off
         ui->leadTrialVelocityChange->setCheckState(Qt::Unchecked);
@@ -908,27 +887,19 @@ void MainWindow::loadLeadTrial(FVLVInstructions &tmp){
         //uncheck force lane change
         ui->leadTrialForceLaneChange->setCheckState(Qt::Unchecked);
         
-        //clear the speed
-        ui->leadTrialForceLaneChangeSpeed->setText("");
-        
-        //clear the acceleration
-        ui->leadTrialForceLaneChangeAcceleration->setText("");
+        //uncheck lane change right option and check left lane option
+        ui->leadTrialChangeLeft->setChecked(true);
+        ui->leadTrialChangeRight->setChecked(false);
     }
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 FVLVInstructions MainWindow::getFollowTrial() {
     FVLVInstructions follow;
     //if the follow vehicle is checked
     if (ui->followTrialOn->isChecked()) {
         //set the bool for the follow vehicle being checked
         follow.checked=true;
-        
-        //get the follow distance
-        follow.maxFollow = (ui->followTrialDistance->text()).toDouble(false);
         
         //if the velocity change is checked
         if (ui->followTrialVelocityChange->isChecked()) {
@@ -961,9 +932,13 @@ FVLVInstructions MainWindow::getFollowTrial() {
             //set the bool
             follow.forceLaneChange = true;
             
-            //get the acceleration and speed
-            follow.forceLaneSpeed = ui->followTrialForceLaneChangeSpeed->text().toDouble(false);
-            follow.forceLaneAcceleration = ui->followTrialForceLaneChangeAcceleration->text().toDouble(false);
+            //get the lane change option
+            if (ui->followTrialChangeRight->isChecked()) {
+                follow.laneChangeOption = 1;
+            }
+            else {
+                follow.laneChangeOption = 0;
+            }
         }
         //otherwise set it to false
         else {
@@ -973,17 +948,11 @@ FVLVInstructions MainWindow::getFollowTrial() {
     return follow;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::loadFollowTrial(FVLVInstructions &tmp){
     //if its the follow vehicle is checked
     if (tmp.checked) {
         //check the box
         ui->followTrialOn->setCheckState(Qt::Checked);
-
-        //set the dsitance
-        ui->followTrialDistance->setText(QString::number(tmp.maxFollow));
 
         //if the velocity change is checked
         if (tmp.velocityChange) {
@@ -1029,20 +998,24 @@ void MainWindow::loadFollowTrial(FVLVInstructions &tmp){
             //check the box
             ui->followTrialForceLaneChange->setCheckState(Qt::Checked);
             
-            //set the speed
-            ui->followTrialForceLaneChangeSpeed->setText(QString::number(tmp.forceLaneSpeed));
-            
-            //set the acceleration
-            ui->followTrialForceLaneChangeAcceleration->setText(QString::number(tmp.forceLaneAcceleration));
+            //get the lane change option
+            if (tmp.laneChangeOption == 0) {
+                ui->followTrialChangeLeft->setChecked(true);
+                ui->followTrialChangeRight->setChecked(false);
+            }
+            else {
+                ui->followTrialChangeLeft->setChecked(false);
+                ui->followTrialChangeRight->setChecked(true);
+            }
         }
         //if the force lane change is not checked
         else {
             //uncheck the box
             ui->followTrialForceLaneChange->setCheckState(Qt::Unchecked);
             
-            //clear the speed and acceleration
-            ui->followTrialForceLaneChangeAcceleration->setText("");
-            ui->followTrialForceLaneChangeSpeed->setText("");
+            //uncheck right and check left
+            ui->followTrialChangeLeft->setChecked(true);
+            ui->followTrialChangeRight->setChecked(false);
         }
 
     }
@@ -1050,9 +1023,6 @@ void MainWindow::loadFollowTrial(FVLVInstructions &tmp){
     else {
         //uncheck the follow vehicle
         ui->followTrialOn->setCheckState(Qt::Unchecked);
-        
-        //clear the max follow distance
-        ui->followTrialDistance->setText("");
         
         //set velocity change off
         ui->followTrialVelocityChange->setCheckState(Qt::Unchecked);
@@ -1067,18 +1037,13 @@ void MainWindow::loadFollowTrial(FVLVInstructions &tmp){
         //uncheck force lane change
         ui->followTrialForceLaneChange->setCheckState(Qt::Unchecked);
         
-        //clear the speed
-        ui->followTrialForceLaneChangeSpeed->setText("");
-        
-        //clear the acceleration
-        ui->followTrialForceLaneChangeAcceleration->setText("");
+        //check the left and uncheck the right
+        ui->followTrialChangeLeft->setChecked(true);
+        ui->followTrialChangeRight->setChecked(false);
     }
     return;
 }
 
-//requires: trialNumber is between 0 and maxtrials (inclusive)
-//modifies: all current trial settings other than the curren trial number
-//effects: changes the current trial display to the trial number given
 void MainWindow::loadTrial(int trialNumber) {
     //if the trial number is 1, set it
     Trial tmpTrial = trials[trialNumber];
@@ -1125,9 +1090,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//requires:
-//modifies: the number of max trials and the size of the vector of trials
-//effects: checks that the number of trials matches the max trials and also that the vector of trials can hold the max amount of trials, returns true if there was an issue with the length of the road
 bool MainWindow::checkLength(){
     //if max trial has not been set
     if (maxTrial == 0) {
@@ -1149,13 +1111,10 @@ bool MainWindow::checkLength(){
     return false;
 }
 
-//requires:
-//modifies: changes the loadFilename for the main window
-//effects: prompts the user for a file to load and then loads the file
 void MainWindow::on_loadFile_clicked()
 {
     //C:\Users\raynicho\Desktop\SCNHighwayTemplate\SCNExampleFiles
-    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://Users//raynicho//Desktop//SCNHighwayTemplate//SCNExampleFiles", "SCN File (*.scn)");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://", "SCN File (*.scn)");
     this->loadFilename=filename;
     highway.readFile(loadFilename.toStdString());
 }
@@ -1190,9 +1149,6 @@ void MainWindow::on_nextTrial_clicked()
     }
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::on_prevTrial_clicked()
 {
     if (!checkTrial ()) {
@@ -1218,9 +1174,6 @@ void MainWindow::on_prevTrial_clicked()
     }
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::on_saveFileButton_clicked()
 {
     if (!checkTrial ()) {
@@ -1251,9 +1204,6 @@ void MainWindow::on_saveFileButton_clicked()
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::on_goToButton_clicked()
 {
     if (!checkTrial ()) {
@@ -1284,26 +1234,12 @@ void MainWindow::on_goToButton_clicked()
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkTrialFollowVehicle()
 {
     QString current;
     bool* ok = 0;
     ok = false;
     if (ui->followTrialOn->checkState() == Qt::Checked) {
-
-        //check follow distance
-        current = ui->followTrialDistance->text();
-        if (current.isEmpty()){
-            throw ((std::string)"Please enter a follow distance for the follow vehcile instructions for the current trial.");
-        }
-
-        if (current.toDouble(ok) < 0) {
-            throw ((std::string)"Please enter a max follow distance that is positive for the follow vehicle instructions for the current trial.");
-        }
-
         //if velocity change is checked and absolute speed is checked
         if (ui->followTrialVelocityChange->checkState() == Qt::Checked && ui->followTrialVelocityChangeAbsolute->isChecked()){
             //check the absolute speed
@@ -1316,52 +1252,16 @@ void MainWindow::checkTrialFollowVehicle()
                 throw((std::string)"Please enter an absolute speed that is positive for the follow vehicle instructions for the current trial.");
             }
         }
-
-        //if force lane change is selected
-        if (ui->followTrialForceLaneChange->checkState() == Qt::Checked) {
-            //check the speed
-            current = ui->followTrialForceLaneChangeSpeed->text();
-            if (current.isEmpty()) {
-                throw ((std::string)"Please enter a speed for the force lane change in the follow vehicle instructions for the current trial.");
-            }
-
-            if (current.toDouble(ok) < 0){
-                throw ((std::string)"Please enter a positive value for the force lane change speed parameter on the follow vehicle instructions for the current trial.");
-            }
-
-            //check the acceleration
-            current = ui->followTrialForceLaneChangeAcceleration->text();
-            if (current.isEmpty()) {
-                throw ((std::string)"Please enter an acceleration for the force lane change in the follow vehicle instructions for the current trial.");
-            }
-
-            if (current.toDouble(ok) < 10) {
-                throw ((std::string)"Please enter a positive acceleraion for the force lane change in the follow vehicle instructions for the current trial.");
-            }
-        }
     }
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkTrialLeadVehicle() {
     QString current;
     bool *ok = 0;
     ok = false;
 
     if (ui->leadTrialOn->checkState() == Qt::Checked) {
-        //check follow distance
-        current = ui->leadTrialMaxLeadDistance->text();
-        if (current.isEmpty()){
-            throw ((std::string)"Please enter a max distance for the lead vehicle instructions for the current trial.");
-        }
-
-        if (current.toDouble(ok) < 0){
-            throw ((std::string)"Please enter a positive max distance for the lead vehicle instructions for the current trail.");
-        }
-
         //if velocity change is checked and absolute speed is checked
         if (ui->leadTrialVelocityChange->checkState() == Qt::Checked && ui->leadTrialVelocityChangeAbsolute->isChecked()) {
             //check the absolute speed
@@ -1374,36 +1274,10 @@ void MainWindow::checkTrialLeadVehicle() {
                 throw((std::string)"Please enter a positive absolute speed for the lead vehicle instructions for the current trial.");
             }
         }
-
-        //if force lane change is selected
-        if (ui->leadTrialForceLaneChange->checkState() == Qt::Checked) {
-            //check the speed
-            current = ui->leadTrialForceLaneChangeSpeed->text();
-            if (current.isEmpty()) {
-                throw ((std::string)"Please enter a change lane speed for the lead vheicle instructions for the current trial.");
-            }
-
-            if (current.toDouble(ok) < 0){
-                throw ((std::string)"Please enter a positive lane change speed for the lead vehicle instructions for the current trial.");
-            }
-
-            //check the acceleration
-            current = ui->leadTrialForceLaneChangeAcceleration->text();
-            if (current.isEmpty()){
-                throw ((std::string)"Please enter a lane change acceleration for the lead vehicle instructions for the current trial.");
-            }
-
-            if (current.toDouble(ok) < 0) {
-                throw ((std::string)"Please enter a positive value for the lane change acceleration fo the lead vehicle instructions for the current trial.");
-            }
-        }
     }
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkTrialRoadSide(){
     QString current;
     bool* ok = 0;
@@ -1469,9 +1343,6 @@ void MainWindow::checkTrialRoadSide(){
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkTrialLeftLane() {
     QString current;
     bool *ok = 0;
@@ -1533,9 +1404,6 @@ void MainWindow::checkTrialLeftLane() {
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 //returns false if there is an error with the trial readings
 //also displays a message so that the user sees the error
 bool MainWindow::checkTrial () {
@@ -1559,9 +1427,6 @@ bool MainWindow::checkTrial () {
     return true;
 }
 
-//requires:
-//modifies:
-//effects:
 //returns true if the QString is empty or is negative when read as a double
 bool MainWindow::emptyOrNegative (QString &lineEdit) {
     bool* ok = 0;
@@ -1587,9 +1452,6 @@ bool MainWindow::emptyOrPositive (QString &lineEdit) {
     return false;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkFCWSettings(){
     //if fcw is checked
     if (ui->fcwOn->checkState() == Qt::Checked){
@@ -1616,9 +1478,6 @@ void MainWindow::checkFCWSettings(){
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkAnimation() {
     //if animation is selected and the fcw is selected
     if (ui->fcwOn->checkState() == Qt::Checked && ui->animationOn->checkState() == Qt::Checked) {
@@ -1635,9 +1494,6 @@ void MainWindow::checkAnimation() {
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkFollowVehicleSettings(){
     if (emptyOrNegative(ui->followDistanceLineEdit->text())){
         throw((std::string)"Please make changes to the follow vehicle distance.");
@@ -1657,9 +1513,6 @@ void MainWindow::checkFollowVehicleSettings(){
     return;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::checkLeadVehicleSettings(){
     if (emptyOrPositive(ui->leadDistanceLineEdit->text())) {
         throw ((std::string)"Please make changes to the lead vehicle distance.");
@@ -1697,11 +1550,6 @@ void MainWindow::checkOpposingTraffic () {
     return;
 }
 
-//requires:
-//modifies:
-//effects:
-//returns false if there is an error with the settings readings
-//also displays a message so that the user sees the error
 bool MainWindow::checkSettings () {
     try {
         //lead vehicle
@@ -1737,9 +1585,6 @@ bool MainWindow::checkSettings () {
     return true;
 }
 
-//requires:
-//modifies:
-//effects:
 void MainWindow::on_colorButton_clicked()
 {
     fcwColor = QColorDialog::getColor(Qt::white, this, "FCW Color");

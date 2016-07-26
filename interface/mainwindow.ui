@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1199</width>
-    <height>606</height>
+    <height>584</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,274 +25,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>90</y>
-      <width>101</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Max Follow Distance</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="followTrialDistance">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>90</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>130</y>
-      <width>131</width>
-      <height>46</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QRadioButton" name="followTrialVelocityChangeMatchExternalDriver">
-       <property name="text">
-        <string>Match External Driver</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="followTrialVelocityChangeAbsolute">
-       <property name="text">
-        <string>Absolute Speed</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QCheckBox" name="followTrialVelocityChange">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>110</y>
-      <width>101</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Velocity Change</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="followTrialVelocityChangeAbsoluteLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>150</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="followTrialForceLaneChange">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>180</y>
-      <width>121</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Force Lane Change</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_9">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>200</y>
-      <width>41</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Speed</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="followTrialForceLaneChangeSpeed">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>200</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>220</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Acceleration</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="followTrialForceLaneChangeAcceleration">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>220</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_12">
-    <property name="geometry">
-     <rect>
-      <x>930</x>
-      <y>90</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Max Lead Distance</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="leadTrialMaxLeadDistance">
-    <property name="geometry">
-     <rect>
-      <x>1050</x>
-      <y>90</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="leadTrialVelocityChange">
-    <property name="geometry">
-     <rect>
-      <x>930</x>
-      <y>110</y>
-      <width>101</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Velocity Change</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>130</y>
-      <width>131</width>
-      <height>46</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QRadioButton" name="leadTrialMatchExternalDriver">
-       <property name="text">
-        <string>Match External Driver</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="leadTrialVelocityChangeAbsolute">
-       <property name="text">
-        <string>Absolute Speed</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QLineEdit" name="leadTrialVelocityChangeAbsoluteSpeed">
-    <property name="geometry">
-     <rect>
-      <x>1050</x>
-      <y>150</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="leadTrialForceLaneChange">
-    <property name="geometry">
-     <rect>
-      <x>930</x>
-      <y>180</y>
-      <width>111</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Force Lane Change</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_13">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>200</y>
-      <width>41</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Speed</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_14">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>220</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Acceleration</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="leadTrialForceLaneChangeSpeed">
-    <property name="geometry">
-     <rect>
-      <x>1050</x>
-      <y>200</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="leadTrialForceLaneChangeAcceleration">
-    <property name="geometry">
-     <rect>
-      <x>1050</x>
-      <y>220</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
     </property>
    </widget>
    <widget class="QGroupBox" name="majorFileSettings">
@@ -460,6 +192,9 @@
         <height>17</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Generate a frontal crash warning for scenario vehicles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -523,7 +258,7 @@
        <x>40</x>
        <y>290</y>
        <width>141</width>
-       <height>71</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
@@ -537,6 +272,9 @@
         <width>91</width>
         <height>16</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show a blind spot warning for left lane and roadside vehicles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Show Warning</string>
@@ -786,6 +524,9 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Sol Model of the lead vehicle.</string>
+     </property>
     </widget>
     <widget class="QLabel" name="solModelLabel_2">
      <property name="geometry">
@@ -808,6 +549,9 @@
        <width>113</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>Distance gap between the lead vehicle and external driver (must be negative).</string>
      </property>
     </widget>
     <widget class="QLabel" name="maxFollowSpeedLabel_2">
@@ -845,6 +589,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum acceleration of the lead vehicle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
     <widget class="QLabel" name="followMaxAccelLabel_2">
      <property name="geometry">
@@ -868,6 +615,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Maximum speed of lead vehicle.</string>
+     </property>
     </widget>
     <widget class="QLineEdit" name="leadMinSpeedLineEdit">
      <property name="geometry">
@@ -877,6 +627,9 @@
        <width>113</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum speed of lead vehicle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="followMinAccelLabl_2">
@@ -914,6 +667,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum deceleration of the follow vehicle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
     <widget class="QLineEdit" name="followMaxAccelLineEdit">
      <property name="geometry">
@@ -923,6 +679,9 @@
        <width>113</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>Maximum acceleration of the follow vehicle.</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="followMaxDecel">
@@ -934,6 +693,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Maximum deceleration of the follow vehicle (must be a negative number).</string>
+     </property>
     </widget>
     <widget class="QLineEdit" name="followMinSpeedLineEdit">
      <property name="geometry">
@@ -944,6 +706,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Minimum speed of the follow vehicle.</string>
+     </property>
     </widget>
     <widget class="QLineEdit" name="followDistanceLineEdit">
      <property name="geometry">
@@ -953,6 +718,9 @@
        <width>113</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>Distance gap between the follow vehicle and external driver.</string>
      </property>
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
@@ -967,6 +735,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Maximum speed of follow vehicle.</string>
+     </property>
     </widget>
     <widget class="QComboBox" name="followSolModel">
      <property name="geometry">
@@ -976,6 +747,12 @@
        <width>111</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>Sol Model of the follow vehicle.</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="lengthOfRoadLabel">
@@ -1012,6 +789,9 @@
         <height>21</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load a .scn file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Load File</string>
       </property>
@@ -1024,6 +804,9 @@
         <width>101</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the new .scn file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Save File</string>
@@ -1105,6 +888,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of trials in input file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
     <widget class="QLineEdit" name="numberOpposingVehicles">
      <property name="geometry">
@@ -1114,6 +900,9 @@
        <width>113</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of opposing lane vehicles per trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label">
@@ -1137,6 +926,9 @@
        <width>31</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of cars in car/truck ratio of opposing lane traffic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_33">
@@ -1174,6 +966,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of trucks in car/truck ratio of opposing lane traffic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
     <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
@@ -1195,6 +990,9 @@
         <width>16</width>
         <height>16</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Generate opposing lane traffic for scenario.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string/>
@@ -1258,7 +1056,7 @@
       <x>570</x>
       <y>10</y>
       <width>621</width>
-      <height>591</height>
+      <height>571</height>
      </rect>
     </property>
     <property name="title">
@@ -1270,7 +1068,7 @@
        <x>320</x>
        <y>50</y>
        <width>291</width>
-       <height>191</height>
+       <height>161</height>
       </rect>
      </property>
      <property name="title">
@@ -1285,16 +1083,139 @@
         <height>17</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include a lead vehicle change for this trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string/>
       </property>
      </widget>
+     <widget class="QCheckBox" name="leadTrialVelocityChange">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>101</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change the velocity of the lead vehicle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Velocity Change</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="leadTrialForceLaneChange">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>100</y>
+        <width>111</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Force the lead vehicle to change lanes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Force Lane Change</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="leadTrialVelocityChangeAbsoluteSpeed">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>80</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Absolute speed value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>131</width>
+        <height>46</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QRadioButton" name="leadTrialMatchExternalDriver">
+         <property name="toolTip">
+          <string>Match the velocity of the external driver.</string>
+         </property>
+         <property name="text">
+          <string>Match External Driver</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="leadTrialVelocityChangeAbsolute">
+         <property name="toolTip">
+          <string>Set the velocity of the follow vehicle to an absolute value.</string>
+         </property>
+         <property name="text">
+          <string>Absolute Speed</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>120</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_10">
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="leadTrialChangeLeft">
+         <property name="text">
+          <string>Left</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QRadioButton" name="leadTrialChangeRight">
+         <property name="text">
+          <string>Right</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <zorder>leadTrialOn</zorder>
+     <zorder>leadTrialVelocityChange</zorder>
+     <zorder>leadTrialForceLaneChange</zorder>
+     <zorder>leadTrialMatchExternalDriver</zorder>
+     <zorder>leadTrialVelocityChangeAbsoluteSpeed</zorder>
+     <zorder>leadTrialVelocityChangeAbsolute</zorder>
+     <zorder>leadTrialVelocityChange</zorder>
+     <zorder>leadTrialForceLaneChange</zorder>
+     <zorder>leadTrialVelocityChangeAbsoluteSpeed</zorder>
+     <zorder>verticalLayoutWidget_2</zorder>
+     <zorder>gridLayoutWidget_4</zorder>
     </widget>
     <widget class="QGroupBox" name="roadSideVehicleControl">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
+       <y>220</y>
        <width>311</width>
        <height>341</height>
       </rect>
@@ -1311,50 +1232,11 @@
         <height>17</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include a roadside vehicle for this trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string/>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_4">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>290</y>
-        <width>81</width>
-        <height>46</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QRadioButton" name="roadSideTrialDeletionPullToSide">
-         <property name="text">
-          <string>Pull To Side</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="roadSideTrialDeletionSlowDown">
-         <property name="text">
-          <string>Slow Down</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QLabel" name="label_22">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>270</y>
-        <width>41</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;u&gt;Deletion&lt;/u&gt;</string>
       </property>
      </widget>
      <widget class="QRadioButton" name="roadSideTrialAddToList">
@@ -1439,12 +1321,177 @@
        <string>&lt;u&gt;Blinker Control&lt;/u&gt;</string>
       </property>
      </widget>
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>291</width>
+        <height>167</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="1">
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Distance</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="roadSideTrialPullFrontStopSpeed"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="roadSideTrialPullFrontStopDistance"/>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="roadSideTrialRemainStationary">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remain stationary on the side of the road.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Remain Stationary</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QRadioButton" name="roadSideTrialDriveOnShoulder">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Drive on shoulder for entire trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Drive On Shoulder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QRadioButton" name="roadSideTrialPullFront">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pull out in front of the external driver. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Pull Out In Front</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QRadioButton" name="roadSideTrialPullFrontStop">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pull out in front of the external driver and stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Pull Out In Front and Stop</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="roadSideTrialPullFrontSpeed">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Speed for the vehicle to pull out at.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>Speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="roadSideTrialPullFrontDistance">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between the external driver and the roadside vehicle when the vehicle is fully merged into traffic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Distance</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="1">
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>Speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="roadSideTrialDriveOnShoulderSpeed">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Speed to drive on shoulder at.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_8">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>270</y>
+        <width>160</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_13">
+       <item row="2" column="0">
+        <widget class="QRadioButton" name="roadSideTrialDeletionSlowDown">
+         <property name="text">
+          <string>Slow Down</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="roadSideTrialDeletionPullToSide">
+         <property name="text">
+          <string>Pull To Side</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Deletion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QGroupBox" name="leftLaneVehicleControl">
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>240</y>
+       <y>220</y>
        <width>291</width>
        <height>341</height>
       </rect>
@@ -1452,48 +1499,6 @@
      <property name="title">
       <string>Left Lane Vehicle Control</string>
      </property>
-     <widget class="QLabel" name="label_29">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>270</y>
-        <width>47</width>
-        <height>13</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;u&gt;Creation&lt;/u&gt;</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_6">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>290</y>
-        <width>61</width>
-        <height>46</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <item>
-        <widget class="QRadioButton" name="leftLaneTrialCreationBehind">
-         <property name="text">
-          <string>Behind</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="leftLaneTrialCreationFront">
-         <property name="text">
-          <string>Front</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QCheckBox" name="leftLaneTrialOn">
       <property name="geometry">
        <rect>
@@ -1502,6 +1507,9 @@
         <width>16</width>
         <height>17</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include a left lane vehicle for this trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string/>
@@ -1680,134 +1688,52 @@
        <string>Add To List</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_36">
+     <widget class="QWidget" name="gridLayoutWidget_7">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>290</y>
-        <width>47</width>
-        <height>13</height>
+        <x>60</x>
+        <y>270</y>
+        <width>160</width>
+        <height>68</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Distance</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_12">
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_36">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Distance&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="leftLaneTrialDistanceFromET"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="leftLaneTrialCreationFront">
+         <property name="text">
+          <string>Front</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QRadioButton" name="leftLaneTrialCreationBehind">
+         <property name="text">
+          <string>Behind</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QLineEdit" name="leftLaneTrialDistanceFromET">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>310</y>
-        <width>71</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>260</y>
-       <width>291</width>
-       <height>167</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="1">
-       <layout class="QGridLayout" name="gridLayout_7">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>Speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Distance</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="roadSideTrialPullFrontStopSpeed"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="roadSideTrialPullFrontStopDistance"/>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="roadSideTrialRemainStationary">
-        <property name="text">
-         <string>Remain Stationary</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="roadSideTrialDriveOnShoulder">
-        <property name="text">
-         <string>Drive On Shoulder</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="roadSideTrialPullFront">
-        <property name="text">
-         <string>Pull Out In Front</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="roadSideTrialPullFrontStop">
-        <property name="text">
-         <string>Pull Out In Front and Stop</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <layout class="QGridLayout" name="gridLayout_8">
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="roadSideTrialPullFrontSpeed"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_17">
-          <property name="text">
-           <string>Speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="roadSideTrialPullFrontDistance"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Distance</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="1">
-       <layout class="QGridLayout" name="gridLayout_9">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_19">
-          <property name="text">
-           <string>Speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="roadSideTrialDriveOnShoulderSpeed"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
     </widget>
     <widget class="QPushButton" name="prevTrial">
      <property name="geometry">
@@ -1817,6 +1743,9 @@
        <width>41</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to the previous trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>Prev</string>
@@ -1831,6 +1760,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to trial number.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>0</string>
      </property>
@@ -1843,6 +1775,9 @@
        <width>71</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Jump to a given trial (number entered must be in range).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>Go To</string>
@@ -1857,6 +1792,9 @@
        <height>23</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to the next trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>Next</string>
      </property>
@@ -1864,11 +1802,14 @@
     <widget class="QLabel" name="currentTrial">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>190</x>
        <y>20</y>
        <width>31</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current trial number.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>0</string>
@@ -1877,7 +1818,6 @@
     <zorder>leftLaneVehicleControl</zorder>
     <zorder>roadSideVehicleControl</zorder>
     <zorder>leadVehicleInstructions</zorder>
-    <zorder>gridLayoutWidget</zorder>
     <zorder>prevTrial</zorder>
     <zorder>goToLinEdit</zorder>
     <zorder>goToButton</zorder>
@@ -1890,7 +1830,7 @@
       <x>580</x>
       <y>60</y>
       <width>311</width>
-      <height>191</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="title">
@@ -1905,38 +1845,212 @@
        <height>17</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include a follow vehicle change for this trial.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string/>
      </property>
+    </widget>
+    <widget class="QLineEdit" name="followTrialVelocityChangeAbsoluteLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>80</y>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Absolute speed value.</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>50</y>
+       <width>131</width>
+       <height>46</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="followTrialVelocityChangeMatchExternalDriver">
+        <property name="toolTip">
+         <string>Match the velocity of the external driver.</string>
+        </property>
+        <property name="text">
+         <string>Match External Driver</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="followTrialVelocityChangeAbsolute">
+        <property name="toolTip">
+         <string>Set the velocity of the follow vehicle to an absolute value.</string>
+        </property>
+        <property name="text">
+         <string>Absolute Speed</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QCheckBox" name="followTrialVelocityChange">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>30</y>
+       <width>101</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Change the velocity of the follow vehicle.</string>
+     </property>
+     <property name="text">
+      <string>Velocity Change</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="followTrialForceLaneChange">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>100</y>
+       <width>121</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Force the follow vehicle to change lanes.</string>
+     </property>
+     <property name="text">
+      <string>Force Lane Change</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_6">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>120</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_11">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="followTrialChangeLeft">
+        <property name="text">
+         <string>Left</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="followTrialChangeRight">
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <zorder>trialManager</zorder>
    <zorder>followVehicleInstruction</zorder>
    <zorder>majorFileSettings</zorder>
    <zorder>umtriLogo</zorder>
-   <zorder>label_8</zorder>
-   <zorder>followTrialDistance</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>followTrialVelocityChange</zorder>
-   <zorder>followTrialVelocityChangeAbsoluteLineEdit</zorder>
-   <zorder>followTrialForceLaneChange</zorder>
-   <zorder>label_9</zorder>
-   <zorder>followTrialForceLaneChangeSpeed</zorder>
-   <zorder>label_10</zorder>
-   <zorder>followTrialForceLaneChangeAcceleration</zorder>
-   <zorder>label_12</zorder>
-   <zorder>leadTrialMaxLeadDistance</zorder>
-   <zorder>leadTrialVelocityChange</zorder>
-   <zorder>verticalLayoutWidget_2</zorder>
-   <zorder>leadTrialVelocityChangeAbsoluteSpeed</zorder>
-   <zorder>leadTrialForceLaneChange</zorder>
-   <zorder>label_13</zorder>
-   <zorder>label_14</zorder>
-   <zorder>leadTrialForceLaneChangeSpeed</zorder>
-   <zorder>leadTrialForceLaneChangeAcceleration</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>followSolModel</tabstop>
+  <tabstop>followDistanceLineEdit</tabstop>
+  <tabstop>followMaxSpeedLineEdit</tabstop>
+  <tabstop>followMinSpeedLineEdit</tabstop>
+  <tabstop>followMaxAccelLineEdit</tabstop>
+  <tabstop>followMaxDecel</tabstop>
+  <tabstop>leadSolModel</tabstop>
+  <tabstop>leadDistanceLineEdit</tabstop>
+  <tabstop>leadMaxSpeedLineEdit</tabstop>
+  <tabstop>leadMinSpeedLineEdit</tabstop>
+  <tabstop>leadMaxAccelLineEdit</tabstop>
+  <tabstop>leadMaxDecel</tabstop>
+  <tabstop>lengthOfRoadLineEdit</tabstop>
+  <tabstop>showBlindSpotWarning</tabstop>
+  <tabstop>generateOpposingTraffic</tabstop>
+  <tabstop>numberOpposingVehicles</tabstop>
+  <tabstop>numberCars</tabstop>
+  <tabstop>numberTrucks</tabstop>
+  <tabstop>fcwOn</tabstop>
+  <tabstop>frequencyLineEdit</tabstop>
+  <tabstop>fcwPositionX</tabstop>
+  <tabstop>fcwPositionY</tabstop>
+  <tabstop>fcwPositionZ</tabstop>
+  <tabstop>shapeOption</tabstop>
+  <tabstop>fcwIconName</tabstop>
+  <tabstop>animationOn</tabstop>
+  <tabstop>colorButton</tabstop>
+  <tabstop>animationStartX</tabstop>
+  <tabstop>animationStartY</tabstop>
+  <tabstop>animationStartZ</tabstop>
+  <tabstop>animationEndX</tabstop>
+  <tabstop>animationEndY</tabstop>
+  <tabstop>animationEndZ</tabstop>
+  <tabstop>prevTrial</tabstop>
+  <tabstop>nextTrial</tabstop>
+  <tabstop>goToButton</tabstop>
+  <tabstop>goToLinEdit</tabstop>
+  <tabstop>followTrialOn</tabstop>
+  <tabstop>followTrialVelocityChange</tabstop>
+  <tabstop>followTrialVelocityChangeMatchExternalDriver</tabstop>
+  <tabstop>followTrialVelocityChangeAbsolute</tabstop>
+  <tabstop>followTrialVelocityChangeAbsoluteLineEdit</tabstop>
+  <tabstop>followTrialForceLaneChange</tabstop>
+  <tabstop>leadTrialOn</tabstop>
+  <tabstop>leadTrialVelocityChange</tabstop>
+  <tabstop>leadTrialVelocityChangeAbsoluteSpeed</tabstop>
+  <tabstop>leadTrialForceLaneChange</tabstop>
+  <tabstop>roadSideTrialOn</tabstop>
+  <tabstop>roadSideTrialRemainStationary</tabstop>
+  <tabstop>roadSideTrialPullFront</tabstop>
+  <tabstop>roadSideTrialPullFrontSpeed</tabstop>
+  <tabstop>roadSideTrialPullFrontDistance</tabstop>
+  <tabstop>roadSideTrialDriveOnShoulder</tabstop>
+  <tabstop>roadSideTrialDriveOnShoulderSpeed</tabstop>
+  <tabstop>roadSideTrialPullFrontStop</tabstop>
+  <tabstop>roadSideTrialPullFrontStopSpeed</tabstop>
+  <tabstop>roadSideTrialPullFrontStopDistance</tabstop>
+  <tabstop>roadSideTrialBlinkerHazards</tabstop>
+  <tabstop>roadSideTrialBlinkerRight</tabstop>
+  <tabstop>roadSideTrialBlinkerLeft</tabstop>
+  <tabstop>roadSideTrialBlinkerNone</tabstop>
+  <tabstop>roadSideTrialAddToList</tabstop>
+  <tabstop>leftLaneTrialOn</tabstop>
+  <tabstop>leftLaneTrialBlindSpot</tabstop>
+  <tabstop>leftLaneTrialCutBehind</tabstop>
+  <tabstop>leftLaneTrialCutFront</tabstop>
+  <tabstop>leftLaneTrialCutFrontSpeed</tabstop>
+  <tabstop>leftLaneTrialCutFrontDistance</tabstop>
+  <tabstop>leftLaneTRialRemainLane</tabstop>
+  <tabstop>leftLaneTrialRemainLaneMatchET</tabstop>
+  <tabstop>leftLaneTrialRemainLaneAbsolute</tabstop>
+  <tabstop>leftLaneTrialRemainLaneAbsoluteSpeed</tabstop>
+  <tabstop>leftLaneTrialBlinkerHazards</tabstop>
+  <tabstop>leftLaneTrialBlinkerRight</tabstop>
+  <tabstop>leftLaneTrialBlinkerLeft</tabstop>
+  <tabstop>leftLaneTrialBlinkerNone</tabstop>
+  <tabstop>leftLaneTrialAddToFCW</tabstop>
+  <tabstop>leftLaneTrialDistanceFromET</tabstop>
+  <tabstop>loadFile</tabstop>
+  <tabstop>saveFileButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

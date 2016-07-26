@@ -39,9 +39,19 @@ private:
 
 public:
 	SCNHeader();
-
+    
+    /*
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the header file to the ostream.
+    */
 	void print(ostream &);
 
+    /*
+    Requires:   ifstream is a valid input file stream.
+    Modifies:   ifstream.
+    Effects:    Reads the header from the input file.
+    */
 	bool readFromFile(ifstream &);
 };
 

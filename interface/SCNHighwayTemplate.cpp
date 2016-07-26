@@ -34,6 +34,199 @@ SCNHighwayTemplate::SCNHighwayTemplate () {
     truckSolModels.push_back("\"GarbageTruck\"");       truckSolModels.push_back("\"semi_peterbilt_white_FordRacing\"");
 }
 
+void SCNHighwayTemplate::slowFollowVehicle (int trialNum, ostream &outStream, int speed, int trialPercentage) {
+    //road pad trigger to reset follow vehicle speed
+    double              resetFVPathStart = (trialNum * (trialLengthFt + trialSetupLengthFt)) - trialSetupLengthFt;
+    position            resetFVSpeedDraw (450, -1320 + resetFVPathStart, 0);
+    vector <Action*>    resetFVSpeedActions;
+    string              resetFVSpeedHelperPath = std::to_string(resetFVPathStart) + ":" + std::to_string(resetFVPathStart + 10);
+    string              resetFVSpeedPath = "\"R:r1_0_113520:0[" + resetFVSpeedHelperPath + "]:1[" + resetFVSpeedHelperPath + "]\"";
+    Action*             resetFVSpeed = new ResetDial (0, 0, "\"ResetFVSpeed_" + std::to_string(trialNum) + "\"", "\"FV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetFVSpeedActions.push_back(resetFVSpeed);
+    
+    RoadPadTrigger      resetFVSpeedTrigger (false, true, 0, 0, 0, trialLengthFt, 0, "\"ResetFVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetFVSpeedDraw, resetFVSpeedDraw, resetFVSpeedActions, "\"FV\"", resetFVSpeedPath);
+    resetFVSpeedTrigger.setTypeSet(false);
+    resetFVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to set the follow vehicle speed
+    double              lengthRatio = trialPercentage/100;
+    double              setFVPathStart = resetFVPathStart + 80;
+    double              setFVPathEnd = setFVPathStart + (trialLengthFt + trialSetupLengthFt)*lengthRatio;
+    position            setFVSpeedDraw (450, -1320 + setFVPathStart, 0);
+    vector <Action*>    setFVSpeedActions;
+    string              setFVSpeedHelperPath = std::to_string(setFVPathStart) + ":" + std::to_string(setFVPathEnd);
+    string              setFVSpeedPath = "\"R:r1_0_113520:0[" + setFVSpeedHelperPath + "]:1[" + setFVSpeedHelperPath + "]\"";
+    Action*             setFVSpeed = new SetDial (0, 0, "\"SetFVSpeed_" + std::to_string(trialNum) + "\"", "\"FV\"", "\"ForcedVelocity\" \"" + std::to_string(speed) + "\"", "\"Ado/ForcedVelocity\"");
+    
+    setFVSpeedActions.push_back(setFVSpeed);
+    
+    RoadPadTrigger      setFVSpeedTrigger (false, false, 0, 0, 0, trialLengthFt, 0, "\"SetFVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", setFVSpeedDraw, setFVSpeedDraw, setFVSpeedActions, "\"FV\"", setFVSpeedPath);
+    setFVSpeedTrigger.setTypeSet(false);
+    setFVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to reset the follow vehicle speed
+    double              resetEndFVPathStart = setFVPathEnd + 40;
+    double              resetEndFVPathEnd = resetEndFVPathStart + 40;
+    position            resetEndFVDraw (450, -1320 + resetEndFVPathStart, 0);
+    vector <Action*>    resetEndFVActions;
+    string              resetEndFVHelperPath = std::to_string(resetEndFVPathStart) + ":" + std::to_string(resetEndFVPathEnd);
+    string              resetEndFVPath = "\"R:r1_0_113520:0[" + resetEndFVHelperPath + "]:1[" + resetEndFVHelperPath + "]\"";
+    Action*             resetEndFV = new ResetDial (0, 0, "\"ResetEndFVSpeed_" + std::to_string(trialNum) + "\"", "\"FV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetEndFVActions.push_back(resetEndFV);
+    
+    RoadPadTrigger resetEndFVTrigger (false,  true, 0, 0, 0, trialLengthFt, 0, "\"ResetEndFVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetEndFVDraw, resetEndFVDraw, resetEndFVActions, "\"FV\"", resetEndFVPath);
+    resetEndFVTrigger.setTypeSet(false);
+    resetEndFVTrigger.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::FVLVMatchET(int trialNum, ostream &outStream, int trialPercentage, string vehName) {
+    //road pad trigger to reset follow/lead vehicle speed
+    double              resetFVLVPathStart = (trialNum * (trialLengthFt + trialSetupLengthFt)) - trialSetupLengthFt;
+    position            resetFVLVSpeedDraw (450, -1320 + resetFVLVPathStart, 0);
+    vector <Action*>    resetFVLVSpeedActions;
+    string              resetFVLVSpeedHelperPath = std::to_string(resetFVLVPathStart) + ":" + std::to_string(resetFVLVPathStart + 10);
+    string              resetFVLVSpeedPath = "\"R:r1_0_113520:0[" + resetFVLVSpeedHelperPath + "]:1[" + resetFVLVSpeedHelperPath + "]\"";
+    Action*             resetFVLVSpeed = new ResetDial (0, 0, "\"ResetFVLVSpeed_" + std::to_string(trialNum) + "\"", vehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetFVLVSpeedActions.push_back(resetFVLVSpeed);
+    
+    RoadPadTrigger      resetFVLVSpeedTrigger (false, true, 0, 0, 0, trialLengthFt, 0, "\"ResetFVLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetFVLVSpeedDraw, resetFVLVSpeedDraw, resetFVLVSpeedActions, vehName, resetFVLVSpeedPath);
+    resetFVLVSpeedTrigger.setTypeSet(false);
+    resetFVLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to set the follow/lead vehicle speed
+    double              lengthRatio = trialPercentage/100;
+    double              setFVLVPathStart = resetFVLVPathStart + 80;
+    double              setFVLVPathEnd = setFVLVPathStart + (trialLengthFt + trialSetupLengthFt)*lengthRatio;
+    position            setFVLVSpeedDraw (450, -1320 + setFVLVPathStart, 0);
+    vector <Action*>    setFVLVSpeedActions;
+    string              setFVLVSpeedHelperPath = std::to_string(setFVLVPathStart) + ":" + std::to_string(setFVLVPathEnd);
+    string              setFVLVSpeedPath = "\"R:r1_0_113520:0[" + setFVLVSpeedHelperPath + "]:1[" + setFVLVSpeedHelperPath + "]\"";
+    Action*             setFVLVSpeed = new SetDial (0, 0, "\"SetFVLVSpeed_" + std::to_string(trialNum) + "\"", vehName, "\"ForcedVelocity\" \"ovvel\"", "\"Ado/ForcedVelocity\"");
+    
+    setFVLVSpeedActions.push_back(setFVLVSpeed);
+    
+    RoadPadTrigger      setFVLVSpeedTrigger (false, false, 0, 0, 0, trialLengthFt, 0, "\"SetFVLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", setFVLVSpeedDraw, setFVLVSpeedDraw, setFVLVSpeedActions, vehName, setFVLVSpeedPath);
+    setFVLVSpeedTrigger.setTypeSet(false);
+    setFVLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to reset the follow/lead vehicle speed
+    double              resetEndFVLVPathStart = setFVLVPathEnd + 40;
+    double              resetEndFVLVPathEnd = resetEndFVLVPathStart + 40;
+    position            resetEndFVLVDraw (450, -1320 + resetEndFVLVPathStart, 0);
+    vector <Action*>    resetEndFVLVActions;
+    string              resetEndFVLVHelperPath = std::to_string(resetEndFVLVPathStart) + ":" + std::to_string(resetEndFVLVPathEnd);
+    string              resetEndFVLVPath = "\"R:r1_0_113520:0[" + resetEndFVLVHelperPath + "]:1[" + resetEndFVLVHelperPath + "]\"";
+    Action*             resetEndFVLV = new ResetDial (0, 0, "\"ResetEndFVLVSpeed_" + std::to_string(trialNum) + "\"", vehName, "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetEndFVLVActions.push_back(resetEndFVLV);
+    
+    RoadPadTrigger resetEndFVLVTrigger (false,  true, 0, 0, 0, trialLengthFt, 0, "\"ResetEndFVLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetEndFVLVDraw, resetEndFVLVDraw, resetEndFVLVActions, vehName, resetEndFVLVPath);
+    resetEndFVLVTrigger.setTypeSet(false);
+    resetEndFVLVTrigger.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::speedLeadVehicle (int trialNum, ostream &outStream, int speed, int trialPercentage) {
+    //road pad trigger to reset lead vehicle speed
+    double              resetLVPathStart = (trialNum * (trialLengthFt + trialSetupLengthFt)) - trialSetupLengthFt;
+    position            resetLVSpeedDraw (450, -1320 + resetLVPathStart, 0);
+    vector <Action*>    resetLVSpeedActions;
+    string              resetLVSpeedHelperPath = std::to_string(resetLVPathStart) + ":" + std::to_string(resetLVPathStart + 10);
+    string              resetLVSpeedPath = "\"R:r1_0_113520:0[" + resetLVSpeedHelperPath + "]:1[" + resetLVSpeedHelperPath + "]\"";
+    Action*             resetLVSpeed = new ResetDial (0, 0, "\"ResetLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetLVSpeedActions.push_back(resetLVSpeed);
+    
+    RoadPadTrigger      resetLVSpeedTrigger (false, true, 0, 0, 0, trialLengthFt, 0, "\"ResetLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetLVSpeedDraw, resetLVSpeedDraw, resetLVSpeedActions, "\"LV\"", resetLVSpeedPath);
+    resetLVSpeedTrigger.setTypeSet(false);
+    resetLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to set the lead vehicle speed
+    double              lengthRatio = trialPercentage/100;
+    double              setLVPathStart = resetLVPathStart + 80;
+    double              setLVPathEnd = setLVPathStart + (trialLengthFt + trialSetupLengthFt)*lengthRatio;
+    position            setLVSpeedDraw (450, -1320 + setLVPathStart, 0);
+    vector <Action*>    setLVSpeedActions;
+    string              setLVSpeedHelperPath = std::to_string(setLVPathStart) + ":" + std::to_string(setLVPathEnd);
+    string              setLVSpeedPath = "\"R:r1_0_113520:0[" + setLVSpeedHelperPath + "]:1[" + setLVSpeedHelperPath + "]\"";
+    Action*             setLVSpeed = new SetDial (0, 0, "\"SetLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"" + std::to_string(speed) + "\"", "\"Ado/ForcedVelocity\"");
+    
+    setLVSpeedActions.push_back(setLVSpeed);
+    
+    RoadPadTrigger      setLVSpeedTrigger (false, false, 0, 0, 0, trialLengthFt, 0, "\"SetLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", setLVSpeedDraw, setLVSpeedDraw, setLVSpeedActions, "\"LV\"", setLVSpeedPath);
+    setLVSpeedTrigger.setTypeSet(false);
+    setLVSpeedTrigger.filePrint(outStream);
+    
+    //roadpad trigger to reset the lead vehicle speed
+    double              resetEndLVPathStart = setLVPathEnd + 40;
+    double              resetEndLVPathEnd = resetEndLVPathStart + 40;
+    position            resetEndLVDraw (450, -1320 + resetEndLVPathStart, 0);
+    vector <Action*>    resetEndLVActions;
+    string              resetEndLVHelperPath = std::to_string(resetEndLVPathStart) + ":" + std::to_string(resetEndLVPathEnd);
+    string              resetEndLVPath = "\"R:r1_0_113520:0[" + resetEndLVHelperPath + "]:1[" + resetEndLVHelperPath + "]\"";
+    Action*             resetEndLV = new ResetDial (0, 0, "\"ResetEndLVSpeed_" + std::to_string(trialNum) + "\"", "\"LV\"", "\"ForcedVelocity\" \"\"", "\"Ado/ForcedVelocity\"");
+    
+    resetEndLVActions.push_back(resetEndLV);
+    
+    RoadPadTrigger resetEndLVTrigger (false,  true, 0, 0, 0, trialLengthFt, 0, "\"ResetEndLVSpeed_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetEndLVDraw, resetEndLVDraw, resetEndLVActions, "\"LV\"", resetEndLVPath);
+    resetEndLVTrigger.setTypeSet(false);
+    resetEndLVTrigger.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::laneChange (int trialNum, ostream &outStream, string vehName, int direction) {
+    //set the dial and path
+    string              dial;
+    string              endDial;
+    string              buttonDialPath = "\"Ado/LaneChange\"";
+    
+    if (direction == 0) {
+        dial = "\"LaneChange\" \"left;1;2\"";
+        endDial = "\"LaneChange\" \"right;1;2\"";
+    }
+    else {
+        dial = "\"LaneChange\" \"right;1;2\"";
+        endDial = "\"LaneChange\" \"left;1;2\"";
+    }
+    
+    //road pad trigger to reset follow/lead vehicle lane change dial
+    double              resetLaneStart = (trialNum * (trialLengthFt + trialSetupLengthFt)) - trialSetupLengthFt;
+    position            resetLaneDraw (450, -1320 + resetLaneStart, 0);
+    vector <Action*>    resetLaneActions;
+    string              resetLaneHelperPath = std::to_string(resetLaneStart) + ":" + std::to_string(resetLaneStart + 10);
+    string              resetLanePath = "\"R:r1_0_113520:0[" + resetLaneHelperPath + "]:1[" + resetLaneHelperPath + "]\"";
+    Action*             resetLane = new ResetDial (0, 0, "\"ResetLaneChange_" + std::to_string(trialNum) + "\"", vehName, dial, buttonDialPath);
+    Action*             setLane = new SetDial (0, 0, "\"SetLaneChange_" + std::to_string(trialNum) + "\"", vehName, dial, buttonDialPath);
+    
+    resetLaneActions.push_back(resetLane);
+    resetLaneActions.push_back(setLane);
+    
+    RoadPadTrigger      resetLaneTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"LaneChange_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetLaneDraw, resetLaneDraw, resetLaneActions, vehName, resetLanePath);
+    resetLaneTrigger.setTypeSet(false);
+    resetLaneTrigger.filePrint(outStream);
+    
+    //roadpad trigger to reset the lane change
+    double              remainingTrialLength = trialLengthFt - 10;
+    double              resetEndLanePathStart = resetLaneStart + remainingTrialLength;
+    double              resetEndLanePathEnd = resetEndLanePathStart + 40;
+    position            resetEndLaneDraw (450, -1320 + resetEndLanePathStart, 0);
+    vector <Action*>    resetEndLaneActions;
+    string              resetEndLaneHelperPath = std::to_string(resetEndLanePathStart) + ":" + std::to_string(resetEndLanePathEnd);
+    string              resetEndLanePath = "\"R:r1_0_113520:0[" + resetEndLaneHelperPath + "]:1[" + resetEndLaneHelperPath + "]\"";
+    Action*             resetEndLane = new ResetDial (0, 0, "\"EndLaneChange_" + std::to_string(trialNum) + "\"", vehName, endDial, buttonDialPath);
+    
+    resetEndLaneActions.push_back(resetEndLane);
+    
+    RoadPadTrigger resetEndLaneTrigger (false,  true, 0, 0, 0, trialLengthFt, 0, "\"EndLaneChange_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetEndLaneDraw, resetEndLaneDraw, resetEndLaneActions, vehName, resetEndLanePath);
+    resetEndLaneTrigger.setTypeSet(false);
+    resetEndLaneTrigger.filePrint(outStream);
+    return;
+}
+
 void SCNHighwayTemplate::leftLaneSlowDown (int trialNum, string leftVehName, ostream &outStream, vector<Action*> &slowDownActions) {
     //create action to make it slow down
     Action*     resetSlowDown = new ResetDial (0, 0, "\"LeftResetBeforeSlowDown_" + std::to_string(trialNum) + "\"", leftVehName, "\"ForcedVelocity\" \" \"", "\"Ado/ForcedVelocity\"");
@@ -612,13 +805,45 @@ void SCNHighwayTemplate::speedLeadVehicle (int trialNum, ostream &outStream, int
     return;
 }
 
-void SCNHighwayTemplate::processLeadVehicle (FVLVInstructions &leadVehicle, ostream &outStream) {
-    
+void SCNHighwayTemplate::processLeadVehicle (FVLVInstructions &leadVehicle, ostream &outStream, int trialNum) {
+    //if the velocity change is checked
+    if (leadVehicle.velocityChange) {
+        //if it is match the et
+        if (leadVehicle.velocityChangeOption == 0) {
+            //call the correct function
+            FVLVMatchET(trialNum, outStream, 100, "\"LV\"");
+        }
+        //otherwise
+        else { 
+            //call the correct function with the absolute speed
+            speedLeadVehicle (trialNum, outStream, leadVehicle.absoluteSpeed, 100);
+        }
+    }
+    //if the force lane change option is checked
+    if (leadVehicle.forceLaneChange) {
+        laneChange (trialNum, outStream, "\"LV\"", leadVehicle.laneChangeOption);
+    }
     return;
 }
 
-void SCNHighwayTemplate::processFollowVehicle (FVLVInstructions &followVehicle, ostream &outStream) {
-    
+void SCNHighwayTemplate::processFollowVehicle (FVLVInstructions &followVehicle, ostream &outStream, int trialNum) {
+    //if the velocity change is checked
+    if (followVehicle.velocityChange) {
+        //if it is match the et
+        if (followVehicle.velocityChangeOption == 0) {
+            //call the correct function
+            FVLVMatchET(trialNum, outStream, 100, "\"FV\"");
+        }
+        //otherwise
+        else {
+            //call the correct function with the absolute speed
+            slowFollowVehicle(trialNum, outStream, followVehicle.absoluteSpeed, 100);
+        }
+    }
+    //if the force lane change option is checked
+    if (followVehicle.forceLaneChange) {
+        laneChange (trialNum, outStream, "\"FV\"", followVehicle.laneChangeOption);
+    }
     return;
 }
 
@@ -1133,10 +1358,10 @@ void SCNHighwayTemplate::processAll (vector<Trial> &trials, MajorSettings &setti
                 processLeftLane(trial.leftLane, outStream, trial.trialNumber);
             }
             if (trial.followVehicle.checked){
-                processFollowVehicle(trial.followVehicle, outStream);
+                processFollowVehicle(trial.followVehicle, outStream, trial.trialNumber);
             }
             if (trial.leadVehicle.checked) {
-                processLeadVehicle(trial.leadVehicle, outStream);
+                processLeadVehicle(trial.leadVehicle, outStream, trial.trialNumber);
             }
         }
         trialNum++;
@@ -1213,7 +1438,6 @@ void SCNHighwayTemplate::writeFile(string outputFilePath, vector<Trial> &trials,
     return;
 }
 
-//reads in the file: header, triggers, vehicles, etc.
 void SCNHighwayTemplate::readFile(string SCNFilePath) {
     if (SCNFilePath.empty()) {
         return;
@@ -1235,11 +1459,8 @@ void SCNHighwayTemplate::readFile(string SCNFilePath) {
     return;
 }
 
-//responsible for reading in information from the header
 void SCNHighwayTemplate::readHeader(ifstream &inputStream) {
-    if (!header.readFromFile(inputStream)) {
-        std::exception e("The scn file entered does not have a vehicle position entered.");
-    }
+    if (!header.readFromFile(inputStream)) {}
     return;
 }
 

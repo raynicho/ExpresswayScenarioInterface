@@ -51,7 +51,6 @@ struct leftLaneControl {
 
 struct FVLVInstructions {
 	bool checked;
-	double maxFollow;
 	//true when a velocity change is present
 	bool velocityChange;
 	//0 = match the external driver
@@ -60,9 +59,10 @@ struct FVLVInstructions {
 	double absoluteSpeed;
 	//true when forcing a lane change
 	bool forceLaneChange;
-	double forceLaneSpeed;
-    double forceLaneAcceleration;
-    FVLVInstructions () : checked(false), maxFollow(0), velocityChange(0), velocityChangeOption(-1), absoluteSpeed(0), forceLaneChange(false), forceLaneSpeed(0), forceLaneAcceleration(0) {}
+    //0 = left
+    //1 = right
+    int laneChangeOption;
+    FVLVInstructions () : checked(false), velocityChange(0), velocityChangeOption(-1), absoluteSpeed(0), forceLaneChange(false), laneChangeOption(0) {}
 };
 
 struct Trial {
