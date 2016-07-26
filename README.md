@@ -10,14 +10,6 @@ Driving scenarios for the NADS MiniSim take months to produce which is a major p
 
 To use the Expressway Scenario Interface Tool follow these steps;
 
-(Non Zip Version)
-
-1. Download all files from /exec
-
-2. Place the files in a folder on your system
-
-3. Run the application
-
 (Zip)
 
 1. Download the zip file from /exec
@@ -36,5 +28,5 @@ To use the Expressway Scenario Interface Tool follow these steps;
 Raymond Pressly (raynicho@umich.edu)
 
 ## To Do
-- process major settings so they become part of the scenario file
-- process all trials so that they become part of the scenario file
+- complete blind spot warnings
+- complete FCW
