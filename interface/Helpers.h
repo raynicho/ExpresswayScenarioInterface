@@ -32,16 +32,20 @@ struct trajectory {
 
 /*MINISIM SPECIFIC COLOR SCHEME. RGB STYLE WITH INTENSITY INCLUDED.*/
 struct color {
-    double a;   //RED
-    double b;   //GREEN
-    double c;   //BLUE
-    double d;   //INTENSITY
+    double red;         //RED
+    double green;       //GREEN
+    double blue;        //BLUE
+    double intensity;   //INTENSITY
+    color () : red (0), green (0), blue (0), intensity (0) {}
+    color (double r, double g, double b, double intens) : red(r), green(g), blue(b), intensity(intens) {}
 };
 
 /*MINISIM SPECIFIC DRAW SIZE STRUCT FOR SIZE OF VIRTUAL/STATIC OBJECTS.*/
 struct drawSize {
     double width;
     double heighth;
+    drawSize () : width (0), heighth (0) {}
+    drawSize (double Width, double Height) : width (Width), heighth (Height) {}
 };
 
 /*MINISIM SPECIFIC DRAW STATE STRUCT FOR VIRTUAL/STATIC OBJECTS.*/
@@ -50,6 +54,9 @@ struct state {
     int stateOne;
     int stateTwo;
     string stateString;
+    state () : stateOne (1), stateTwo (1), stateString ("\"\"") {}
+    state (int one, int two, string StateString, vector<double> StateVec) : stateOne(one), stateTwo(two),
+                stateString(StateString), stateVector(StateVec){}
 };
 
 #endif

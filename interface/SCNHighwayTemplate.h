@@ -250,74 +250,91 @@ public:
     void slowFollowVehicle (int trialNum, ostream &, int speed, int trialPercentage);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.
+    Effects:    Creates a DDDO to pull out in front of the external driver at the given distance and 
+                speed. Sets blinker as well. Prints the DDDO to ostream.
     */
     void roadSidePullFront (int, roadSideControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.   
+    Effects:    Creates a DDDO to remain stationary on the side of the road and sets the blinkers.
+                Prints the DDDO to ostream.
     */
     void roadSideStationary (int, roadSideControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.   
+    Effects:    Creates a DDDO to pull out in front of the external driver and stop at the given 
+                distance and speed. Sets blinker as well. Prints the DDDO to ostream.
     */
     void roadSidePullFrontStop (int, roadSideControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream. 
+    Effects:    Creates a DDDO to drive on the shoulder at the given distance and speed. Sets blinker 
+                as well. Prints the DDDO to ostream.
     */
     void roadSideDriveShoulder (int, roadSideControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream. 
+    Effects:    Creates a left lane vehicle to drive in the blind spot of the external driver. Also sets
+                the blinker. Prints the ADO to ostream.
     */
     void leftLaneBlindSpot (int, leftLaneControl &leftLane, ostream &outStream);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.   
+    Effects:    Creates a left lane vehicle to pull behind the external driver at the given distance
+                and speed. Also sets the blinker. Prints the DDDO to ostream.
     */
     void leftLaneCutBehind (int, leftLaneControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.    
+    Effects:    Creates a left lane vehicle to pull in front of the external driver at the given distance
+                and speed. Also sets the blinker. Prints the DDDO to ostream.
     */
     void leftLaneCutFront (int, leftLaneControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.      
+    Effects:    Creates a left lane vehicle to either match the external driver or drive at an absolutte
+                speed. Also sets the blinker. Prints the ADO to ostream.
     */
     void leftLaneRemainLane (int, leftLaneControl &, ostream &);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream.     
+    Effects:    Slows down the left lane vehicle given by leftVehName and adds the actions to the vector
+                called slowDownActions. Prints all objects to the ostream.
     */
-    void leftLaneSlowDown (int, string, ostream &, vector<Action*> &);
+    void leftLaneSlowDown (int, string leftVehName, ostream &, vector<Action*> &slowDownActions);
     
     /*
-    Requires:   
-    Modifies:   
-    Effects:    
+    Requires:   ostream us a valid output stream.
+    Modifies:   ostream. 
+    Effects:    Creates a trigger to force a lane change on the vehicle given by vehName. Lane change 
+                direction is determined by the direction integer passed in (0 left, 1 right). Prints
+                the trigger to ostream.
     */
-    void laneChange (int, ostream &, string, int);
+    void laneChange (int, ostream &, string vehName, int direction);
+    
+    void generateBSWVirtualObjects (ostream &);
+    
+    void generateBSWActivationTriggers (ostream &);
+    
+    void generateBSWInitializeTrigger (ostream &);
 };
 
 #endif

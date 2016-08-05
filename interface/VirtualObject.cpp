@@ -64,10 +64,10 @@ void VirtualObject::readFromFile(ifstream &inputStream) {
             inputStream >> drawPosition.x >> drawPosition.y >> drawPosition.z;
         }
         else if (current == "FillColor") {
-            inputStream >> fillColor.a >> fillColor.b >> fillColor.c >> fillColor.d;
+            inputStream >> fillColor.red >> fillColor.green >> fillColor.blue >> fillColor.intensity;
         }
         else if (current == "BoarderColor") {
-            inputStream >> boarderColor.a >> boarderColor.b >> boarderColor.c >> boarderColor.d;
+            inputStream >> boarderColor.red >> boarderColor.green >> boarderColor.blue >> boarderColor.intensity;
         }
         else if (current == "DrawSize") {
             inputStream >> draw.width >> draw.heighth;
@@ -101,8 +101,8 @@ void VirtualObject::print(ostream &outStream) {
     outStream << "  " << "BlinkOff 1.0000000E+000\n";
     outStream << "  " << "BlinkOn 1.0000000E+000\n";
     outStream << "  " << "IsBlinking 0\n";
-    outStream << "  " << "FillColor " << fillColor.a << " " << fillColor.b << " " << fillColor.c << " " << fillColor.d << '\n';
-    outStream << "  " << "BoarderColor " << boarderColor.a << " " << boarderColor.b << " " << boarderColor.c << " " << boarderColor.d << '\n';
+    outStream << "  " << "FillColor " << fillColor.red << " " << fillColor.green << " " << fillColor.blue << " " << fillColor.intensity << '\n';
+    outStream << "  " << "BoarderColor " << boarderColor.red << " " << boarderColor.green << " " << boarderColor.blue << " " << boarderColor.intensity << '\n';
     outStream << "  " << "DrawSize " << draw.width << " " << draw.heighth << '\n';
     outStream << "  " << "IconName " << iconName << '\n';
     printStates(outStream);

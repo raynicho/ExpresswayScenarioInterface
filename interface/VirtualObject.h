@@ -43,15 +43,32 @@ private:
 	vector <state> states;
 
 public:
+    //Default constructor.
 	VirtualObject();
 
+    //Overloaded constructor.
 	VirtualObject(string, int, double, string, string, string, string, 
 		string, position, position, color, color, drawSize, vector<state> &);
 
+    /*
+    Requires:   ifstream is a valid input stream.
+    Modifies:   ifstream.
+    Effects:    Reads the VirtualObject from the ifstream.
+    */
 	void readFromFile(ifstream &);
 
+    /*
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the states vector to ostream.
+    */
 	void printStates(ostream &);
 
+    /*
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the VirtualObject vector to ostream.
+    */
 	void print(ostream &);
 };
 

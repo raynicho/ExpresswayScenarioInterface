@@ -37,35 +37,84 @@ protected:
 	vector <Action*> Actions;
 
 public:
-	//default constructor for a Trigger
+	//Default constructor for a Trigger.
 	Trigger();
-	//constructor that takes in various parameters
+    
+	//Overridden constructor for a Trigger.
     Trigger(bool, bool, int, double, double, double, double, string, string,
         string, position, position, vector <Action*> &);
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   created member variable.
+    Effects:    Sets the created bool variable.
+    */
     void setCreation (bool);
     
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   N/A
+    Effects:    Returns the short comment of the Trigger.
+    */
 	string getShortComment();
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   N/A
+    Effects:    Returns the short comment of the Trigger.
+    */
 	string getLongComment();
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   N/A
+    Effects:    Returns the name of the Trigger.
+    */
 	string getName();
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   N/A
+    Effects:    Returns the position of the Trigger.
+    */
 	position getPosition();
-
-	//responsible for adding in an action to the vector of actions
+    
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   N/A
+    Modifies:   Actions vector.
+    Effects:    Adds the Action * to the Actions vector.
+    */
 	void addAction(Action *);
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.  
+    Effects:    Writes the parent Action variables to ostream.
+    */
 	void writeBasics(ostream &);
 
-	//virtual function for printing the Trigger tp an output stream; different for each type of Trigger
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the child Action member variables to ostream.
+    */
     virtual void filePrint(ostream &);
 
-	//virtual funciton for reading the Trigger; different for each type of Trigger
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   ifstream is a valid input file stream.
+    Modifies:   ifstream.
+    Effects:    Reads the Trigger from the ifstream.
+    */
     virtual void fileRead(ifstream &);
 
+    /*APPLICABLE TO ALL INHERITED TRIGGERS
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints all actions to the ostream.
+    */
 	void printActions(ostream &);
 
+    //Deconstructor. Deletes all actions.
     ~Trigger();
 };
 
@@ -86,8 +135,7 @@ public:
 
 class RoadPadTrigger : public Trigger {
 private:
-    //true if by typeset
-    bool byTypeSet;
+    bool byTypeSet; //True if by typeset, false if by nameset.
 	string typeSet;
 	string path;
 
@@ -97,6 +145,11 @@ public:
 	RoadPadTrigger(bool, bool, double, double, double, double, double, string, string,
 		string, position, position, vector <Action*> &, string, string);
     
+    /*
+    Requires:   N/A
+    Modifies:   byTypeSet.
+    Effects:    Sets the typset to either be by name or by type.
+    */
     void setTypeSet (bool);
 
 	void filePrint(ostream &);

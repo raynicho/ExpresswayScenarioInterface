@@ -1319,7 +1319,151 @@ void SCNHighwayTemplate::processLeftLane (leftLaneControl &leftLane, ostream &ou
     return;
 }
 
+void SCNHighwayTemplate::generateBSWVirtualObjects (ostream &outStream) {
+    string          groupName ("\"LeftArrow\"");
+    string          solName ("\"RouteNumber\"");
+    position        rightPosition (207.9, -1494.2763, 0);
+    position        leftPosition (223.2, -1494.6, 0);
+    position        drawPosition (0, 0, 0);
+    color           graphicColor (0.992, 0.754, 0.051, 1);
+    drawSize        sizeOne (60, 60);
+    drawSize        sizeTwo (50, 50);
+    vector <state>  graphicStates;
+    
+    //state one
+    vector <double> stateVectorOne;
+    stateVectorOne.push_back(9.9218750E-001);   stateVectorOne.push_back(7.5390625E-001);
+    stateVectorOne.push_back(5.0781250E-002);   stateVectorOne.push_back(0);
+    stateVectorOne.push_back(9.9218750E-001);   stateVectorOne.push_back(7.5390625E-001);
+    stateVectorOne.push_back(5.0781250E-002);   stateVectorOne.push_back(1);
+    stateVectorOne.push_back(600);              stateVectorOne.push_back(1);
+    stateVectorOne.push_back(1);                stateVectorOne.push_back(0);
+    state           stateOne (1, 1, "\"\"", stateVectorOne);
+    graphicStates.push_back(stateOne);
+    
+    //state two
+    vector <double> stateVectorTwo;
+    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
+    stateVectorOne.push_back(9.4531250E-001);   stateVectorOne.push_back(0);
+    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
+    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
+    stateVectorOne.push_back(9.9999998E-003);   stateVectorOne.push_back(0);
+    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
+    state stateTwo (1, 1, "\"\"", stateVectorTwo);
+    graphicStates.push_back(stateTwo);
+    
+    VirtualObject   BSW_Right (groupName, 0, 0, solName, "\"BSW_Right_Graphic\"", "", "\" \"", "\" \"", 
+                                rightPosition, drawPosition, graphicColor, graphicColor, sizeOne, graphicStates);
+    BSW_Right.print(outStream);
+            
+    VirtualObject   BSW_Left (groupName, 0, 0, solName, "\"BSW_Left_Graphic\"", "", "\" \"", "\" \"", 
+                              leftPosition, drawPosition, graphicColor, graphicColor, sizeTwo, graphicStates);
+    BSW_Left.print(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateBSWActivationTriggers(ostream &outStream) {
+    //turn on right blind spot
+    string              rightPositionDialOn ("\"SetPoisition\" \"2230 150 0\"");
+    string              rightPositionButtonPathOn ("\"VirtualObject/SetPosition\"");
+    string              rightPositionNameSetOn ("\"BSW_Right_Graphic\"");
+    Action*             setRightGraphicPosition = new SetDial (0, 0, "\"SetRightGraphicPosition\"", rightPositionNameSetOn, rightPositionDialOn, rightPositionButtonPathOn);
+    
+    string              rightSetStateDialOn ("\"SetStateIndex\" \"1\"");
+    string              rightSetStateButtonPathOn ("\"VirtualObject/SetStateIndex\"");
+    string              rightSetNameSetOn ("\"BSW_Right_Graphic\"");
+    Action*             setRightVisualStateOn = new SetDial (0, 10, "\"SetRightGraphicState\"", rightSetNameSetOn, rightSetStateDialOn, rightSetStateButtonPathOn);
+    
+    position            rightOnPosition (1.6020619E+002, -1.5544549E+003, 0);
+    vector <Action*>    rightGraphicOnActions;
+    rightGraphicOnActions.push_back(setRightGraphicPosition);
+    rightGraphicOnActions.push_back(setRightVisualStateOn);
+    string              rightGraphicOnExpression ("\"ReadVar('Right_Blind')>0\"");
+    ExpressionTrigger   turnOnRightGraphic (true, false, 0, 0, 0, 0, 0, "\"BSWRightOn\"", "\"\"",
+                                          "\"\"", rightOnPosition, rightOnPosition, rightGraphicOnActions, rightGraphicOnExpression);
+    turnOnRightGraphic.filePrint(outStream);
+    
+    //turn off right blind spot
+    Action*             setRightVisualStateOff = new SetDial (0, 10, "\"SetRightGraphicState\"", "\"BSW_Right_Graphic\"", "\"SetStateIndex\" \"0\"", "\"VirtualObject/SetStateIndex\"");
+    position            rightOffPostion (1.9644389E+002, -1.5557413E+003, 0);
+    vector <Action*>    rightGraphicOffActions;
+    rightGraphicOffActions.push_back(setRightVisualStateOff);
+    string              rightGraphicOffExpression ("\"ReadVar('Right_Blind')<1\"");
+    ExpressionTrigger   turnOffRightGraphic (true, false, 0, 0, 0, 0, 0, "\"BSWRightOff\"", "\"\"", "\"\"", rightOffPostion, rightOffPostion, rightGraphicOffActions, rightGraphicOffExpression);
+    turnOffRightGraphic.filePrint(outStream);
+    
+    //turn on left blind spot
+    string              leftPositionDialOn ("\"SetPoisition\" \"-1000 150 0\"");
+    string              leftPositionButtonPathOn ("\"VirtualObject/SetPosition\"");
+    string              leftPositionNameSetOn ("\"BSW_Left_Graphic\"");
+    Action*             setLeftGraphicPosition = new SetDial (0, 0, "\"SetLeftGraphicPosition\"", leftPositionNameSetOn, leftPositionDialOn, leftPositionButtonPathOn);
+    
+    string              leftSetStateDialOn ("\"SetStateIndex\" \"1\"");
+    string              leftSetStateButtonPathOn ("\"VirtualObject/SetStateIndex\"");
+    string              leftSetNameSetOn ("\"BSW_Left_Graphic\"");
+    Action*             setLeftVisualStateOn = new SetDial (0, 10, "\"SetLeftGraphicState\"", leftSetNameSetOn, leftSetStateDialOn, leftSetStateButtonPathOn);
+    
+    position            leftOnPosition (1.6270157E+002, -1.5859587E+003, 0);
+    vector <Action*>    leftGraphicOnActions;
+    leftGraphicOnActions.push_back(setLeftGraphicPosition);
+    leftGraphicOnActions.push_back(setLeftVisualStateOn);
+    string              leftGraphicOnExpression ("\"ReadVar('Left_Blind')>0\"");
+    ExpressionTrigger   turnOnLeftGraphic (true, false, 0, 0, 0, 0, 0, "\"BSWLeftOn\"", "\"\"", "\"\"", leftOnPosition, leftOnPosition, leftGraphicOnActions, leftGraphicOnExpression);
+    turnOnLeftGraphic.filePrint(outStream);
+    
+    //turn off left blind spot
+    Action*             setLeftVisualStateOff = new SetDial (0, 10, "\"SetLeftGraphicState\"", "\"BSW_Left_Graphic\"", "\"SetStateIndex\" \"0\"", "\"VirtualObject/SetStateIndex\"");
+    position            leftOffPostion (2.0810244E+002, -1.5883068E+003, 0);
+    vector <Action*>    leftGraphicOffActions;
+    leftGraphicOffActions.push_back(setLeftVisualStateOff);
+    string              leftGraphicOffExpression ("\"ReadVar('Left_Blind')<1\"");
+    ExpressionTrigger   turnOffLeftGraphic (true, false, 0, 0, 0, 0, 0, "\"BSWLeftOff\"", "\"\"", "\"\"", leftOffPostion, leftOffPostion, leftGraphicOffActions, leftGraphicOffExpression);
+    turnOffLeftGraphic.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateBSWInitializeTrigger (ostream &outStream) {
+    Action*             setRightBlind = new SetVar (0, 0, "\"RightBlind=0\"", true, "\"Right_Blind\"", "\"0\"");
+    Action*             setLeftBlind = new SetVar (0, 0, "\"LeftBlind=0\"", true, "\"Left_Blind\"", "\"0\"");
+    
+    position            blindInitPosition (1.2117200E+002, -1.4808678E+003, 0);
+    vector <Action*>    blindInitActions;
+    blindInitActions.push_back(setRightBlind);
+    blindInitActions.push_back(setLeftBlind);
+    TimeTrigger         setBlindInit (true, true, 0, 0, 0, 0, 0, "\"BSWInit\"", "\"\"",
+                              "\"\"", blindInitPosition, blindInitPosition, blindInitActions, 0);
+}
+
 void SCNHighwayTemplate::generateBlindSpot (vector<Trial> &trials, ostream &outStream) {
+    //generate virtual objects
+    generateBSWVirtualObjects(outStream);
+    
+    //triggers to activate and deactivate the left/right bsw
+    generateBSWActivationTriggers (outStream);
+    
+    //trigger to initialize state variables
+    generateBSWInitializeTrigger (outStream);
+    
+    //left set variable trigger
+    
+    
+    //left unset variable after trial for each left trial
+    
+    
+    //if the right lane option is checked
+    
+        //if the option is remain stationary
+        
+            //use a roadpad trigger to activate
+            
+            //use a roadpad trigger to deactivate
+            
+        //else if its drive on shoulder
+        
+            //use an expression trigger to activate
+            
+            //use an expression trigger to deactivate
+            
     return;
 }
 

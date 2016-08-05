@@ -25,23 +25,60 @@ protected:
 	string solName;
 
 public:
+    //Default constructor.
 	Vehicle();
 
+    //Overloaded constructor.
 	Vehicle(int, double, double, double, string, string, string, string);
 
+    /*APPLICABLE TO ALL Vehicle OBJECTS
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the vehicle object to the ostream.
+    */
     virtual void print(ostream &);
     
+    /*APPLICABLE TO ALL Vehicle OBJECTS
+    Requires:   ifstream is a valid input file stream.
+    Modifies:   ifstream.
+    Effects:    Reads the vehicle in from the ifstream.
+    */
     virtual void readFromFile(ifstream &);
     
+    /*APPLICABLE TO ADO OBJECTS
+    Requires:   N/A
+    Modifies:   velCtrlInitVel.
+    Effects:    Sets the initial velocity of the ADO.
+    */
     virtual void setInitialVel (double &);
     
+    /*APPLICABLE TO ADO Vehicle OBJECTS
+    Requires:   N/A
+    Modifies:   velCtrlInitVel, velCtrlDistVal1, velCtrlDistVal2.
+    Effects:    Sets the velocity control of the ADO.
+    */
     virtual void setVelocitySettings (double, double, double);
     
-	void setCreation(bool);
-
-	bool getCreation();
-
-	void printBasics(ostream &, string);
+    /*APPLICABLE TO ALL Vehicle OBJECTS
+    Requires:   N/A
+    Modifies:   createdByTrigger member variable.
+    Effects:    Sets the creation of the vehicle.
+    */
+    void setCreation(bool);
+    
+    /*APPLICABLE TO ALL Vehicle OBJECTS
+    Requires:   N/A
+    Modifies:   N/A
+    Effects:    Returns the creation state of the vehicle.
+    */
+    bool getCreation();
+    
+    /*APPLICABLE TO ALL Vehicle OBJECTS
+    Requires:   ostream is a valid output stream.
+    Modifies:   ostream.
+    Effects:    Prints the basic parent information to the ostream.
+    */
+    void printBasics(ostream &, string);
 };
 
 class ADO : public Vehicle {
@@ -71,6 +108,11 @@ public:
     
     void setVelocitySettings (double, double , double);
     
+    /*
+    Requires:   N/A
+    Modifies:   visualState.
+    Effects:    Changes the visual state of the ADO.
+    */
     void setVisualState (int);
     
 	void printUnused(ostream &, string);
