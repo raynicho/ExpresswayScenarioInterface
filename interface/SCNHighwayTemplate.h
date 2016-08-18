@@ -335,6 +335,22 @@ public:
     void generateBSWActivationTriggers (ostream &);
     
     void generateBSWInitializeTrigger (ostream &);
+    
+    void generateBSWLeftOn (vector <Trial> &, ostream &);
+    
+    string getLeftVehNameNoQuotations (int);
+    
+    string getRightVehNameNoQuotations (int);
+    
+    void generateBSWLeftOff (vector <Trial> &, ostream &);
+    
+    void generateBSWRightStationary (Trial &, ostream &);
+    
+    void generateBSWRightPullFront (Trial &, ostream &);
+    
+    void generateBSWRightShoulder (Trial &, ostream &);
+    
+    void generateBSWRightPullFrontStop (Trial &, ostream &);
 };
 
 #endif

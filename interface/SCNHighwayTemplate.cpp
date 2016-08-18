@@ -1432,6 +1432,189 @@ void SCNHighwayTemplate::generateBSWInitializeTrigger (ostream &outStream) {
     blindInitActions.push_back(setLeftBlind);
     TimeTrigger         setBlindInit (true, true, 0, 0, 0, 0, 0, "\"BSWInit\"", "\"\"",
                               "\"\"", blindInitPosition, blindInitPosition, blindInitActions, 0);
+    setBlindInit.filePrint(outStream);
+    return;
+}
+
+string SCNHighwayTemplate::getLeftVehNameNoQuotations (int trialNum) {
+    return "Left_" + std::to_string(trialNum);
+}
+
+string SCNHighwayTemplate::getRightVehNameNoQuotations (int trialNum) {
+    return "Right_" + std::to_string(trialNum);
+}
+
+void SCNHighwayTemplate::generateBSWLeftOn (vector<Trial> &trials, ostream &outStream) {
+    //default expression string
+    string              leftOnExpression;
+    bool                firstLeftVehicleFound (false);
+    Trial               trialIt;
+    
+    //iterate across the trials
+    for (int i = 0; i < trials.size (); i++) {
+        //set the trialIt
+        trialIt = trials[i];
+        
+        //if the left vehicle is checked
+        if (trialIt.leftLane.checked) {
+            //if the first vehicle hasn't been found
+            if (!firstLeftVehicleFound) {
+                firstLeftVehicleFound = true;
+                leftOnExpression = "\"GetObjDistPow2('" + getLeftVehNameNoQuotations (trialIt.trialNumber) + "')< 36*36 "; 
+            }            
+            //otherwise
+            else {
+                leftOnExpression = leftOnExpression + "| GetObjDistPow2('" + getLeftVehNameNoQuotations (trialIt.trialNumber) + "')< 36*36";
+            }
+        }
+    }
+    
+    //add in last quotation
+    leftOnExpression = leftOnExpression + "\"";
+    
+    //write the trigger
+    Action*             setLeftBlind = new SetVar (0, 0, "\"Left_Blind=1\"", true, "\"Left_Blind\"", "\"1\"");
+    position            leftAllOnPos (5.7774066E+001, -1.7308735E+003, 0);
+    vector <Action*>    leftAllOnActions;       
+    leftAllOnActions.push_back(setLeftBlind);
+    ExpressionTrigger   leftAllOn (true, true, 0, 0, 0, 0, 0, "\"BSWLeftAllExpressionsOn\"", "\"\"", "\"\"", leftAllOnPos, leftAllOnPos, leftAllOnActions, leftOnExpression);
+    
+    leftAllOn.filePrint(outStream);
+    return;        
+}
+
+void SCNHighwayTemplate::generateBSWLeftOff (vector <Trial> &trials, ostream &outStream) {
+    //default expression string
+    string              leftOffExpression;
+    bool                firstLeftVehicleFound (false);
+    Trial               trialIt;
+    
+    //iterate across the trials
+    for (int i = 0; i < trials.size (); i++) {
+        //set the trialIt
+        trialIt = trials[i];
+        
+        //if the left vehicle is checked
+        if (trialIt.leftLane.checked) {
+            //if the first vehicle hasn't been found
+            if (!firstLeftVehicleFound) {
+                firstLeftVehicleFound = true;
+                leftOffExpression = "\"GetObjDistPow2('" + getLeftVehNameNoQuotations (trialIt.trialNumber) + "')> 36*36 "; 
+            }            
+            //otherwise
+            else {
+                leftOffExpression = leftOffExpression + "| GetObjDistPow2('" + getLeftVehNameNoQuotations (trialIt.trialNumber) + "')> 36*36";
+            }
+        }
+    }
+    
+    //add in last quotation
+    leftOffExpression = leftOffExpression + "\"";
+    
+    //write the trigger
+    Action*             setLeftBlind = new SetVar (0, 0, "\"Left_Blind=0\"", true, "\"Left_Blind\"", "\"0\"");
+    position            leftAllOffPos (1.1937059E+002, -1.7279644E+003, 0);
+    vector <Action*>    leftAllOffActions;       
+    leftAllOffActions.push_back(setLeftBlind);
+    ExpressionTrigger   leftAllOff (true, true, 0, 0, 0, 0, 0, "\"BSWLeftAllExpressionsOff\"", "\"\"", "\"\"", leftAllOffPos, leftAllOffPos, leftAllOffActions, leftOffExpression);
+    
+    leftAllOff.filePrint(outStream);
+    return;   
+}
+
+void SCNHighwayTemplate::generateBSWRightStationary (Trial &currTrial, ostream &outStream) {
+    //get the position of the stationary vehicle
+    double              vehYPosition = currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt);    
+    double              rightOnStart = vehYPosition - 24;
+    double              rightOnEnd = vehYPosition + 9;
+    string              rightOnMidString (std::to_string(rightOnStart) + ":" + std::to_string(rightOnEnd));
+    double              rightOffStart = vehYPosition + 47;
+    double              rightOffEnd = vehYPosition + 69;
+    string              rightOffMidString (std::to_string(rightOffStart) + ":" + std::to_string(rightOffEnd));    
+    
+    //on roadpad trigger
+    position            rightBlindOnPosition (450, -1320 + vehYPosition, 0);
+    Action*             rightBlindOnSetVar = new SetVar (0, 0, "\"Right_Blind=1\"", true, "\"Right_Blind\"", "\"1\"");
+    vector <Action*>    rightBlindOnActions;
+    rightBlindOnActions.push_back(rightBlindOnSetVar);
+    string              rightBlindOnPath ("\"R:r1_0_113520:0[" + rightOnMidString + "]:1[" + rightOnMidString + "]\"");
+    RoadPadTrigger      rightBlindOn (false, true, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOn" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                 "\"\"", rightBlindOnPosition, rightBlindOnPosition, rightBlindOnActions, "\"ExternalDriver\"", rightBlindOnPath);
+    rightBlindOn.filePrint(outStream);
+    
+    //off roadpad trigger
+    position            rightBlindOffPosition (520, -1320 + vehYPosition, 0);
+    Action*             rightBlindOffSetVar = new SetVar (0, 0, "\"Right_Blind=0\"", true, "\"Right_Blind\"", "\"0\"");
+    vector <Action*>    rightBlindOffActions;
+    rightBlindOffActions.push_back(rightBlindOffSetVar);
+    string              rightBlindOffPath ("\"R:r1_0_113520:0[" + rightOffMidString + "]:1[" + rightOffMidString + "]\"");
+    RoadPadTrigger      rightBlindOff (false, true, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOff" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                 "\"\"", rightBlindOffPosition, rightBlindOffPosition, rightBlindOffActions, "\"ExternalDriver\"", rightBlindOffPath);
+    rightBlindOff.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateBSWRightPullFront (Trial &currTrial, ostream &outStream) {
+    //expression trigger to turn on blind spot
+    double              trialBeginPos = -1320 + currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt);
+    position            rightBlindOnPosition (450, trialBeginPos + trialLengthFt, 0);
+    Action*             rightBlindOnSetVar = new SetVar (0, 0, "\"Right_Blind=1\"", true, "\"Right_Blind\"", "\"1\"");
+    vector <Action*>    rightBlindOnActions;
+    rightBlindOnActions.push_back(rightBlindOnSetVar);
+    string              rightBlindOnExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')<36*36\"");
+    Trigger*            rightBlindOn = new ExpressionTrigger (false, false, 0, 0, 0, 0, 0, "\"RightBlindOn" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOnPosition, rightBlindOnPosition, rightBlindOnActions, rightBlindOnExpression);
+    
+    //roadpad trigger to create the blind spot on expression trigger
+    position            createRightBlindOnPos (520, trialBeginPos + trialLengthFt, 0);
+    Action*             createAction = new CreateHCSM (0, 0, "\"CreateRightBlindOn" + std::to_string(currTrial.trialNumber) + "\"");
+    createAction->addTrigger(rightBlindOn);
+    vector <Action*>    createRightBlindOnActions;
+    createRightBlindOnActions.push_back(createAction);
+    double              pathBeginning = (-1320 + currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) + 40;
+    string              createRightBlindOnPathMid (std::to_string(pathBeginning) + ":" + std::to_string(pathBeginning + 10));
+    string              createRightBlindOnPath ("\"R:r1_0_113520:0[" + createRightBlindOnPathMid + "]:1[" + createRightBlindOnPathMid + "]\"");
+    RoadPadTrigger      createRightBlindOn (false, false, 0, 0, 0, trialLengthFt, 0, "\"CreateRightBlind" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                       "\"\"", createRightBlindOnPos, createRightBlindOnPos, createRightBlindOnActions, "\"ExternalDriver\"", createRightBlindOnPath);
+    createRightBlindOn.filePrint(outStream);
+    
+    //expression trigger to turn off blind spot
+    position            rightBlindOffPosition (520, trialBeginPos, 0);
+    Action*             rightBlindOffSetVar = new SetVar (0, 0, "\"Right_Blind=0\"", true, "\"Right_Blind\"", "\"0\"");
+    vector <Action*>    rightBlindOffActions;
+    rightBlindOffActions.push_back(rightBlindOffSetVar);
+    string              rightBlindOffExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')>36*36\"");
+    ExpressionTrigger   rightBlindOff (false, false, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOff" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOffPosition, rightBlindOffPosition, rightBlindOffActions, rightBlindOffExpression);
+    rightBlindOff.filePrint(outStream);
+}
+
+void SCNHighwayTemplate::generateBSWRightShoulder (Trial &currTrial, ostream &outStream) {
+    //expression trigger on
+    double              trialBeginPos = -1320 + currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt);;
+    position            rightBlindOnPosition (450, trialBeginPos, 0);
+    Action*             rightBlindOnSetVar = new SetVar (0, 0, "\"Right_Blind=1\"", true, "\"Right_Blind\"", "\"1\"");
+    vector <Action*>    rightBlindOnActions;
+    rightBlindOnActions.push_back(rightBlindOnSetVar);
+    string              rightBlindOnExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')<36*36\"");
+    ExpressionTrigger   rightBlindOn (false, false, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOn" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOnPosition, rightBlindOnPosition, rightBlindOnActions, rightBlindOnExpression);
+    rightBlindOn.filePrint(outStream);
+    
+    //expression trigger off
+    position            rightBlindOffPosition (520, trialBeginPos, 0);
+    Action*             rightBlindOffSetVar = new SetVar (0, 0, "\"Right_Blind=0\"", true, "\"Right_Blind\"", "\"0\"");
+    vector <Action*>    rightBlindOffActions;
+    rightBlindOffActions.push_back(rightBlindOffSetVar);
+    string              rightBlindOffExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')>36*36\"");
+    ExpressionTrigger   rightBlindOff (false, false, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOff" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOffPosition, rightBlindOffPosition, rightBlindOffActions, rightBlindOffExpression);
+    rightBlindOff.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateBSWRightPullFrontStop (Trial &currTrial, ostream &outStream) {
+    
 }
 
 void SCNHighwayTemplate::generateBlindSpot (vector<Trial> &trials, ostream &outStream) {
@@ -1445,25 +1628,33 @@ void SCNHighwayTemplate::generateBlindSpot (vector<Trial> &trials, ostream &outS
     generateBSWInitializeTrigger (outStream);
     
     //left set variable trigger
-    
+    generateBSWLeftOn(trials, outStream);
     
     //left unset variable after trial for each left trial
+    generateBSWLeftOff (trials, outStream);
     
-    
-    //if the right lane option is checked
-    
-        //if the option is remain stationary
-        
-            //use a roadpad trigger to activate
-            
-            //use a roadpad trigger to deactivate
-            
-        //else if its drive on shoulder
-        
-            //use an expression trigger to activate
-            
-            //use an expression trigger to deactivate
-            
+    //iterate across the trials
+    roadSideControl   rightControl;
+    for (int i = 0; i < trials.size (); i++) {
+        if (trials[i].roadSide.checked) {
+            //remain stationary
+            if (trials[i].roadSide.movementOption == 0) {
+                generateBSWRightStationary (trials[i], outStream);
+            }
+            //pull out in front
+            else if (trials[i].roadSide.movementOption == 1) {
+                generateBSWRightPullFront (trials[i], outStream);
+            }
+            //drive on shoulder
+            else if (trials[i].roadSide.movementOption == 2) {
+                generateBSWRightShoulder (trials[i], outStream);
+            }
+            //pull out in front and stop
+            else {
+                generateBSWRightPullFrontStop (trials[i], outStream);
+            }
+        }
+    }     
     return;
 }
 

@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
                     << "Deville" << "Towncar" << "BMW_StationWagon" << "PEUGEOT_306";
     ui->followSolModel->addItems(solModelChoices);
     ui->leadSolModel->addItems(solModelChoices);
+    ui->leftLaneSolModel->addItems(solModelChoices);
+    ui->roadSideSolModel->addItems(solModelChoices);
     
     QStringList shapeOptions;
     shapeOptions << "Circle" << "Triangle" << "Octagon" << "Star" << "Diamond" << "Icon" << "Rectangle"
@@ -1375,31 +1377,8 @@ void MainWindow::checkTrialLeftLane() {
                 throw((std::string)"Please enter a positive left lane cut in front speed.");
             }
         }
-        //if remain in lane and absolute is selected
-        if (ui->leftLaneTRialRemainLane->isChecked() && ui->leftLaneTrialRemainLaneAbsolute->checkState() == Qt::Checked){
-            //check absolute
-            current = ui->leftLaneTrialRemainLaneAbsoluteSpeed->text();
-            if (current.isEmpty()) {
-                throw((std::string)"Please enter a left lane remain in lane absolute speed.");
-            }
-
-            if (current.toDouble(ok) < 0){
-                throw((std::string)"Please enter a positive left lane remain in lane absolute speed.");
-            }
-
-            //if absolute and match are picked
-            if (ui->leftLaneTrialRemainLaneAbsolute->checkState() == Qt::Checked && ui->leftLaneTrialRemainLaneMatchET->checkState() == Qt::Checked) {
-                throw((std::string)"Please choose either absolute or match speed for left lane vehicle remain in lane.");
-            }
-        }
-
-
-
-        //if remain in lane is chosen but nothing else is
-        if (ui->leftLaneTRialRemainLane->isChecked() && ui->leftLaneTrialRemainLaneAbsolute->checkState() == Qt::Unchecked && ui->leftLaneTrialRemainLaneMatchET->checkState() == Qt::Unchecked) {
-
-            throw ((std::string)"Please either choose absolute or match speed for the left lane vehicle lane speed.");
-        }
+        //if remain in lane is checked and absolute is checked and the speed is improper
+        
     }
     return;
 }

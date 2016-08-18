@@ -79,17 +79,17 @@ void ADO::setVisualState (int state) {
 }
 
 void ADO::printUnused(ostream &outStream, string spaces) {
-    outStream << spaces << "RunMode \"eRemote_Control\"\n";			outStream << spaces << "RandomSol 0\n";
+    outStream << spaces << "RunMode \"eRemote_Control\"\n";             outStream << spaces << "RandomSol 0\n";
     outStream << spaces << "CreateRelOffsLonUsingExpr 0 \n";			outStream << spaces << "AutoControlHeadLights 0\n";					outStream << spaces << "UseReaDel 1\n";
-    outStream << spaces << "LatOffsType 0\n";					outStream << spaces << "CreateRelLatInFeet 0\n";
-    outStream << spaces << "PathSearchDepth 2\n";				outStream << spaces << "StdToAccType 0\n";
-    outStream << spaces << "StdToDecType 0\n";					outStream << spaces << "StdToAccType 0\n";
-    outStream << spaces << "DecToAccType 0\n";					outStream << spaces << "Accel2Catch 0\n";
-    outStream << spaces << "VelCtrlFollowSpeedLimit 0\n";			outStream << spaces << "NormVel2Kp 7.0000000E-001\n";
-    outStream << spaces << "LcvFall 1.5000000E+000 2.0000000E+000\n";		outStream << spaces << "LcvFreq 3.0000000E-002 5.0000000E-002\n";
+    outStream << spaces << "LatOffsType 0\n";                           outStream << spaces << "CreateRelLatInFeet 0\n";
+    outStream << spaces << "PathSearchDepth 2\n";                       outStream << spaces << "StdToAccType 0\n";
+    outStream << spaces << "StdToDecType 0\n";                          outStream << spaces << "StdToAccType 0\n";
+    outStream << spaces << "DecToAccType 0\n";                          outStream << spaces << "Accel2Catch 0\n";
+    outStream << spaces << "VelCtrlFollowSpeedLimit 0\n";               outStream << spaces << "NormVel2Kp 7.0000000E-001\n";
+    outStream << spaces << "LcvFall 1.5000000E+000 2.0000000E+000\n";	outStream << spaces << "LcvFreq 3.0000000E-002 5.0000000E-002\n";
     outStream << spaces << "EmergDecClip -1.1000000E+001\n";			outStream << spaces << "FollowTimeMax 2.0000000E+000\n";
     outStream << spaces << "FollowTimeMin 1.0000000E+000\n";			outStream << spaces << "LcvRAmpl 1.0000000E-001 5.0000000E-001\n";
-    outStream << spaces << "StdToDecVal1 9.0000000E-001\n";			outStream << spaces << "DynModel \"Non Linear\"\n";
+    outStream << spaces << "StdToDecVal1 9.0000000E-001\n";             outStream << spaces << "DynModel \"Non Linear\"\n";
     outStream << spaces << "LogFile \"\"\n";
     return;
 }
