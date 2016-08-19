@@ -28,5 +28,4 @@ To use the Expressway Scenario Interface Tool follow these steps;
 Raymond Pressly (raynicho@umich.edu)
 
 ## To Do
-- complete blind spot warnings
 - complete FCW
