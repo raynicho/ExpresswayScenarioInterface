@@ -20,7 +20,7 @@ To use the Expressway Scenario Interface Tool follow these steps;
 
 ## Example
 
-![alt tag](https://raw.githubusercontent.com/raynicho/ExpresswayScenarioInterface/master/docs/interface.PNG)
+
 
 
 ## Authors and Contributors
