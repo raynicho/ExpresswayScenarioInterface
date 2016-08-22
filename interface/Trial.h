@@ -26,6 +26,7 @@ struct roadSideControl {
     int deletionOption;
 	blinkerControl blinker;
     roadSideControl () : addToList(false), checked(false), movementOption(-1), speed(0), distance(0), deletionOption(-1), blinker(None) {}
+    string solModel;
 };
 
 struct leftLaneControl {
@@ -47,6 +48,7 @@ struct leftLaneControl {
     double creationDistance;
 	blinkerControl blinker;
     leftLaneControl () : addToList(false), checked(false), movementOption(-1), laneOption(-1), creationOption(-1), distance(0), speed(0), blinker(None){}
+    string solModel;
 };
 
 struct FVLVInstructions {

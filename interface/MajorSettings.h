@@ -22,6 +22,8 @@ struct FVLVSettings {
 struct FCW {
     bool checked;
     double frequency;
+    double distance;
+    double periodOn;
     string iconName;
     QColor FCWColor;
 	position pos;

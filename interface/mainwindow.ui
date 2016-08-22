@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1206</width>
-    <height>630</height>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>550</y>
+      <y>560</y>
       <width>511</width>
       <height>71</height>
      </rect>
@@ -33,7 +33,7 @@
       <x>10</x>
       <y>10</y>
       <width>531</width>
-      <height>531</height>
+      <height>541</height>
      </rect>
     </property>
     <property name="title">
@@ -45,7 +45,7 @@
        <x>190</x>
        <y>320</y>
        <width>331</width>
-       <height>201</height>
+       <height>211</height>
       </rect>
      </property>
      <property name="title">
@@ -67,38 +67,12 @@
        <string/>
       </property>
      </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>130</y>
-        <width>51</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;u&gt;Animation</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="animationOn">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>130</y>
-        <width>16</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QWidget" name="gridLayoutWidget_16">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>90</y>
-        <width>171</width>
+        <width>151</width>
         <height>24</height>
        </rect>
       </property>
@@ -151,9 +125,9 @@
      <widget class="QLineEdit" name="frequencyLineEdit">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>260</x>
         <y>30</y>
-        <width>61</width>
+        <width>41</width>
         <height>22</height>
        </rect>
       </property>
@@ -161,6 +135,9 @@
        <font>
         <pointsize>8</pointsize>
        </font>
+      </property>
+      <property name="toolTip">
+       <string>Frequency of FCW display.</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -187,6 +164,9 @@
         <width>101</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Shape of FCW. Choose &quot;Icon&quot; for a custom shape.</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_3">
@@ -229,6 +209,9 @@
         <pointsize>8</pointsize>
        </font>
       </property>
+      <property name="toolTip">
+       <string>Name of icon if &quot;Icon&quot; shape is option is chosen.</string>
+      </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
@@ -236,11 +219,14 @@
      <widget class="QPushButton" name="colorButton">
       <property name="geometry">
        <rect>
-        <x>210</x>
-        <y>60</y>
+        <x>40</x>
+        <y>130</y>
         <width>81</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Choose a color for the FCW.</string>
       </property>
       <property name="text">
        <string>Choose Color</string>
@@ -249,8 +235,8 @@
      <widget class="QLabel" name="colorDisplay">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>90</y>
+        <x>30</x>
+        <y>160</y>
         <width>101</width>
         <height>22</height>
        </rect>
@@ -259,109 +245,11 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;FCW Color&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QWidget" name="gridLayoutWidget_13">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>150</y>
-        <width>151</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_21">
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="animationStartX">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="animationStartY">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLineEdit" name="animationStartZ">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_30">
-         <property name="text">
-          <string>End</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="animationEndX">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="animationEndY">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLineEdit" name="animationEndZ">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>130</y>
+        <x>180</x>
+        <y>90</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -373,13 +261,250 @@
      <widget class="QLineEdit" name="fcwDistanceLineEdit">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>160</y>
-        <width>113</width>
+        <x>260</x>
+        <y>90</y>
+        <width>41</width>
         <height>21</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Distance at which to activate the FCW.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
      </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>30</y>
+        <width>16</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Hz</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_44">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>60</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Period On</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="fcwPeriodOnLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>The amount of time the FCW on state is to be displayed.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_45">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>60</y>
+        <width>16</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>s</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_46">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>90</y>
+        <width>16</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ft</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>110</y>
+        <width>171</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Animation</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_13">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>131</width>
+         <height>52</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_21">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="animationStartX">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation start x position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="animationStartY">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation start y position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="animationStartZ">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation start z position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_30">
+          <property name="text">
+           <string>End</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="animationEndX">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation end x position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="animationEndY">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation end y position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="animationEndZ">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Animation end z position.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QCheckBox" name="animationOn">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>0</y>
+         <width>16</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Include an animation for the FCW (optional).</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+     <zorder>groupBox_6</zorder>
+     <zorder>fcwOn</zorder>
+     <zorder>gridLayoutWidget_16</zorder>
+     <zorder>frequencyLineEdit</zorder>
+     <zorder>frequency</zorder>
+     <zorder>shapeOption</zorder>
+     <zorder>label_3</zorder>
+     <zorder>label_7</zorder>
+     <zorder>fcwIconName</zorder>
+     <zorder>colorButton</zorder>
+     <zorder>colorDisplay</zorder>
+     <zorder>label_14</zorder>
+     <zorder>fcwDistanceLineEdit</zorder>
+     <zorder>label_12</zorder>
+     <zorder>label_44</zorder>
+     <zorder>fcwPeriodOnLineEdit</zorder>
+     <zorder>label_45</zorder>
+     <zorder>label_46</zorder>
     </widget>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
@@ -432,7 +557,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_15">
@@ -588,7 +713,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_28">
@@ -1208,7 +1333,7 @@
       <x>570</x>
       <y>10</y>
       <width>631</width>
-      <height>571</height>
+      <height>611</height>
      </rect>
     </property>
     <property name="title">
@@ -1218,7 +1343,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>50</y>
+       <y>70</y>
        <width>261</width>
        <height>161</height>
       </rect>
@@ -1311,7 +1436,7 @@
        <item>
         <widget class="QRadioButton" name="leadTrialMatchExternalDriver">
          <property name="toolTip">
-          <string>Match the velocity of the external driver.</string>
+          <string>Match the velocity of the subject.</string>
          </property>
          <property name="text">
           <string>Match Subject</string>
@@ -1345,6 +1470,9 @@
       <layout class="QGridLayout" name="gridLayout_10">
        <item row="0" column="0">
         <widget class="QRadioButton" name="leadTrialChangeLeft">
+         <property name="toolTip">
+          <string>Force lane change left.</string>
+         </property>
          <property name="text">
           <string>Left</string>
          </property>
@@ -1355,6 +1483,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QRadioButton" name="leadTrialChangeRight">
+         <property name="toolTip">
+          <string>Force lane change right.</string>
+         </property>
          <property name="text">
           <string>Right</string>
          </property>
@@ -1380,7 +1511,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>220</y>
+       <y>260</y>
        <width>301</width>
        <height>341</height>
       </rect>
@@ -1416,6 +1547,9 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QRadioButton" name="roadSideTrialBlinkerHazards">
+         <property name="toolTip">
+          <string>Set the blinker to hazards.</string>
+         </property>
          <property name="text">
           <string>Hazards</string>
          </property>
@@ -1423,6 +1557,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QRadioButton" name="roadSideTrialBlinkerRight">
+         <property name="toolTip">
+          <string>Set the blinker to right.</string>
+         </property>
          <property name="text">
           <string>Right</string>
          </property>
@@ -1430,6 +1567,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="roadSideTrialBlinkerLeft">
+         <property name="toolTip">
+          <string>Set the blinker to left.</string>
+         </property>
          <property name="text">
           <string>Left</string>
          </property>
@@ -1437,6 +1577,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QRadioButton" name="roadSideTrialBlinkerNone">
+         <property name="toolTip">
+          <string>Set the blinker to none.</string>
+         </property>
          <property name="text">
           <string>None</string>
          </property>
@@ -1465,7 +1608,7 @@
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>241</width>
+        <width>251</width>
         <height>167</height>
        </rect>
       </property>
@@ -1493,6 +1636,9 @@
              <pointsize>8</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string>Pull out in front and stop speed.</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -1504,6 +1650,9 @@
             <font>
              <pointsize>8</pointsize>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>Pull out in front and stop distance.</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1650,6 +1799,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QRadioButton" name="roadSideTrialDeletionSlowDown">
+         <property name="toolTip">
+          <string>Delete the road side vehicle by slowing down in the left lane.</string>
+         </property>
          <property name="text">
           <string>Slow Down</string>
          </property>
@@ -1657,6 +1809,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="roadSideTrialDeletionPullToSide">
+         <property name="toolTip">
+          <string>Delete the road side vehicle by pulling to the right shoulder.</string>
+         </property>
          <property name="text">
           <string>Pull To Side</string>
          </property>
@@ -1667,6 +1822,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QRadioButton" name="roadSideTrialAddToList">
+         <property name="toolTip">
+          <string>Display a FCW for this road side vehicle.</string>
+         </property>
          <property name="text">
           <string>Add To List</string>
          </property>
@@ -1684,7 +1842,7 @@
      <widget class="QLabel" name="label_40">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>270</x>
         <y>50</y>
         <width>21</width>
         <height>16</height>
@@ -1697,7 +1855,7 @@
      <widget class="QLabel" name="label_41">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>270</x>
         <y>110</y>
         <width>21</width>
         <height>16</height>
@@ -1710,7 +1868,7 @@
      <widget class="QLabel" name="label_42">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>270</x>
         <y>140</y>
         <width>21</width>
         <height>16</height>
@@ -1723,27 +1881,27 @@
      <widget class="QLabel" name="label_43">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>270</x>
         <y>80</y>
         <width>21</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_55">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>270</x>
         <y>170</y>
         <width>21</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QComboBox" name="roadSideSolModel">
@@ -1754,6 +1912,9 @@
         <width>111</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Set the road side sol model.</string>
       </property>
      </widget>
      <widget class="QLabel" name="solModelLabel_4">
@@ -1774,7 +1935,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>220</y>
+       <y>260</y>
        <width>301</width>
        <height>341</height>
       </rect>
@@ -1810,6 +1971,9 @@
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
         <widget class="QRadioButton" name="leftLaneTrialBlinkerHazards">
+         <property name="toolTip">
+          <string>Set the blinker to hazards.</string>
+         </property>
          <property name="text">
           <string>Hazards</string>
          </property>
@@ -1817,6 +1981,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QRadioButton" name="leftLaneTrialBlinkerRight">
+         <property name="toolTip">
+          <string>Set the blinker to right.</string>
+         </property>
          <property name="text">
           <string>Right</string>
          </property>
@@ -1824,6 +1991,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="leftLaneTrialBlinkerLeft">
+         <property name="toolTip">
+          <string>Set the blinker to left.</string>
+         </property>
          <property name="text">
           <string>Left</string>
          </property>
@@ -1831,6 +2001,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QRadioButton" name="leftLaneTrialBlinkerNone">
+         <property name="toolTip">
+          <string>Set the blinker to none.</string>
+         </property>
          <property name="text">
           <string>None</string>
          </property>
@@ -1873,6 +2046,9 @@
              <pointsize>8</pointsize>
             </font>
            </property>
+           <property name="toolTip">
+            <string>Cut in front of driver distance.</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -1884,6 +2060,9 @@
             <font>
              <pointsize>8</pointsize>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>Cut in front of driver speed.</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1908,6 +2087,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="leftLaneTrialCutBehind">
+         <property name="toolTip">
+          <string>Left lane vehicle cuts behind the subject.</string>
+         </property>
          <property name="text">
           <string>Cut Behind Driver</string>
          </property>
@@ -1915,6 +2097,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QRadioButton" name="leftLaneTrialCutFront">
+         <property name="toolTip">
+          <string>Left lane vehicle cuts in front of the driver.</string>
+         </property>
          <property name="text">
           <string>Cut In Front of Driver</string>
          </property>
@@ -1922,6 +2107,9 @@
        </item>
        <item row="0" column="0">
         <widget class="QRadioButton" name="leftLaneTrialBlindSpot">
+         <property name="toolTip">
+          <string>Left lane vehicle sits in the the blind spot of the subject.</string>
+         </property>
          <property name="text">
           <string>Blind Spot</string>
          </property>
@@ -1932,6 +2120,9 @@
        </item>
        <item row="5" column="0">
         <widget class="QRadioButton" name="leftLaneTRialRemainLane">
+         <property name="toolTip">
+          <string>Left lane vehicle remains in the left lane. </string>
+         </property>
          <property name="text">
           <string>Remain in Lane</string>
          </property>
@@ -1951,6 +2142,9 @@
       <layout class="QGridLayout" name="gridLayout_12">
        <item row="0" column="0">
         <widget class="QRadioButton" name="leftLaneTrialCreationFront">
+         <property name="toolTip">
+          <string>Left lane create in front of the subject.</string>
+         </property>
          <property name="text">
           <string>Front</string>
          </property>
@@ -1958,6 +2152,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="leftLaneTrialCreationBehind">
+         <property name="toolTip">
+          <string>Left lane create behind  the subject.</string>
+         </property>
          <property name="text">
           <string>Behind</string>
          </property>
@@ -2005,6 +2202,9 @@
            <pointsize>8</pointsize>
           </font>
          </property>
+         <property name="toolTip">
+          <string>Left lane creation distance.</string>
+         </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
@@ -2019,6 +2219,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QRadioButton" name="leftLaneTrialAddToFCW">
+         <property name="toolTip">
+          <string>Display a FCW for this left lane vehicle.</string>
+         </property>
          <property name="text">
           <string>Add To List</string>
          </property>
@@ -2026,7 +2229,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -2038,6 +2241,9 @@
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="2" column="0">
         <widget class="QRadioButton" name="leftLaneTrialRemainLaneMatchET">
+         <property name="toolTip">
+          <string>Left lane vehicle remain in lane and match the subject.</string>
+         </property>
          <property name="text">
           <string>Match</string>
          </property>
@@ -2045,6 +2251,9 @@
        </item>
        <item row="3" column="0">
         <widget class="QRadioButton" name="leftLaneTrialRemainLaneAbsolute">
+         <property name="toolTip">
+          <string>Left lane vehicle remain in lane and travel at an absolute speed.</string>
+         </property>
          <property name="text">
           <string>Absolute</string>
          </property>
@@ -2056,6 +2265,9 @@
           <font>
            <pointsize>8</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>Left lane remain in lane absolute speed.</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2074,7 +2286,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_57">
@@ -2087,7 +2299,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>feet</string>
+       <string>ft</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_58">
@@ -2125,6 +2337,9 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Set the  left lane model.</string>
+      </property>
      </widget>
      <widget class="QLabel" name="solModelLabel_3">
       <property name="geometry">
@@ -2144,7 +2359,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>70</y>
        <width>271</width>
        <height>161</height>
       </rect>
@@ -2202,7 +2417,7 @@
        <item>
         <widget class="QRadioButton" name="followTrialVelocityChangeMatchExternalDriver">
          <property name="toolTip">
-          <string>Match the velocity of the external driver.</string>
+          <string>Match the velocity of the subject.</string>
          </property>
          <property name="text">
           <string>Match Subject</string>
@@ -2268,6 +2483,9 @@
       <layout class="QGridLayout" name="gridLayout_11">
        <item row="0" column="0">
         <widget class="QRadioButton" name="followTrialChangeLeft">
+         <property name="toolTip">
+          <string>Force lane change left.</string>
+         </property>
          <property name="text">
           <string>Left</string>
          </property>
@@ -2278,6 +2496,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QRadioButton" name="followTrialChangeRight">
+         <property name="toolTip">
+          <string>Force lane change right.</string>
+         </property>
          <property name="text">
           <string>Right</string>
          </property>
@@ -2303,7 +2524,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>20</y>
+       <y>30</y>
        <width>371</width>
        <height>24</height>
       </rect>
@@ -2386,7 +2607,7 @@
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>580</y>
+      <y>620</y>
       <width>161</width>
       <height>16</height>
      </rect>
@@ -2415,16 +2636,24 @@
   <tabstop>leadMinSpeedLineEdit</tabstop>
   <tabstop>leadMaxAccelLineEdit</tabstop>
   <tabstop>leadMaxDecel</tabstop>
-  <tabstop>lengthOfRoadLineEdit</tabstop>
-  <tabstop>showBlindSpotWarning</tabstop>
   <tabstop>generateOpposingTraffic</tabstop>
   <tabstop>numberOpposingVehicles</tabstop>
   <tabstop>numberCars</tabstop>
   <tabstop>numberTrucks</tabstop>
+  <tabstop>showBlindSpotWarning</tabstop>
+  <tabstop>lengthOfRoadLineEdit</tabstop>
+  <tabstop>loadFile</tabstop>
+  <tabstop>saveFileButton</tabstop>
   <tabstop>fcwOn</tabstop>
+  <tabstop>shapeOption</tabstop>
+  <tabstop>fcwIconName</tabstop>
   <tabstop>fcwPositionX</tabstop>
   <tabstop>fcwPositionY</tabstop>
   <tabstop>fcwPositionZ</tabstop>
+  <tabstop>frequencyLineEdit</tabstop>
+  <tabstop>fcwPeriodOnLineEdit</tabstop>
+  <tabstop>fcwDistanceLineEdit</tabstop>
+  <tabstop>colorButton</tabstop>
   <tabstop>animationOn</tabstop>
   <tabstop>animationStartX</tabstop>
   <tabstop>animationStartY</tabstop>
@@ -2442,10 +2671,16 @@
   <tabstop>followTrialVelocityChangeAbsolute</tabstop>
   <tabstop>followTrialVelocityChangeAbsoluteLineEdit</tabstop>
   <tabstop>followTrialForceLaneChange</tabstop>
+  <tabstop>followTrialChangeLeft</tabstop>
+  <tabstop>followTrialChangeRight</tabstop>
   <tabstop>leadTrialOn</tabstop>
   <tabstop>leadTrialVelocityChange</tabstop>
+  <tabstop>leadTrialMatchExternalDriver</tabstop>
+  <tabstop>leadTrialVelocityChangeAbsolute</tabstop>
   <tabstop>leadTrialVelocityChangeAbsoluteSpeed</tabstop>
   <tabstop>leadTrialForceLaneChange</tabstop>
+  <tabstop>leadTrialChangeLeft</tabstop>
+  <tabstop>leadTrialChangeRight</tabstop>
   <tabstop>roadSideTrialOn</tabstop>
   <tabstop>roadSideTrialRemainStationary</tabstop>
   <tabstop>roadSideTrialPullFront</tabstop>
@@ -2460,7 +2695,10 @@
   <tabstop>roadSideTrialBlinkerRight</tabstop>
   <tabstop>roadSideTrialBlinkerLeft</tabstop>
   <tabstop>roadSideTrialBlinkerNone</tabstop>
+  <tabstop>roadSideSolModel</tabstop>
+  <tabstop>roadSideTrialDeletionPullToSide</tabstop>
   <tabstop>roadSideTrialAddToList</tabstop>
+  <tabstop>roadSideTrialDeletionSlowDown</tabstop>
   <tabstop>leftLaneTrialOn</tabstop>
   <tabstop>leftLaneTrialBlindSpot</tabstop>
   <tabstop>leftLaneTrialCutBehind</tabstop>
@@ -2468,13 +2706,18 @@
   <tabstop>leftLaneTrialCutFrontSpeed</tabstop>
   <tabstop>leftLaneTrialCutFrontDistance</tabstop>
   <tabstop>leftLaneTRialRemainLane</tabstop>
+  <tabstop>leftLaneTrialRemainLaneMatchET</tabstop>
+  <tabstop>leftLaneTrialRemainLaneAbsolute</tabstop>
+  <tabstop>leftLaneTrialRemainLaneAbsoluteSpeed</tabstop>
   <tabstop>leftLaneTrialBlinkerHazards</tabstop>
   <tabstop>leftLaneTrialBlinkerRight</tabstop>
   <tabstop>leftLaneTrialBlinkerLeft</tabstop>
   <tabstop>leftLaneTrialBlinkerNone</tabstop>
+  <tabstop>leftLaneSolModel</tabstop>
   <tabstop>leftLaneTrialAddToFCW</tabstop>
-  <tabstop>loadFile</tabstop>
-  <tabstop>saveFileButton</tabstop>
+  <tabstop>leftLaneTrialDistanceFromET</tabstop>
+  <tabstop>leftLaneTrialCreationFront</tabstop>
+  <tabstop>leftLaneTrialCreationBehind</tabstop>
  </tabstops>
  <resources/>
  <connections/>

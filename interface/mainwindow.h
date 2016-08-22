@@ -57,7 +57,7 @@ public:
     Requires:   N/A
     Modifies:   N/A
     Effects:    Checks that if trial lead vehicle instructions are present, the velocity change option 
-                is selected, and that the absolute option is selected the absolute velosity is not 
+                is selected, and that the absolute option is selected the absolute velocity is not 
                 empty and is greater than 0 (when interpretted as a double).
     */
     void checkTrialLeadVehicle();

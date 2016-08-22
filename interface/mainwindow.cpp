@@ -73,37 +73,49 @@ void MainWindow::getSettings() {
     if (ui->fcwOn->isChecked()) {
         //frequency, position, shape, icon name, color, is checked,
         warnings.checked = true;
-        warnings.frequency = ui->frequency->text().toDouble(false);
+        warnings.frequency = ui->frequencyLineEdit->text().toDouble(false);
         warnings.pos.x = ui->fcwPositionX->text().toDouble(false);
         warnings.pos.y = ui->fcwPositionY->text().toDouble(false);
         warnings.pos.z = ui->fcwPositionZ->text().toDouble(false);
+        warnings.distance = ui->fcwDistanceLineEdit->text().toDouble(false);
+        warnings.periodOn = ui->fcwPeriodOnLineEdit->text().toDouble(false);
+        warnings.FCWColor = fcwColor;
         switch (ui->shapeOption->currentIndex()) {
             case (1) : {
                 warnings.imageShape = Circle;
+                break;
             }
             case (2) : {
                 warnings.imageShape = Triangle;
+                break;
             }
             case (3) : {
                 warnings.imageShape = Octagon;
+                break;
             }
             case (4) : {
                 warnings.imageShape = Star;
+                break;
             }
             case (5) : {
                 warnings.imageShape = Diamond;
+                break;
             }
             case (6) : {
                 warnings.imageShape = Icon;
                 warnings.iconName = ui->fcwIconName->text().toStdString();
+                break;
             }
             case (7) : {
-        
+                warnings.imageShape = Rectangle;
+                break;
             }
             default : {
-            
+                warnings.imageShape = Hexagon;
+                break;
             }
         }
+        settings.warningSettings = warnings;
         
         //if animation is checked, load animation, set animation on
         if (ui->animationOn->isChecked()) {
@@ -137,6 +149,9 @@ roadSideControl MainWindow::getRoadSideTrial() {
     roadSideControl roadSide;
     //if roadside is checked
     if (ui->roadSideTrialOn->isChecked()) {
+        //get the sol model
+        roadSide.solModel = (std::string)"\"" + ui->roadSideSolModel->currentText().toStdString() + (std::string)"\"";
+        
         //set the bool to checked
         roadSide.checked = true;
         
@@ -213,6 +228,39 @@ roadSideControl MainWindow::getRoadSideTrial() {
 void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     //if road side is selected
     if (roadSide.checked) {
+        //load the sol model
+        string currSol = roadSide.solModel;
+        if (currSol == "\"DodgeNeon\"") {
+            ui->roadSideSolModel->setCurrentIndex(0);
+        }
+        else if (currSol == "\"Audi\"") {
+            ui->roadSideSolModel->setCurrentIndex(1);
+        }
+        else if (currSol == "\"Windstar\"") {
+            ui->roadSideSolModel->setCurrentIndex(2);
+        }
+        else if (currSol == "\"FordTaurus\"") {
+            ui->roadSideSolModel->setCurrentIndex(3);
+        }
+        else if (currSol == "\"LandRover\"") {
+            ui->roadSideSolModel->setCurrentIndex(4);
+        }
+        else if (currSol == "\"Ford_F150Xcab\"") {
+            ui->roadSideSolModel->setCurrentIndex(5);
+        }
+        else if (currSol == "\"Deville\"") {
+            ui->roadSideSolModel->setCurrentIndex(6);
+        }
+        else if (currSol == "\"Towncar\"") {
+            ui->roadSideSolModel->setCurrentIndex(7);
+        }
+        else if (currSol == "\"BMW_StationWagon\"") {
+            ui->roadSideSolModel->setCurrentIndex(8);
+        }
+        else {
+            ui->roadSideSolModel->setCurrentIndex(9);
+        }
+        
         //set the checked box
         ui->roadSideTrialOn->setChecked(true);
         
@@ -398,6 +446,9 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     
     //else road side is not selected
     else {
+        //set the sol model
+        ui->roadSideSolModel->setCurrentIndex(0);
+        
         //uncheck the box
         ui->roadSideTrialOn->setChecked(false);
         
@@ -446,6 +497,9 @@ leftLaneControl MainWindow::getLeftLaneTrial(){
     leftLaneControl leftLane;
     //if left lane is checked
     if (ui->leftLaneTrialOn->isChecked()) {
+        //get the sol model
+        leftLane.solModel = (std::string)"\"" + ui->leftLaneSolModel->currentText().toStdString() + (std::string)"\"";
+        
         //set the checked bool
         leftLane.checked = true;
         
@@ -535,6 +589,39 @@ leftLaneControl MainWindow::getLeftLaneTrial(){
 void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
     //if the left lane is checked
     if (leftLane.checked) {
+        //load the sol model
+        string currSol = leftLane.solModel;
+        if (currSol == "\"DodgeNeon\"") {
+            ui->leftLaneSolModel->setCurrentIndex(0);
+        }
+        else if (currSol == "\"Audi\"") {
+            ui->leftLaneSolModel->setCurrentIndex(1);
+        }
+        else if (currSol == "\"Windstar\"") {
+            ui->leftLaneSolModel->setCurrentIndex(2);
+        }
+        else if (currSol == "\"FordTaurus\"") {
+            ui->leftLaneSolModel->setCurrentIndex(3);
+        }
+        else if (currSol == "\"LandRover\"") {
+            ui->leftLaneSolModel->setCurrentIndex(4);
+        }
+        else if (currSol == "\"Ford_F150Xcab\"") {
+            ui->leftLaneSolModel->setCurrentIndex(5);
+        }
+        else if (currSol == "\"Deville\"") {
+            ui->leftLaneSolModel->setCurrentIndex(6);
+        }
+        else if (currSol == "\"Towncar\"") {
+            ui->leftLaneSolModel->setCurrentIndex(7);
+        }
+        else if (currSol == "\"BMW_StationWagon\"") {
+            ui->leftLaneSolModel->setCurrentIndex(8);
+        }
+        else {
+            ui->leftLaneSolModel->setCurrentIndex(9);
+        }
+        
         //check the left lane check box
         ui->leftLaneTrialOn->setChecked(true);
         
@@ -713,6 +800,9 @@ void MainWindow::loadLeftLaneTrial(leftLaneControl &leftLane) {
     }
     //else if its not checked
     else {
+        //load the sol model
+        ui->leftLaneSolModel->setCurrentIndex(0);
+        
         //uncheck the left lane check box
         ui->leftLaneTrialOn->setChecked(false);
         
@@ -1115,8 +1205,9 @@ bool MainWindow::checkLength(){
 
 void MainWindow::on_loadFile_clicked()
 {
-    //C:\Users\raynicho\Desktop\SCNHighwayTemplate\SCNExampleFiles
-    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://", "SCN File (*.scn)");
+    //"C://"
+    //"C://Users//raynicho//Desktop//SCNHighwayTemplate//SCNExampleFiles"
+    QString filename = QFileDialog::getOpenFileName(this, tr("Load File"), "C://Users//raynicho//Desktop//SCNHighwayTemplate//SCNExampleFiles", "SCN File (*.scn)");
     this->loadFilename=filename;
     highway.readFile(loadFilename.toStdString());
 }
@@ -1434,7 +1525,7 @@ bool MainWindow::emptyOrPositive (QString &lineEdit) {
 void MainWindow::checkFCWSettings(){
     //if fcw is checked
     if (ui->fcwOn->checkState() == Qt::Checked){
-        //check the frequency
+        //check the frequency for empty or negative
         if (emptyOrNegative(ui->frequencyLineEdit->text())) {
             throw((std::string)"Please make changes to the FCW frequency.");
         }
@@ -1452,6 +1543,23 @@ void MainWindow::checkFCWSettings(){
         //check the shape and icon
         if (ui->shapeOption->currentText() == "Icon" && ui->fcwIconName->text().isEmpty()) {
             throw ((std::string)"Please enter an icon name for frontal crash warning.");
+        }
+        
+        //check the fcw distance
+        if (emptyOrNegative(ui->fcwDistanceLineEdit->text() )) {
+            throw ((std::string)"Please make changes to the FCW distance.");
+        }
+        
+        //check the fcw period on
+        double periodOn = ui->fcwPeriodOnLineEdit->text().toDouble(false);
+        if (periodOn > 1 || periodOn < 0) {
+            throw ((std::string)"The FCW period on must be between 0 and 1 inclusive.");
+        }
+        
+        //check that the period on and the frequency match
+        double frequency = ui->frequencyLineEdit->text().toDouble(false);
+        if (frequency*periodOn > 1) {
+            throw ((std::string)"The frequency and period on of the FCW do not match. The frequency * the period on is greater than 1 second.");
         }
     }
     return;

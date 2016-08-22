@@ -37,8 +37,6 @@ public:
     QGroupBox *majorFileSettings;
     QGroupBox *groupBox;
     QCheckBox *fcwOn;
-    QLabel *label_5;
-    QCheckBox *animationOn;
     QWidget *gridLayoutWidget_16;
     QGridLayout *gridLayout_25;
     QLineEdit *fcwPositionZ;
@@ -53,6 +51,14 @@ public:
     QLineEdit *fcwIconName;
     QPushButton *colorButton;
     QLabel *colorDisplay;
+    QLabel *label_14;
+    QLineEdit *fcwDistanceLineEdit;
+    QLabel *label_12;
+    QLabel *label_44;
+    QLineEdit *fcwPeriodOnLineEdit;
+    QLabel *label_45;
+    QLabel *label_46;
+    QGroupBox *groupBox_6;
     QWidget *gridLayoutWidget_13;
     QGridLayout *gridLayout_21;
     QLineEdit *animationStartX;
@@ -63,8 +69,7 @@ public:
     QLineEdit *animationEndX;
     QLineEdit *animationEndY;
     QLineEdit *animationEndZ;
-    QLabel *label_14;
-    QLineEdit *fcwDistanceLineEdit;
+    QCheckBox *animationOn;
     QGroupBox *groupBox_2;
     QCheckBox *showBlindSpotWarning;
     QGroupBox *groupBox_3;
@@ -204,7 +209,7 @@ public:
     QLineEdit *leftLaneTrialDistanceFromET;
     QLabel *label_24;
     QRadioButton *leftLaneTrialAddToFCW;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout_4;
     QRadioButton *leftLaneTrialRemainLaneMatchET;
     QRadioButton *leftLaneTrialRemainLaneAbsolute;
@@ -243,30 +248,24 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1206, 630);
+        MainWindow->resize(1206, 641);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         umtriLogo = new QLabel(centralWidget);
         umtriLogo->setObjectName(QStringLiteral("umtriLogo"));
-        umtriLogo->setGeometry(QRect(10, 550, 511, 71));
+        umtriLogo->setGeometry(QRect(10, 560, 511, 71));
         majorFileSettings = new QGroupBox(centralWidget);
         majorFileSettings->setObjectName(QStringLiteral("majorFileSettings"));
-        majorFileSettings->setGeometry(QRect(10, 10, 531, 531));
+        majorFileSettings->setGeometry(QRect(10, 10, 531, 541));
         groupBox = new QGroupBox(majorFileSettings);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(190, 320, 331, 201));
+        groupBox->setGeometry(QRect(190, 320, 331, 211));
         fcwOn = new QCheckBox(groupBox);
         fcwOn->setObjectName(QStringLiteral("fcwOn"));
         fcwOn->setGeometry(QRect(120, 0, 16, 17));
-        label_5 = new QLabel(groupBox);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(230, 130, 51, 16));
-        animationOn = new QCheckBox(groupBox);
-        animationOn->setObjectName(QStringLiteral("animationOn"));
-        animationOn->setGeometry(QRect(210, 130, 16, 17));
         gridLayoutWidget_16 = new QWidget(groupBox);
         gridLayoutWidget_16->setObjectName(QStringLiteral("gridLayoutWidget_16"));
-        gridLayoutWidget_16->setGeometry(QRect(10, 90, 171, 24));
+        gridLayoutWidget_16->setGeometry(QRect(10, 90, 151, 24));
         gridLayout_25 = new QGridLayout(gridLayoutWidget_16);
         gridLayout_25->setSpacing(6);
         gridLayout_25->setContentsMargins(11, 11, 11, 11);
@@ -302,7 +301,7 @@ public:
 
         frequencyLineEdit = new QLineEdit(groupBox);
         frequencyLineEdit->setObjectName(QStringLiteral("frequencyLineEdit"));
-        frequencyLineEdit->setGeometry(QRect(240, 30, 61, 22));
+        frequencyLineEdit->setGeometry(QRect(260, 30, 41, 22));
         frequencyLineEdit->setFont(font);
         frequencyLineEdit->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         frequency = new QLabel(groupBox);
@@ -324,13 +323,39 @@ public:
         fcwIconName->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         colorButton = new QPushButton(groupBox);
         colorButton->setObjectName(QStringLiteral("colorButton"));
-        colorButton->setGeometry(QRect(210, 60, 81, 21));
+        colorButton->setGeometry(QRect(40, 130, 81, 21));
         colorDisplay = new QLabel(groupBox);
         colorDisplay->setObjectName(QStringLiteral("colorDisplay"));
-        colorDisplay->setGeometry(QRect(200, 90, 101, 22));
-        gridLayoutWidget_13 = new QWidget(groupBox);
+        colorDisplay->setGeometry(QRect(30, 160, 101, 22));
+        label_14 = new QLabel(groupBox);
+        label_14->setObjectName(QStringLiteral("label_14"));
+        label_14->setGeometry(QRect(180, 90, 71, 16));
+        fcwDistanceLineEdit = new QLineEdit(groupBox);
+        fcwDistanceLineEdit->setObjectName(QStringLiteral("fcwDistanceLineEdit"));
+        fcwDistanceLineEdit->setGeometry(QRect(260, 90, 41, 21));
+        fcwDistanceLineEdit->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        label_12 = new QLabel(groupBox);
+        label_12->setObjectName(QStringLiteral("label_12"));
+        label_12->setGeometry(QRect(310, 30, 16, 21));
+        label_44 = new QLabel(groupBox);
+        label_44->setObjectName(QStringLiteral("label_44"));
+        label_44->setGeometry(QRect(180, 60, 47, 13));
+        fcwPeriodOnLineEdit = new QLineEdit(groupBox);
+        fcwPeriodOnLineEdit->setObjectName(QStringLiteral("fcwPeriodOnLineEdit"));
+        fcwPeriodOnLineEdit->setGeometry(QRect(260, 60, 41, 21));
+        fcwPeriodOnLineEdit->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        label_45 = new QLabel(groupBox);
+        label_45->setObjectName(QStringLiteral("label_45"));
+        label_45->setGeometry(QRect(310, 60, 16, 16));
+        label_46 = new QLabel(groupBox);
+        label_46->setObjectName(QStringLiteral("label_46"));
+        label_46->setGeometry(QRect(310, 90, 16, 16));
+        groupBox_6 = new QGroupBox(groupBox);
+        groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        groupBox_6->setGeometry(QRect(150, 110, 171, 91));
+        gridLayoutWidget_13 = new QWidget(groupBox_6);
         gridLayoutWidget_13->setObjectName(QStringLiteral("gridLayoutWidget_13"));
-        gridLayoutWidget_13->setGeometry(QRect(170, 150, 151, 41));
+        gridLayoutWidget_13->setGeometry(QRect(10, 30, 131, 52));
         gridLayout_21 = new QGridLayout(gridLayoutWidget_13);
         gridLayout_21->setSpacing(6);
         gridLayout_21->setContentsMargins(11, 11, 11, 11);
@@ -388,12 +413,27 @@ public:
 
         gridLayout_21->addWidget(animationEndZ, 1, 3, 1, 1);
 
-        label_14 = new QLabel(groupBox);
-        label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(40, 130, 71, 16));
-        fcwDistanceLineEdit = new QLineEdit(groupBox);
-        fcwDistanceLineEdit->setObjectName(QStringLiteral("fcwDistanceLineEdit"));
-        fcwDistanceLineEdit->setGeometry(QRect(20, 160, 113, 21));
+        animationOn = new QCheckBox(groupBox_6);
+        animationOn->setObjectName(QStringLiteral("animationOn"));
+        animationOn->setGeometry(QRect(60, 0, 16, 17));
+        groupBox_6->raise();
+        fcwOn->raise();
+        gridLayoutWidget_16->raise();
+        frequencyLineEdit->raise();
+        frequency->raise();
+        shapeOption->raise();
+        label_3->raise();
+        label_7->raise();
+        fcwIconName->raise();
+        colorButton->raise();
+        colorDisplay->raise();
+        label_14->raise();
+        fcwDistanceLineEdit->raise();
+        label_12->raise();
+        label_44->raise();
+        fcwPeriodOnLineEdit->raise();
+        label_45->raise();
+        label_46->raise();
         groupBox_2 = new QGroupBox(majorFileSettings);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(40, 250, 141, 61));
@@ -605,10 +645,10 @@ public:
         label_33->raise();
         trialManager = new QGroupBox(centralWidget);
         trialManager->setObjectName(QStringLiteral("trialManager"));
-        trialManager->setGeometry(QRect(570, 10, 631, 571));
+        trialManager->setGeometry(QRect(570, 10, 631, 611));
         leadVehicleInstructions = new QGroupBox(trialManager);
         leadVehicleInstructions->setObjectName(QStringLiteral("leadVehicleInstructions"));
-        leadVehicleInstructions->setGeometry(QRect(320, 50, 261, 161));
+        leadVehicleInstructions->setGeometry(QRect(320, 70, 261, 161));
         leadTrialOn = new QCheckBox(leadVehicleInstructions);
         leadTrialOn->setObjectName(QStringLiteral("leadTrialOn"));
         leadTrialOn->setGeometry(QRect(130, 0, 16, 17));
@@ -667,7 +707,7 @@ public:
         label_36->setGeometry(QRect(230, 80, 21, 16));
         roadSideVehicleControl = new QGroupBox(trialManager);
         roadSideVehicleControl->setObjectName(QStringLiteral("roadSideVehicleControl"));
-        roadSideVehicleControl->setGeometry(QRect(10, 220, 301, 341));
+        roadSideVehicleControl->setGeometry(QRect(10, 260, 301, 341));
         roadSideTrialOn = new QCheckBox(roadSideVehicleControl);
         roadSideTrialOn->setObjectName(QStringLiteral("roadSideTrialOn"));
         roadSideTrialOn->setGeometry(QRect(140, 0, 16, 17));
@@ -705,7 +745,7 @@ public:
         label_20->setGeometry(QRect(40, 190, 71, 16));
         gridLayoutWidget = new QWidget(roadSideVehicleControl);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 20, 241, 167));
+        gridLayoutWidget->setGeometry(QRect(10, 20, 251, 167));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -846,19 +886,19 @@ public:
 
         label_40 = new QLabel(roadSideVehicleControl);
         label_40->setObjectName(QStringLiteral("label_40"));
-        label_40->setGeometry(QRect(260, 50, 21, 16));
+        label_40->setGeometry(QRect(270, 50, 21, 16));
         label_41 = new QLabel(roadSideVehicleControl);
         label_41->setObjectName(QStringLiteral("label_41"));
-        label_41->setGeometry(QRect(260, 110, 21, 16));
+        label_41->setGeometry(QRect(270, 110, 21, 16));
         label_42 = new QLabel(roadSideVehicleControl);
         label_42->setObjectName(QStringLiteral("label_42"));
-        label_42->setGeometry(QRect(260, 140, 21, 16));
+        label_42->setGeometry(QRect(270, 140, 21, 16));
         label_43 = new QLabel(roadSideVehicleControl);
         label_43->setObjectName(QStringLiteral("label_43"));
-        label_43->setGeometry(QRect(260, 80, 21, 16));
+        label_43->setGeometry(QRect(270, 80, 21, 16));
         label_55 = new QLabel(roadSideVehicleControl);
         label_55->setObjectName(QStringLiteral("label_55"));
-        label_55->setGeometry(QRect(260, 170, 21, 16));
+        label_55->setGeometry(QRect(270, 170, 21, 16));
         roadSideSolModel = new QComboBox(roadSideVehicleControl);
         roadSideSolModel->setObjectName(QStringLiteral("roadSideSolModel"));
         roadSideSolModel->setGeometry(QRect(180, 230, 111, 21));
@@ -867,7 +907,7 @@ public:
         solModelLabel_4->setGeometry(QRect(210, 210, 51, 16));
         leftLaneVehicleControl = new QGroupBox(trialManager);
         leftLaneVehicleControl->setObjectName(QStringLiteral("leftLaneVehicleControl"));
-        leftLaneVehicleControl->setGeometry(QRect(320, 220, 301, 341));
+        leftLaneVehicleControl->setGeometry(QRect(320, 260, 301, 341));
         leftLaneTrialOn = new QCheckBox(leftLaneVehicleControl);
         leftLaneTrialOn->setObjectName(QStringLiteral("leftLaneTrialOn"));
         leftLaneTrialOn->setGeometry(QRect(130, 0, 16, 17));
@@ -1014,25 +1054,25 @@ public:
 
         gridLayout_14->addWidget(leftLaneTrialAddToFCW, 1, 0, 1, 1);
 
-        widget = new QWidget(leftLaneVehicleControl);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(140, 150, 117, 49));
-        gridLayout_4 = new QGridLayout(widget);
+        layoutWidget = new QWidget(leftLaneVehicleControl);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(140, 150, 117, 49));
+        gridLayout_4 = new QGridLayout(layoutWidget);
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
-        leftLaneTrialRemainLaneMatchET = new QRadioButton(widget);
+        leftLaneTrialRemainLaneMatchET = new QRadioButton(layoutWidget);
         leftLaneTrialRemainLaneMatchET->setObjectName(QStringLiteral("leftLaneTrialRemainLaneMatchET"));
 
         gridLayout_4->addWidget(leftLaneTrialRemainLaneMatchET, 2, 0, 1, 1);
 
-        leftLaneTrialRemainLaneAbsolute = new QRadioButton(widget);
+        leftLaneTrialRemainLaneAbsolute = new QRadioButton(layoutWidget);
         leftLaneTrialRemainLaneAbsolute->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsolute"));
 
         gridLayout_4->addWidget(leftLaneTrialRemainLaneAbsolute, 3, 0, 1, 1);
 
-        leftLaneTrialRemainLaneAbsoluteSpeed = new QLineEdit(widget);
+        leftLaneTrialRemainLaneAbsoluteSpeed = new QLineEdit(layoutWidget);
         leftLaneTrialRemainLaneAbsoluteSpeed->setObjectName(QStringLiteral("leftLaneTrialRemainLaneAbsoluteSpeed"));
         leftLaneTrialRemainLaneAbsoluteSpeed->setFont(font);
         leftLaneTrialRemainLaneAbsoluteSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
@@ -1059,7 +1099,7 @@ public:
         solModelLabel_3->setGeometry(QRect(190, 210, 51, 16));
         followVehicleInstruction = new QGroupBox(trialManager);
         followVehicleInstruction->setObjectName(QStringLiteral("followVehicleInstruction"));
-        followVehicleInstruction->setGeometry(QRect(10, 50, 271, 161));
+        followVehicleInstruction->setGeometry(QRect(10, 70, 271, 161));
         followTrialOn = new QCheckBox(followVehicleInstruction);
         followTrialOn->setObjectName(QStringLiteral("followTrialOn"));
         followTrialOn->setGeometry(QRect(140, 0, 16, 17));
@@ -1117,7 +1157,7 @@ public:
         label_29->setGeometry(QRect(240, 80, 21, 16));
         horizontalLayoutWidget = new QWidget(trialManager);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(110, 20, 371, 24));
+        horizontalLayoutWidget->setGeometry(QRect(110, 30, 371, 24));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -1162,7 +1202,7 @@ public:
         horizontalLayoutWidget->raise();
         label_10 = new QLabel(centralWidget);
         label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setGeometry(QRect(570, 580, 161, 16));
+        label_10->setGeometry(QRect(570, 620, 161, 16));
         MainWindow->setCentralWidget(centralWidget);
         trialManager->raise();
         majorFileSettings->raise();
@@ -1179,17 +1219,25 @@ public:
         QWidget::setTabOrder(leadMaxSpeedLineEdit, leadMinSpeedLineEdit);
         QWidget::setTabOrder(leadMinSpeedLineEdit, leadMaxAccelLineEdit);
         QWidget::setTabOrder(leadMaxAccelLineEdit, leadMaxDecel);
-        QWidget::setTabOrder(leadMaxDecel, lengthOfRoadLineEdit);
-        QWidget::setTabOrder(lengthOfRoadLineEdit, showBlindSpotWarning);
-        QWidget::setTabOrder(showBlindSpotWarning, generateOpposingTraffic);
+        QWidget::setTabOrder(leadMaxDecel, generateOpposingTraffic);
         QWidget::setTabOrder(generateOpposingTraffic, numberOpposingVehicles);
         QWidget::setTabOrder(numberOpposingVehicles, numberCars);
         QWidget::setTabOrder(numberCars, numberTrucks);
-        QWidget::setTabOrder(numberTrucks, fcwOn);
-        QWidget::setTabOrder(fcwOn, fcwPositionX);
+        QWidget::setTabOrder(numberTrucks, showBlindSpotWarning);
+        QWidget::setTabOrder(showBlindSpotWarning, lengthOfRoadLineEdit);
+        QWidget::setTabOrder(lengthOfRoadLineEdit, loadFile);
+        QWidget::setTabOrder(loadFile, saveFileButton);
+        QWidget::setTabOrder(saveFileButton, fcwOn);
+        QWidget::setTabOrder(fcwOn, shapeOption);
+        QWidget::setTabOrder(shapeOption, fcwIconName);
+        QWidget::setTabOrder(fcwIconName, fcwPositionX);
         QWidget::setTabOrder(fcwPositionX, fcwPositionY);
         QWidget::setTabOrder(fcwPositionY, fcwPositionZ);
-        QWidget::setTabOrder(fcwPositionZ, animationOn);
+        QWidget::setTabOrder(fcwPositionZ, frequencyLineEdit);
+        QWidget::setTabOrder(frequencyLineEdit, fcwPeriodOnLineEdit);
+        QWidget::setTabOrder(fcwPeriodOnLineEdit, fcwDistanceLineEdit);
+        QWidget::setTabOrder(fcwDistanceLineEdit, colorButton);
+        QWidget::setTabOrder(colorButton, animationOn);
         QWidget::setTabOrder(animationOn, animationStartX);
         QWidget::setTabOrder(animationStartX, animationStartY);
         QWidget::setTabOrder(animationStartY, animationStartZ);
@@ -1206,11 +1254,17 @@ public:
         QWidget::setTabOrder(followTrialVelocityChangeMatchExternalDriver, followTrialVelocityChangeAbsolute);
         QWidget::setTabOrder(followTrialVelocityChangeAbsolute, followTrialVelocityChangeAbsoluteLineEdit);
         QWidget::setTabOrder(followTrialVelocityChangeAbsoluteLineEdit, followTrialForceLaneChange);
-        QWidget::setTabOrder(followTrialForceLaneChange, leadTrialOn);
+        QWidget::setTabOrder(followTrialForceLaneChange, followTrialChangeLeft);
+        QWidget::setTabOrder(followTrialChangeLeft, followTrialChangeRight);
+        QWidget::setTabOrder(followTrialChangeRight, leadTrialOn);
         QWidget::setTabOrder(leadTrialOn, leadTrialVelocityChange);
-        QWidget::setTabOrder(leadTrialVelocityChange, leadTrialVelocityChangeAbsoluteSpeed);
+        QWidget::setTabOrder(leadTrialVelocityChange, leadTrialMatchExternalDriver);
+        QWidget::setTabOrder(leadTrialMatchExternalDriver, leadTrialVelocityChangeAbsolute);
+        QWidget::setTabOrder(leadTrialVelocityChangeAbsolute, leadTrialVelocityChangeAbsoluteSpeed);
         QWidget::setTabOrder(leadTrialVelocityChangeAbsoluteSpeed, leadTrialForceLaneChange);
-        QWidget::setTabOrder(leadTrialForceLaneChange, roadSideTrialOn);
+        QWidget::setTabOrder(leadTrialForceLaneChange, leadTrialChangeLeft);
+        QWidget::setTabOrder(leadTrialChangeLeft, leadTrialChangeRight);
+        QWidget::setTabOrder(leadTrialChangeRight, roadSideTrialOn);
         QWidget::setTabOrder(roadSideTrialOn, roadSideTrialRemainStationary);
         QWidget::setTabOrder(roadSideTrialRemainStationary, roadSideTrialPullFront);
         QWidget::setTabOrder(roadSideTrialPullFront, roadSideTrialPullFrontSpeed);
@@ -1224,21 +1278,29 @@ public:
         QWidget::setTabOrder(roadSideTrialBlinkerHazards, roadSideTrialBlinkerRight);
         QWidget::setTabOrder(roadSideTrialBlinkerRight, roadSideTrialBlinkerLeft);
         QWidget::setTabOrder(roadSideTrialBlinkerLeft, roadSideTrialBlinkerNone);
-        QWidget::setTabOrder(roadSideTrialBlinkerNone, roadSideTrialAddToList);
-        QWidget::setTabOrder(roadSideTrialAddToList, leftLaneTrialOn);
+        QWidget::setTabOrder(roadSideTrialBlinkerNone, roadSideSolModel);
+        QWidget::setTabOrder(roadSideSolModel, roadSideTrialDeletionPullToSide);
+        QWidget::setTabOrder(roadSideTrialDeletionPullToSide, roadSideTrialAddToList);
+        QWidget::setTabOrder(roadSideTrialAddToList, roadSideTrialDeletionSlowDown);
+        QWidget::setTabOrder(roadSideTrialDeletionSlowDown, leftLaneTrialOn);
         QWidget::setTabOrder(leftLaneTrialOn, leftLaneTrialBlindSpot);
         QWidget::setTabOrder(leftLaneTrialBlindSpot, leftLaneTrialCutBehind);
         QWidget::setTabOrder(leftLaneTrialCutBehind, leftLaneTrialCutFront);
         QWidget::setTabOrder(leftLaneTrialCutFront, leftLaneTrialCutFrontSpeed);
         QWidget::setTabOrder(leftLaneTrialCutFrontSpeed, leftLaneTrialCutFrontDistance);
         QWidget::setTabOrder(leftLaneTrialCutFrontDistance, leftLaneTRialRemainLane);
-        QWidget::setTabOrder(leftLaneTRialRemainLane, leftLaneTrialBlinkerHazards);
+        QWidget::setTabOrder(leftLaneTRialRemainLane, leftLaneTrialRemainLaneMatchET);
+        QWidget::setTabOrder(leftLaneTrialRemainLaneMatchET, leftLaneTrialRemainLaneAbsolute);
+        QWidget::setTabOrder(leftLaneTrialRemainLaneAbsolute, leftLaneTrialRemainLaneAbsoluteSpeed);
+        QWidget::setTabOrder(leftLaneTrialRemainLaneAbsoluteSpeed, leftLaneTrialBlinkerHazards);
         QWidget::setTabOrder(leftLaneTrialBlinkerHazards, leftLaneTrialBlinkerRight);
         QWidget::setTabOrder(leftLaneTrialBlinkerRight, leftLaneTrialBlinkerLeft);
         QWidget::setTabOrder(leftLaneTrialBlinkerLeft, leftLaneTrialBlinkerNone);
-        QWidget::setTabOrder(leftLaneTrialBlinkerNone, leftLaneTrialAddToFCW);
-        QWidget::setTabOrder(leftLaneTrialAddToFCW, loadFile);
-        QWidget::setTabOrder(loadFile, saveFileButton);
+        QWidget::setTabOrder(leftLaneTrialBlinkerNone, leftLaneSolModel);
+        QWidget::setTabOrder(leftLaneSolModel, leftLaneTrialAddToFCW);
+        QWidget::setTabOrder(leftLaneTrialAddToFCW, leftLaneTrialDistanceFromET);
+        QWidget::setTabOrder(leftLaneTrialDistanceFromET, leftLaneTrialCreationFront);
+        QWidget::setTabOrder(leftLaneTrialCreationFront, leftLaneTrialCreationBehind);
 
         retranslateUi(MainWindow);
 
@@ -1255,24 +1317,67 @@ public:
         fcwOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Generate a frontal crash warning for scenario vehicles.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         fcwOn->setText(QString());
-        label_5->setText(QApplication::translate("MainWindow", "<u>Animation", 0));
-        animationOn->setText(QString());
         label_4->setText(QApplication::translate("MainWindow", "Position", 0));
+#ifndef QT_NO_TOOLTIP
+        frequencyLineEdit->setToolTip(QApplication::translate("MainWindow", "Frequency of FCW display.", 0));
+#endif // QT_NO_TOOLTIP
         frequency->setText(QApplication::translate("MainWindow", "Frequency", 0));
+#ifndef QT_NO_TOOLTIP
+        shapeOption->setToolTip(QApplication::translate("MainWindow", "Shape of FCW. Choose \"Icon\" for a custom shape.", 0));
+#endif // QT_NO_TOOLTIP
         label_3->setText(QApplication::translate("MainWindow", "Shape", 0));
         label_7->setText(QApplication::translate("MainWindow", "Icon Name", 0));
+#ifndef QT_NO_TOOLTIP
+        fcwIconName->setToolTip(QApplication::translate("MainWindow", "Name of icon if \"Icon\" shape is option is chosen.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        colorButton->setToolTip(QApplication::translate("MainWindow", "Choose a color for the FCW.", 0));
+#endif // QT_NO_TOOLTIP
         colorButton->setText(QApplication::translate("MainWindow", "Choose Color", 0));
         colorDisplay->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">FCW Color</p></body></html>", 0));
+        label_14->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">FCW Distance</p></body></html>", 0));
+#ifndef QT_NO_TOOLTIP
+        fcwDistanceLineEdit->setToolTip(QApplication::translate("MainWindow", "Distance at which to activate the FCW.", 0));
+#endif // QT_NO_TOOLTIP
+        label_12->setText(QApplication::translate("MainWindow", "Hz", 0));
+        label_44->setText(QApplication::translate("MainWindow", "Period On", 0));
+#ifndef QT_NO_TOOLTIP
+        fcwPeriodOnLineEdit->setToolTip(QApplication::translate("MainWindow", "The amount of time the FCW on state is to be displayed.", 0));
+#endif // QT_NO_TOOLTIP
+        label_45->setText(QApplication::translate("MainWindow", "s", 0));
+        label_46->setText(QApplication::translate("MainWindow", "ft", 0));
+        groupBox_6->setTitle(QApplication::translate("MainWindow", "Animation", 0));
+#ifndef QT_NO_TOOLTIP
+        animationStartX->setToolTip(QApplication::translate("MainWindow", "Animation start x position.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        animationStartY->setToolTip(QApplication::translate("MainWindow", "Animation start y position.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        animationStartZ->setToolTip(QApplication::translate("MainWindow", "Animation start z position.", 0));
+#endif // QT_NO_TOOLTIP
         label_6->setText(QApplication::translate("MainWindow", "Start", 0));
         label_30->setText(QApplication::translate("MainWindow", "End", 0));
-        label_14->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">FCW Distance</p></body></html>", 0));
+#ifndef QT_NO_TOOLTIP
+        animationEndX->setToolTip(QApplication::translate("MainWindow", "Animation end x position.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        animationEndY->setToolTip(QApplication::translate("MainWindow", "Animation end y position.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        animationEndZ->setToolTip(QApplication::translate("MainWindow", "Animation end z position.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        animationOn->setToolTip(QApplication::translate("MainWindow", "Include an animation for the FCW (optional).", 0));
+#endif // QT_NO_TOOLTIP
+        animationOn->setText(QString());
         groupBox_2->setTitle(QApplication::translate("MainWindow", "Blind Spot Warning", 0));
 #ifndef QT_NO_TOOLTIP
         showBlindSpotWarning->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Show a blind spot warning for left lane and roadside vehicles.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         showBlindSpotWarning->setText(QApplication::translate("MainWindow", "Show Warning", 0));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Follow Vehicle", 0));
-        label_11->setText(QApplication::translate("MainWindow", "feet", 0));
+        label_11->setText(QApplication::translate("MainWindow", "ft", 0));
         label_15->setText(QApplication::translate("MainWindow", "mph", 0));
         label_32->setText(QApplication::translate("MainWindow", "mph", 0));
         label_35->setText(QApplication::translate("MainWindow", "m/s^2", 0));
@@ -1284,7 +1389,7 @@ public:
         followVehicleDistanceLabel->setText(QApplication::translate("MainWindow", "Gap", 0));
         maxFollowSpeedLabel->setText(QApplication::translate("MainWindow", "Max Speed", 0));
         groupBox_4->setTitle(QApplication::translate("MainWindow", "Lead Vehicle", 0));
-        label_21->setText(QApplication::translate("MainWindow", "feet", 0));
+        label_21->setText(QApplication::translate("MainWindow", "ft", 0));
         label_28->setText(QApplication::translate("MainWindow", "mph", 0));
         label_31->setText(QApplication::translate("MainWindow", "mph", 0));
         label_38->setText(QApplication::translate("MainWindow", "m/s^2", 0));
@@ -1382,14 +1487,20 @@ public:
         leadTrialVelocityChangeAbsoluteSpeed->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Absolute speed value.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
-        leadTrialMatchExternalDriver->setToolTip(QApplication::translate("MainWindow", "Match the velocity of the external driver.", 0));
+        leadTrialMatchExternalDriver->setToolTip(QApplication::translate("MainWindow", "Match the velocity of the subject.", 0));
 #endif // QT_NO_TOOLTIP
         leadTrialMatchExternalDriver->setText(QApplication::translate("MainWindow", "Match Subject", 0));
 #ifndef QT_NO_TOOLTIP
         leadTrialVelocityChangeAbsolute->setToolTip(QApplication::translate("MainWindow", "Set the velocity of the follow vehicle to an absolute value.", 0));
 #endif // QT_NO_TOOLTIP
         leadTrialVelocityChangeAbsolute->setText(QApplication::translate("MainWindow", "Absolute Speed", 0));
+#ifndef QT_NO_TOOLTIP
+        leadTrialChangeLeft->setToolTip(QApplication::translate("MainWindow", "Force lane change left.", 0));
+#endif // QT_NO_TOOLTIP
         leadTrialChangeLeft->setText(QApplication::translate("MainWindow", "Left", 0));
+#ifndef QT_NO_TOOLTIP
+        leadTrialChangeRight->setToolTip(QApplication::translate("MainWindow", "Force lane change right.", 0));
+#endif // QT_NO_TOOLTIP
         leadTrialChangeRight->setText(QApplication::translate("MainWindow", "Right", 0));
         label_36->setText(QApplication::translate("MainWindow", "mph", 0));
         roadSideVehicleControl->setTitle(QApplication::translate("MainWindow", "Road Side Vehicle Control", 0));
@@ -1397,13 +1508,31 @@ public:
         roadSideTrialOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Include a roadside vehicle for this trial.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         roadSideTrialOn->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialBlinkerHazards->setToolTip(QApplication::translate("MainWindow", "Set the blinker to hazards.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialBlinkerHazards->setText(QApplication::translate("MainWindow", "Hazards", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialBlinkerRight->setToolTip(QApplication::translate("MainWindow", "Set the blinker to right.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialBlinkerRight->setText(QApplication::translate("MainWindow", "Right", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialBlinkerLeft->setToolTip(QApplication::translate("MainWindow", "Set the blinker to left.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialBlinkerLeft->setText(QApplication::translate("MainWindow", "Left", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialBlinkerNone->setToolTip(QApplication::translate("MainWindow", "Set the blinker to none.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialBlinkerNone->setText(QApplication::translate("MainWindow", "None", 0));
         label_20->setText(QApplication::translate("MainWindow", "<u>Blinker Control</u>", 0));
         label_16->setText(QApplication::translate("MainWindow", "Speed", 0));
         label_18->setText(QApplication::translate("MainWindow", "Distance", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialPullFrontStopSpeed->setToolTip(QApplication::translate("MainWindow", "Pull out in front and stop speed.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialPullFrontStopDistance->setToolTip(QApplication::translate("MainWindow", "Pull out in front and stop distance.", 0));
+#endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         roadSideTrialRemainStationary->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Remain stationary on the side of the road.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
@@ -1433,44 +1562,110 @@ public:
         roadSideTrialDriveOnShoulderSpeed->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Speed to drive on shoulder at.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         label_22->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" text-decoration: underline;\">Deletion</span></p></body></html>", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialDeletionSlowDown->setToolTip(QApplication::translate("MainWindow", "Delete the road side vehicle by slowing down in the left lane.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialDeletionSlowDown->setText(QApplication::translate("MainWindow", "Slow Down", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialDeletionPullToSide->setToolTip(QApplication::translate("MainWindow", "Delete the road side vehicle by pulling to the right shoulder.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialDeletionPullToSide->setText(QApplication::translate("MainWindow", "Pull To Side", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialAddToList->setToolTip(QApplication::translate("MainWindow", "Display a FCW for this road side vehicle.", 0));
+#endif // QT_NO_TOOLTIP
         roadSideTrialAddToList->setText(QApplication::translate("MainWindow", "Add To List", 0));
         label_23->setText(QApplication::translate("MainWindow", "<u><center>FCW</center></u>", 0));
         label_40->setText(QApplication::translate("MainWindow", "mph", 0));
         label_41->setText(QApplication::translate("MainWindow", "mph", 0));
         label_42->setText(QApplication::translate("MainWindow", "mph", 0));
-        label_43->setText(QApplication::translate("MainWindow", "feet", 0));
-        label_55->setText(QApplication::translate("MainWindow", "feet", 0));
+        label_43->setText(QApplication::translate("MainWindow", "ft", 0));
+        label_55->setText(QApplication::translate("MainWindow", "ft", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideSolModel->setToolTip(QApplication::translate("MainWindow", "Set the road side sol model.", 0));
+#endif // QT_NO_TOOLTIP
         solModelLabel_4->setText(QApplication::translate("MainWindow", "Sol Model", 0));
         leftLaneVehicleControl->setTitle(QApplication::translate("MainWindow", "Left Lane Vehicle Control", 0));
 #ifndef QT_NO_TOOLTIP
         leftLaneTrialOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Include a left lane vehicle for this trial.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         leftLaneTrialOn->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialBlinkerHazards->setToolTip(QApplication::translate("MainWindow", "Set the blinker to hazards.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialBlinkerHazards->setText(QApplication::translate("MainWindow", "Hazards", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialBlinkerRight->setToolTip(QApplication::translate("MainWindow", "Set the blinker to right.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialBlinkerRight->setText(QApplication::translate("MainWindow", "Right", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialBlinkerLeft->setToolTip(QApplication::translate("MainWindow", "Set the blinker to left.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialBlinkerLeft->setText(QApplication::translate("MainWindow", "Left", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialBlinkerNone->setToolTip(QApplication::translate("MainWindow", "Set the blinker to none.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialBlinkerNone->setText(QApplication::translate("MainWindow", "None", 0));
         label_26->setText(QApplication::translate("MainWindow", "<u>Blinker Control</u>", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCutFrontDistance->setToolTip(QApplication::translate("MainWindow", "Cut in front of driver distance.", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCutFrontSpeed->setToolTip(QApplication::translate("MainWindow", "Cut in front of driver speed.", 0));
+#endif // QT_NO_TOOLTIP
         label_25->setText(QApplication::translate("MainWindow", "Speed", 0));
         label_27->setText(QApplication::translate("MainWindow", "Distance", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCutBehind->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle cuts behind the subject.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialCutBehind->setText(QApplication::translate("MainWindow", "Cut Behind Driver", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCutFront->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle cuts in front of the driver.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialCutFront->setText(QApplication::translate("MainWindow", "Cut In Front of Driver", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialBlindSpot->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle sits in the the blind spot of the subject.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialBlindSpot->setText(QApplication::translate("MainWindow", "Blind Spot", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTRialRemainLane->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle remains in the left lane. ", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTRialRemainLane->setText(QApplication::translate("MainWindow", "Remain in Lane", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCreationFront->setToolTip(QApplication::translate("MainWindow", "Left lane create in front of the subject.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialCreationFront->setText(QApplication::translate("MainWindow", "Front", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialCreationBehind->setToolTip(QApplication::translate("MainWindow", "Left lane create behind  the subject.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialCreationBehind->setText(QApplication::translate("MainWindow", "Behind", 0));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">Creation Option</p></body></html>", 0));
         label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" text-decoration: underline;\">Creation Gap*</span></p></body></html>", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialDistanceFromET->setToolTip(QApplication::translate("MainWindow", "Left lane creation distance.", 0));
+#endif // QT_NO_TOOLTIP
         label_24->setText(QApplication::translate("MainWindow", "<u><center>FCW</center></u>", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialAddToFCW->setToolTip(QApplication::translate("MainWindow", "Display a FCW for this left lane vehicle.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialAddToFCW->setText(QApplication::translate("MainWindow", "Add To List", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialRemainLaneMatchET->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle remain in lane and match the subject.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialRemainLaneMatchET->setText(QApplication::translate("MainWindow", "Match", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialRemainLaneAbsolute->setToolTip(QApplication::translate("MainWindow", "Left lane vehicle remain in lane and travel at an absolute speed.", 0));
+#endif // QT_NO_TOOLTIP
         leftLaneTrialRemainLaneAbsolute->setText(QApplication::translate("MainWindow", "Absolute", 0));
-        label_56->setText(QApplication::translate("MainWindow", "feet", 0));
-        label_57->setText(QApplication::translate("MainWindow", "feet", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneTrialRemainLaneAbsoluteSpeed->setToolTip(QApplication::translate("MainWindow", "Left lane remain in lane absolute speed.", 0));
+#endif // QT_NO_TOOLTIP
+        label_56->setText(QApplication::translate("MainWindow", "ft", 0));
+        label_57->setText(QApplication::translate("MainWindow", "ft", 0));
         label_58->setText(QApplication::translate("MainWindow", "mph", 0));
         label_59->setText(QApplication::translate("MainWindow", "mph", 0));
+#ifndef QT_NO_TOOLTIP
+        leftLaneSolModel->setToolTip(QApplication::translate("MainWindow", "Set the  left lane model.", 0));
+#endif // QT_NO_TOOLTIP
         solModelLabel_3->setText(QApplication::translate("MainWindow", "Sol Model", 0));
         followVehicleInstruction->setTitle(QApplication::translate("MainWindow", "Follow Vehicle Instructions", 0));
 #ifndef QT_NO_TOOLTIP
@@ -1481,7 +1676,7 @@ public:
         followTrialVelocityChangeAbsoluteLineEdit->setToolTip(QApplication::translate("MainWindow", "Absolute speed value.", 0));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
-        followTrialVelocityChangeMatchExternalDriver->setToolTip(QApplication::translate("MainWindow", "Match the velocity of the external driver.", 0));
+        followTrialVelocityChangeMatchExternalDriver->setToolTip(QApplication::translate("MainWindow", "Match the velocity of the subject.", 0));
 #endif // QT_NO_TOOLTIP
         followTrialVelocityChangeMatchExternalDriver->setText(QApplication::translate("MainWindow", "Match Subject", 0));
 #ifndef QT_NO_TOOLTIP
@@ -1496,7 +1691,13 @@ public:
         followTrialForceLaneChange->setToolTip(QApplication::translate("MainWindow", "Force the follow vehicle to change lanes.", 0));
 #endif // QT_NO_TOOLTIP
         followTrialForceLaneChange->setText(QApplication::translate("MainWindow", "Force Lane Change", 0));
+#ifndef QT_NO_TOOLTIP
+        followTrialChangeLeft->setToolTip(QApplication::translate("MainWindow", "Force lane change left.", 0));
+#endif // QT_NO_TOOLTIP
         followTrialChangeLeft->setText(QApplication::translate("MainWindow", "Left", 0));
+#ifndef QT_NO_TOOLTIP
+        followTrialChangeRight->setToolTip(QApplication::translate("MainWindow", "Force lane change right.", 0));
+#endif // QT_NO_TOOLTIP
         followTrialChangeRight->setText(QApplication::translate("MainWindow", "Right", 0));
         label_29->setText(QApplication::translate("MainWindow", "mph", 0));
         label_13->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#e30000;\">Current Trial:</span></p></body></html>", 0));

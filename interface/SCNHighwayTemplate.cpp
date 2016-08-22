@@ -248,7 +248,7 @@ void SCNHighwayTemplate::leftLaneSlowDown (int trialNum, string leftVehName, ost
 void SCNHighwayTemplate::leftLaneBlindSpot (int trialNum, leftLaneControl &leftLane, ostream &outStream) {
     //create the vehicle
     string  RoadPos = "\"r1_0_113520:1:";    
-    string  SolName = getRandSol(false);
+    string  SolName = leftLane.solModel;
     string  leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
     int     matchETDistance = 60;               
     int     color = getRandSolColor(SolName);   
@@ -329,7 +329,7 @@ void SCNHighwayTemplate::leftLaneBlindSpot (int trialNum, leftLaneControl &leftL
 }
 
 void SCNHighwayTemplate::leftLaneCutBehind (int trialNum, leftLaneControl &leftLane, ostream &outStream) {    
-    string              SOLModel = getRandSol(false);
+    string              SOLModel = leftLane.solModel;
     int                 ddoReferenceIndex = 4;
     int                 color = getRandSolColor(SOLModel);
     int                 visState = 0;
@@ -468,7 +468,7 @@ void SCNHighwayTemplate::leftLaneCutFront (int trialNum, leftLaneControl &leftLa
     double                  laneChangeAngle = M_PI_2 - atan (12/leftLane.distance);
     double                  laneChangeHypotenuse = sqrt(leftLane.distance * leftLane.distance + 144);
     position                ddoReferencePoint (388, 0,  0);
-    string                  SOLModel = getRandSol(false);
+    string                  SOLModel = leftLane.solModel;
     string                  leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
     int                     color = getRandSolColor(SOLModel);
     int                     visState = 0;
@@ -608,7 +608,7 @@ void SCNHighwayTemplate::leftLaneRemainLane (int trialNum, leftLaneControl &left
     //create the vehicle
     string                  RoadPos = "\"r1_0_113520:1:";    
     string                  leftVehName = "\"Left_" + std::to_string(trialNum) + "\"";
-    string                  SolName = getRandSol(false);     
+    string                  SolName = leftLane.solModel;     
     position                Draw (450, (trialNum * (trialLengthFt + trialSetupLengthFt)) - 1320, 0);
     double                  initVeloc = 0;                   
     double                  beginYPos = (trialNum * (trialLengthFt + trialSetupLengthFt));
@@ -1571,7 +1571,7 @@ void SCNHighwayTemplate::generateBSWRightPullFront (Trial &currTrial, ostream &o
     createAction->addTrigger(rightBlindOn);
     vector <Action*>    createRightBlindOnActions;
     createRightBlindOnActions.push_back(createAction);
-    double              pathBeginning = (-1320 + currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) + 40;
+    double              pathBeginning = (currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt) + trialLengthFt) + 40;
     string              createRightBlindOnPathMid (std::to_string(pathBeginning) + ":" + std::to_string(pathBeginning + 10));
     string              createRightBlindOnPath ("\"R:r1_0_113520:0[" + createRightBlindOnPathMid + "]:1[" + createRightBlindOnPathMid + "]\"");
     RoadPadTrigger      createRightBlindOn (false, false, 0, 0, 0, trialLengthFt, 0, "\"CreateRightBlind" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
@@ -1579,7 +1579,7 @@ void SCNHighwayTemplate::generateBSWRightPullFront (Trial &currTrial, ostream &o
     createRightBlindOn.filePrint(outStream);
     
     //expression trigger to turn off blind spot
-    position            rightBlindOffPosition (520, trialBeginPos, 0);
+    position            rightBlindOffPosition (450, trialBeginPos, 0);
     Action*             rightBlindOffSetVar = new SetVar (0, 0, "\"Right_Blind=0\"", true, "\"Right_Blind\"", "\"0\"");
     vector <Action*>    rightBlindOffActions;
     rightBlindOffActions.push_back(rightBlindOffSetVar);
@@ -1614,7 +1614,38 @@ void SCNHighwayTemplate::generateBSWRightShoulder (Trial &currTrial, ostream &ou
 }
 
 void SCNHighwayTemplate::generateBSWRightPullFrontStop (Trial &currTrial, ostream &outStream) {
+    //expression trigger to turn on blind spot
+    double              trialBeginPos = -1320 + currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt);
+    position            rightBlindOnPosition (450, trialBeginPos + currTrial.roadSide.distance, 0);
+    Action*             rightBlindOnSetVar = new SetVar (0, 0, "\"Right_Blind=1\"", true, "\"Right_Blind\"", "\"1\"");
+    vector <Action*>    rightBlindOnActions;
+    rightBlindOnActions.push_back(rightBlindOnSetVar);
+    string              rightBlindOnExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')<36*36\"");
+    Trigger*            rightBlindOn = new ExpressionTrigger (false, false, 0, 0, 0, 0, 0, "\"RightBlindOn" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOnPosition, rightBlindOnPosition, rightBlindOnActions, rightBlindOnExpression);
     
+    //roadpad trigger to create the blind spot on expression trigger
+    position            createRightBlindOnPos (520, trialBeginPos + currTrial.roadSide.distance, 0);
+    Action*             createAction = new CreateHCSM (0, 0, "\"CreateRightBlindOn" + std::to_string(currTrial.trialNumber) + "\"");
+    createAction->addTrigger(rightBlindOn);
+    vector <Action*>    createRightBlindOnActions;
+    createRightBlindOnActions.push_back(createAction);
+    double              pathBeginning = (currTrial.trialNumber * (trialLengthFt + trialSetupLengthFt) + currTrial.roadSide.distance);
+    string              createRightBlindOnPathMid (std::to_string(pathBeginning) + ":" + std::to_string(pathBeginning + 10));
+    string              createRightBlindOnPath ("\"R:r1_0_113520:0[" + createRightBlindOnPathMid + "]:1[" + createRightBlindOnPathMid + "]\"");
+    RoadPadTrigger      createRightBlindOn (false, false, 0, 0, 0, trialLengthFt, 0, "\"CreateRightBlind" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                       "\"\"", createRightBlindOnPos, createRightBlindOnPos, createRightBlindOnActions, "\"ExternalDriver\"", createRightBlindOnPath);
+    createRightBlindOn.filePrint(outStream);
+    
+    //expression trigger to turn off blind spot
+    position            rightBlindOffPosition (520, trialBeginPos, 0);
+    Action*             rightBlindOffSetVar = new SetVar (0, 0, "\"Right_Blind=0\"", true, "\"Right_Blind\"", "\"0\"");
+    vector <Action*>    rightBlindOffActions;
+    rightBlindOffActions.push_back(rightBlindOffSetVar);
+    string              rightBlindOffExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(currTrial.trialNumber)  + "')>36*36\"");
+    ExpressionTrigger   rightBlindOff (false, false, 0, 0, 0, trialLengthFt, 0, "\"RightBlindOff" + std::to_string(currTrial.trialNumber) + "\"", "\"\"",
+                                    "\"\"", rightBlindOffPosition, rightBlindOffPosition, rightBlindOffActions, rightBlindOffExpression);
+    rightBlindOff.filePrint(outStream);
 }
 
 void SCNHighwayTemplate::generateBlindSpot (vector<Trial> &trials, ostream &outStream) {
@@ -1658,7 +1689,176 @@ void SCNHighwayTemplate::generateBlindSpot (vector<Trial> &trials, ostream &outS
     return;
 }
 
+void SCNHighwayTemplate::generateFCWGraphics (FCW &fcwSettings, ostream &outStream) {
+    string          iconName ("\"\"");
+    position        FCWDrawPosition (fcwSettings.pos);
+    position        FCWPosition (2.3905214E+002, -1.4957105E+003, 0.0000000E+000);
+    color           FCWColor (0, 0, 0, 0);
+    drawSize        FCWSize (200, 45);
+    double          periodOff = (1 - (fcwSettings.frequency * fcwSettings.periodOn))/fcwSettings.frequency;
+    
+    //get the colors
+    double          percentRed ((double)fcwSettings.FCWColor.red()/255);
+    double          percentGreen ((double)fcwSettings.FCWColor.green()/255);
+    double          percentBlue ((double)fcwSettings.FCWColor.blue()/255);
+
+    //create the states
+    vector <double> stateVecOne;
+    stateVecOne.push_back(percentRed);              stateVecOne.push_back(percentGreen);
+    stateVecOne.push_back(percentBlue);             stateVecOne.push_back(0);
+    stateVecOne.push_back(percentRed);              stateVecOne.push_back(percentGreen);
+    stateVecOne.push_back(percentBlue);             stateVecOne.push_back(0);
+    stateVecOne.push_back(fcwSettings.periodOn);    stateVecOne.push_back(1);
+    stateVecOne.push_back(1);                       stateVecOne.push_back(0);
+    state           stateOne (8, 1, "\"\"", stateVecOne);
+    
+    vector <double> stateVecTwo;
+    stateVecTwo.push_back(0);                       stateVecTwo.push_back(0);
+    stateVecTwo.push_back(0);                       stateVecTwo.push_back(0);
+    stateVecTwo.push_back(0);                       stateVecTwo.push_back(0);
+    stateVecTwo.push_back(0);                       stateVecTwo.push_back(0);
+    stateVecTwo.push_back(periodOff);               stateVecTwo.push_back(0);
+    stateVecTwo.push_back(0);                       stateVecTwo.push_back(0);
+    state           stateTwo (8, 1, "\"\"", stateVecTwo);
+    
+    vector<state>   FCWStates;
+    FCWStates.push_back(stateOne);
+    FCWStates.push_back(stateTwo);
+            
+    if (fcwSettings.imageShape == Icon) {
+        iconName = (std::string)"\"" + fcwSettings.iconName + (std::string)"\"";
+    }
+    
+    VirtualObject   FCWGraph ("-1", 6, 0, "\"RouteNumber\"", "\"FCWGraph\"", iconName, "\"\"", 
+                            "\"\"", FCWPosition, FCWDrawPosition, FCWColor, FCWColor, FCWSize, FCWStates);
+    FCWGraph.print(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateFCWInitializeTriggers (ostream &outStream) {
+    //time trigger to set the variables
+    position            FCWInitPos (1.2026720E+002, -1.4808678E+003, 0.0000000E+000);
+    vector <Action*>    FCWInitActions;
+    Action*             FCWInRangeInit = new SetVar (0, 0, "\"\"", true, "\"FCWInRange\"", "\"0\"");
+    Action*             FCWCenterInit = new SetVar (0, 0, "\"\"", true, "\"FCWCenter\"", "\"0\"");
+    FCWInitActions.push_back(FCWInRangeInit);
+    FCWInitActions.push_back(FCWCenterInit);
+    TimeTrigger         FCWSetup (true, true, 0, 0, 0, 0, 0, "\"FCWInitializer\"", "\"\"",
+                          "\"\"", FCWInitPos, FCWInitPos, FCWInitActions, 0);
+    FCWSetup.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateFCWActivationTriggers (ostream &outStream) {
+    //on
+    position            FCWOnPos (3.1276509E+002, -1.6780857E+003, 0.0000000E+000);
+    vector <Action*>    FCWOnActions;
+    Action*             SetStateOn = new SetDial (0, 10, "SetStateIndex=1", "\"FCWGraph\"", "\"SetStateIndex\" \"1\"", "\"VirtualObject/SetStateIndex\"");
+    FCWOnActions.push_back(SetStateOn);
+    string              FCWOnExpression ("\"ReadVar('FCWCenter')>0\"");
+    ExpressionTrigger   FCWOn (true, false, 0, 0, 0, 0, 0, "\"FCWOn\"", "\"\"",
+                             "\"\"", FCWOnPos, FCWOnPos, FCWOnActions, FCWOnExpression);
+    FCWOn.filePrint(outStream);
+    
+    //off
+    position            FCWOffPos (3.8188715E+002, -1.6796473E+003, 0.0000000E+000);
+    vector <Action*>    FCWOffActions;
+    Action*             SetStateOff = new SetDial (0, 10, "SetStateIndex=0", "\"FCWGraph\"", "\"SetStateIndex\" \"0\"", "\"VirtualObject/SetStateIndex\"");
+    FCWOffActions.push_back(SetStateOff);
+    string              FCWOffExpression ("\"ReadVar('FCWCenter')<0\"");
+    ExpressionTrigger   FCWOff (true, false, 0, 0, 0, 0, 0, "\"FCWOn\"", "\"\"",
+                             "\"\"", FCWOffPos, FCWOffPos, FCWOffActions, FCWOffExpression);
+    FCWOff.filePrint(outStream);
+    return;
+}
+
+void SCNHighwayTemplate::generateFCWLeftCutFront (leftLaneControl &leftLane, ostream &outStream, int trialNum) {
+    double trialBegin (trialInt * (trialLengthFt + trialSetupLengthFt));
+    
+    //expression trigger on
+    position            leftOnPos (450, trialBegin + 100, 0);
+    vector <Action*>    leftOnActions;
+    Action*             leftOnSetVarOn = new SetVar (0, 0, "FCWOn", true, "\"FCWCenter\"", "\"1\""); //setvar
+    Action*             leftOnAudioOn = new WriteCell (0, 0, "\"FCWAudioOn\"", true, 2, "\"SCC_Audio_Trigger\"", "\"1002\""); //writecell
+    string              leftOnExpression ("\"\"");
+    leftOnActions.push_back(leftOnSetVarOn);
+    leftOnActions.push_back(leftOnAudioOn);
+    ExpressionTrigger   leftOn (true, true, 0, 0, 0, 0, 0, "\"FCWLeft_" + trialNum + "\"", "\"\"",
+                              "\"\"", leftOnPos, leftOnPos, leftOnActions, leftOnExpression);
+    leftOn.filePrint(outStream);
+    
+    //expression trigger off
+    
+    
+    //roadpad trigger for in range on
+    
+    
+    //roadpad trigger fo in range off
+    
+}
+
+void SCNHighwayTemplate::generateFCWRightCutFront (roadSideControl &roadSide, ostream &outStream, int trialNum) {
+    //expression trigger on
+    
+    
+    //expression trigger off
+    
+    
+    //roadpad trigger for in range on
+    
+    
+    //roadpad trigger fo in range off
+    
+}
+
+void SCNHighwayTemplate::generateFCWRightCutFrontStop (roadSideControl &roadSide, ostream &outStream, int trialNum) {
+    //expression trigger on
+    
+    
+    //expression trigger off
+    
+    
+    //roadpad trigger for in range on
+    
+    
+    //roadpad trigger fo in range off
+    
+    
+}
+
 void SCNHighwayTemplate::generateFCW (FCW &fcwSettings, vector<Trial> &trials, ostream &outStream) {
+    //generate the graphics
+    generateFCWGraphics (fcwSettings, outStream);
+    
+    //generate the triggers to initialize the fcw variables
+    generateFCWInitializeTriggers (outStream);
+    
+    //generate triggers to set the fcw on, off, and reset the one time variable
+    for (auto trial:trials) {
+        if (trial.leftLane.checked) {
+            //cut in front of driver
+            if (trial.leftLane.movementOption == 2) {
+                generateFCWLeftCutFront (trial.leftLane, outStream, trial.trialNumber);
+            }
+        }
+        if (trial.roadSide.checked) {
+            //pull out in front
+            if (trial.roadSide.movementOption == 1) {
+                generateFCWRightCutFront (trial.roadSide, outStream, trial.trialNumber);
+            }
+            //pull out in front and stop
+            else if (trial.roadSide.movementOption == 3) {
+                generateFCWRightCutFrontStop(trial.roadSide, outStream, trial.trialNumber);
+            }
+        }
+    }
+    
+    //generate triggers to activate the graphic
+    generateFCWActivationTriggers (outStream);
+    
+    //animation?        
+    
+            
     return;
 }
 

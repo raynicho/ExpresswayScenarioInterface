@@ -351,6 +351,18 @@ public:
     void generateBSWRightShoulder (Trial &, ostream &);
     
     void generateBSWRightPullFrontStop (Trial &, ostream &);
+    
+    void generateFCWGraphics (FCW &, ostream &);
+    
+    void generateFCWInitializeTriggers (ostream &);
+    
+    void generateFCWActivationTriggers (ostream &);
+    
+    void generateFCWLeftCutFront (leftLaneControl &, ostream &, int);
+    
+    void generateFCWRightCutFront (roadSideControl &, ostream &, int);
+    
+    void generateFCWRightCutFrontStop (roadSideControl &, ostream &, int);
 };
 
 #endif
