@@ -42,9 +42,9 @@
     <widget class="QGroupBox" name="groupBox">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>180</x>
        <y>320</y>
-       <width>331</width>
+       <width>341</width>
        <height>211</height>
       </rect>
      </property>
@@ -72,7 +72,7 @@
        <rect>
         <x>10</x>
         <y>90</y>
-        <width>151</width>
+        <width>161</width>
         <height>24</height>
        </rect>
       </property>
@@ -92,7 +92,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Position</string>
+          <string>Position </string>
          </property>
         </widget>
        </item>
@@ -343,6 +343,9 @@
       </property>
      </widget>
      <widget class="QGroupBox" name="groupBox_6">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -1785,7 +1788,7 @@
        <rect>
         <x>10</x>
         <y>260</y>
-        <width>165</width>
+        <width>81</width>
         <height>65</height>
        </rect>
       </property>
@@ -1817,23 +1820,6 @@
          </property>
          <property name="checked">
           <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QRadioButton" name="roadSideTrialAddToList">
-         <property name="toolTip">
-          <string>Display a FCW for this road side vehicle.</string>
-         </property>
-         <property name="text">
-          <string>Add To List</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>&lt;u&gt;&lt;center&gt;FCW&lt;/center&gt;&lt;/u&gt;</string>
          </property>
         </widget>
        </item>
@@ -1929,6 +1915,35 @@
       <property name="text">
        <string>Sol Model</string>
       </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_10">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>260</y>
+        <width>80</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_15">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>&lt;u&gt;&lt;center&gt;FCW&lt;/center&gt;&lt;/u&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="roadSideTrialAddToList">
+         <property name="toolTip">
+          <string>Display a FCW for this road side vehicle.</string>
+         </property>
+         <property name="text">
+          <string>Add To List</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QGroupBox" name="leftLaneVehicleControl">
@@ -2697,7 +2712,6 @@
   <tabstop>roadSideTrialBlinkerNone</tabstop>
   <tabstop>roadSideSolModel</tabstop>
   <tabstop>roadSideTrialDeletionPullToSide</tabstop>
-  <tabstop>roadSideTrialAddToList</tabstop>
   <tabstop>roadSideTrialDeletionSlowDown</tabstop>
   <tabstop>leftLaneTrialOn</tabstop>
   <tabstop>leftLaneTrialBlindSpot</tabstop>

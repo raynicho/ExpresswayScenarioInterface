@@ -169,8 +169,6 @@ public:
     QLabel *label_22;
     QRadioButton *roadSideTrialDeletionSlowDown;
     QRadioButton *roadSideTrialDeletionPullToSide;
-    QRadioButton *roadSideTrialAddToList;
-    QLabel *label_23;
     QLabel *label_40;
     QLabel *label_41;
     QLabel *label_42;
@@ -178,6 +176,10 @@ public:
     QLabel *label_55;
     QComboBox *roadSideSolModel;
     QLabel *solModelLabel_4;
+    QWidget *gridLayoutWidget_10;
+    QGridLayout *gridLayout_15;
+    QLabel *label_23;
+    QRadioButton *roadSideTrialAddToList;
     QGroupBox *leftLaneVehicleControl;
     QCheckBox *leftLaneTrialOn;
     QWidget *gridLayoutWidget_5;
@@ -259,13 +261,13 @@ public:
         majorFileSettings->setGeometry(QRect(10, 10, 531, 541));
         groupBox = new QGroupBox(majorFileSettings);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(190, 320, 331, 211));
+        groupBox->setGeometry(QRect(180, 320, 341, 211));
         fcwOn = new QCheckBox(groupBox);
         fcwOn->setObjectName(QStringLiteral("fcwOn"));
         fcwOn->setGeometry(QRect(120, 0, 16, 17));
         gridLayoutWidget_16 = new QWidget(groupBox);
         gridLayoutWidget_16->setObjectName(QStringLiteral("gridLayoutWidget_16"));
-        gridLayoutWidget_16->setGeometry(QRect(10, 90, 151, 24));
+        gridLayoutWidget_16->setGeometry(QRect(10, 90, 161, 24));
         gridLayout_25 = new QGridLayout(gridLayoutWidget_16);
         gridLayout_25->setSpacing(6);
         gridLayout_25->setContentsMargins(11, 11, 11, 11);
@@ -352,6 +354,7 @@ public:
         label_46->setGeometry(QRect(310, 90, 16, 16));
         groupBox_6 = new QGroupBox(groupBox);
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        groupBox_6->setEnabled(false);
         groupBox_6->setGeometry(QRect(150, 110, 171, 91));
         gridLayoutWidget_13 = new QWidget(groupBox_6);
         gridLayoutWidget_13->setObjectName(QStringLiteral("gridLayoutWidget_13"));
@@ -852,7 +855,7 @@ public:
 
         gridLayoutWidget_8 = new QWidget(roadSideVehicleControl);
         gridLayoutWidget_8->setObjectName(QStringLiteral("gridLayoutWidget_8"));
-        gridLayoutWidget_8->setGeometry(QRect(10, 260, 165, 65));
+        gridLayoutWidget_8->setGeometry(QRect(10, 260, 81, 65));
         gridLayout_13 = new QGridLayout(gridLayoutWidget_8);
         gridLayout_13->setSpacing(6);
         gridLayout_13->setContentsMargins(11, 11, 11, 11);
@@ -873,16 +876,6 @@ public:
         roadSideTrialDeletionPullToSide->setChecked(true);
 
         gridLayout_13->addWidget(roadSideTrialDeletionPullToSide, 1, 0, 1, 1);
-
-        roadSideTrialAddToList = new QRadioButton(gridLayoutWidget_8);
-        roadSideTrialAddToList->setObjectName(QStringLiteral("roadSideTrialAddToList"));
-
-        gridLayout_13->addWidget(roadSideTrialAddToList, 1, 1, 1, 1);
-
-        label_23 = new QLabel(gridLayoutWidget_8);
-        label_23->setObjectName(QStringLiteral("label_23"));
-
-        gridLayout_13->addWidget(label_23, 0, 1, 1, 1);
 
         label_40 = new QLabel(roadSideVehicleControl);
         label_40->setObjectName(QStringLiteral("label_40"));
@@ -905,6 +898,24 @@ public:
         solModelLabel_4 = new QLabel(roadSideVehicleControl);
         solModelLabel_4->setObjectName(QStringLiteral("solModelLabel_4"));
         solModelLabel_4->setGeometry(QRect(210, 210, 51, 16));
+        gridLayoutWidget_10 = new QWidget(roadSideVehicleControl);
+        gridLayoutWidget_10->setObjectName(QStringLiteral("gridLayoutWidget_10"));
+        gridLayoutWidget_10->setGeometry(QRect(100, 260, 80, 41));
+        gridLayout_15 = new QGridLayout(gridLayoutWidget_10);
+        gridLayout_15->setSpacing(6);
+        gridLayout_15->setContentsMargins(11, 11, 11, 11);
+        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
+        gridLayout_15->setContentsMargins(0, 0, 0, 0);
+        label_23 = new QLabel(gridLayoutWidget_10);
+        label_23->setObjectName(QStringLiteral("label_23"));
+
+        gridLayout_15->addWidget(label_23, 0, 0, 1, 1);
+
+        roadSideTrialAddToList = new QRadioButton(gridLayoutWidget_10);
+        roadSideTrialAddToList->setObjectName(QStringLiteral("roadSideTrialAddToList"));
+
+        gridLayout_15->addWidget(roadSideTrialAddToList, 1, 0, 1, 1);
+
         leftLaneVehicleControl = new QGroupBox(trialManager);
         leftLaneVehicleControl->setObjectName(QStringLiteral("leftLaneVehicleControl"));
         leftLaneVehicleControl->setGeometry(QRect(320, 260, 301, 341));
@@ -1280,8 +1291,7 @@ public:
         QWidget::setTabOrder(roadSideTrialBlinkerLeft, roadSideTrialBlinkerNone);
         QWidget::setTabOrder(roadSideTrialBlinkerNone, roadSideSolModel);
         QWidget::setTabOrder(roadSideSolModel, roadSideTrialDeletionPullToSide);
-        QWidget::setTabOrder(roadSideTrialDeletionPullToSide, roadSideTrialAddToList);
-        QWidget::setTabOrder(roadSideTrialAddToList, roadSideTrialDeletionSlowDown);
+        QWidget::setTabOrder(roadSideTrialDeletionPullToSide, roadSideTrialDeletionSlowDown);
         QWidget::setTabOrder(roadSideTrialDeletionSlowDown, leftLaneTrialOn);
         QWidget::setTabOrder(leftLaneTrialOn, leftLaneTrialBlindSpot);
         QWidget::setTabOrder(leftLaneTrialBlindSpot, leftLaneTrialCutBehind);
@@ -1317,7 +1327,7 @@ public:
         fcwOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Generate a frontal crash warning for scenario vehicles.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         fcwOn->setText(QString());
-        label_4->setText(QApplication::translate("MainWindow", "Position", 0));
+        label_4->setText(QApplication::translate("MainWindow", "Position ", 0));
 #ifndef QT_NO_TOOLTIP
         frequencyLineEdit->setToolTip(QApplication::translate("MainWindow", "Frequency of FCW display.", 0));
 #endif // QT_NO_TOOLTIP
@@ -1570,11 +1580,6 @@ public:
         roadSideTrialDeletionPullToSide->setToolTip(QApplication::translate("MainWindow", "Delete the road side vehicle by pulling to the right shoulder.", 0));
 #endif // QT_NO_TOOLTIP
         roadSideTrialDeletionPullToSide->setText(QApplication::translate("MainWindow", "Pull To Side", 0));
-#ifndef QT_NO_TOOLTIP
-        roadSideTrialAddToList->setToolTip(QApplication::translate("MainWindow", "Display a FCW for this road side vehicle.", 0));
-#endif // QT_NO_TOOLTIP
-        roadSideTrialAddToList->setText(QApplication::translate("MainWindow", "Add To List", 0));
-        label_23->setText(QApplication::translate("MainWindow", "<u><center>FCW</center></u>", 0));
         label_40->setText(QApplication::translate("MainWindow", "mph", 0));
         label_41->setText(QApplication::translate("MainWindow", "mph", 0));
         label_42->setText(QApplication::translate("MainWindow", "mph", 0));
@@ -1584,6 +1589,11 @@ public:
         roadSideSolModel->setToolTip(QApplication::translate("MainWindow", "Set the road side sol model.", 0));
 #endif // QT_NO_TOOLTIP
         solModelLabel_4->setText(QApplication::translate("MainWindow", "Sol Model", 0));
+        label_23->setText(QApplication::translate("MainWindow", "<u><center>FCW</center></u>", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialAddToList->setToolTip(QApplication::translate("MainWindow", "Display a FCW for this road side vehicle.", 0));
+#endif // QT_NO_TOOLTIP
+        roadSideTrialAddToList->setText(QApplication::translate("MainWindow", "Add To List", 0));
         leftLaneVehicleControl->setTitle(QApplication::translate("MainWindow", "Left Lane Vehicle Control", 0));
 #ifndef QT_NO_TOOLTIP
         leftLaneTrialOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Include a left lane vehicle for this trial.</p></body></html>", 0));

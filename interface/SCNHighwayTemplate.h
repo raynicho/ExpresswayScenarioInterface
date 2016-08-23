@@ -358,11 +358,11 @@ public:
     
     void generateFCWActivationTriggers (ostream &);
     
-    void generateFCWLeftCutFront (leftLaneControl &, ostream &, int);
+    void generateFCWLeftCutFront (leftLaneControl &, ostream &, int, FCW &);
     
-    void generateFCWRightCutFront (roadSideControl &, ostream &, int);
+    void generateFCWRightCutFront (roadSideControl &, ostream &, int, FCW &);
     
-    void generateFCWRightCutFrontStop (roadSideControl &, ostream &, int);
+    void generateFCWRightCutFrontStop (roadSideControl &, ostream &, int, FCW &);
 };
 
 #endif

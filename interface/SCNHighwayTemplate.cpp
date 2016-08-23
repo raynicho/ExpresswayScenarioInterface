@@ -1739,8 +1739,8 @@ void SCNHighwayTemplate::generateFCWInitializeTriggers (ostream &outStream) {
     //time trigger to set the variables
     position            FCWInitPos (1.2026720E+002, -1.4808678E+003, 0.0000000E+000);
     vector <Action*>    FCWInitActions;
-    Action*             FCWInRangeInit = new SetVar (0, 0, "\"\"", true, "\"FCWInRange\"", "\"0\"");
-    Action*             FCWCenterInit = new SetVar (0, 0, "\"\"", true, "\"FCWCenter\"", "\"0\"");
+    Action*             FCWInRangeInit = new SetVar (0, 0, "\"FCWInRangeInit\"", true, "\"FCWInRange\"", "\"0\"");
+    Action*             FCWCenterInit = new SetVar (0, 0, "\"FCWCenterInit\"", true, "\"FCWCenter\"", "\"0\"");
     FCWInitActions.push_back(FCWInRangeInit);
     FCWInitActions.push_back(FCWCenterInit);
     TimeTrigger         FCWSetup (true, true, 0, 0, 0, 0, 0, "\"FCWInitializer\"", "\"\"",
@@ -1765,65 +1765,174 @@ void SCNHighwayTemplate::generateFCWActivationTriggers (ostream &outStream) {
     vector <Action*>    FCWOffActions;
     Action*             SetStateOff = new SetDial (0, 10, "SetStateIndex=0", "\"FCWGraph\"", "\"SetStateIndex\" \"0\"", "\"VirtualObject/SetStateIndex\"");
     FCWOffActions.push_back(SetStateOff);
-    string              FCWOffExpression ("\"ReadVar('FCWCenter')<0\"");
-    ExpressionTrigger   FCWOff (true, false, 0, 0, 0, 0, 0, "\"FCWOn\"", "\"\"",
+    string              FCWOffExpression ("\"ReadVar('FCWCenter')<1\"");
+    ExpressionTrigger   FCWOff (true, false, 0, 0, 0, 0, 0, "\"FCWOff\"", "\"\"",
                              "\"\"", FCWOffPos, FCWOffPos, FCWOffActions, FCWOffExpression);
     FCWOff.filePrint(outStream);
     return;
 }
 
-void SCNHighwayTemplate::generateFCWLeftCutFront (leftLaneControl &leftLane, ostream &outStream, int trialNum) {
-    double trialBegin (trialInt * (trialLengthFt + trialSetupLengthFt));
+void SCNHighwayTemplate::generateFCWLeftCutFront (leftLaneControl &leftLane, ostream &outStream, int trialNum, FCW &fcwSettings) {
+    double trialBegin (trialNum * (trialLengthFt + trialSetupLengthFt));
     
     //expression trigger on
-    position            leftOnPos (450, trialBegin + 100, 0);
+    position            leftOnPos (450, trialBegin + trialLengthFt/12 + 100 + laneChangeHypotenuse/2, 0);
     vector <Action*>    leftOnActions;
-    Action*             leftOnSetVarOn = new SetVar (0, 0, "FCWOn", true, "\"FCWCenter\"", "\"1\""); //setvar
-    Action*             leftOnAudioOn = new WriteCell (0, 0, "\"FCWAudioOn\"", true, 2, "\"SCC_Audio_Trigger\"", "\"1002\""); //writecell
-    string              leftOnExpression ("\"\"");
+    Action*             leftOnSetVarOn = new SetVar (0, 0, "\"FCWOn\"", true, "\"FCWCenter\"", "\"1\""); //setvar
+    string              leftOnExpression ("\"GetObjDistPow2('" + getLeftVehNameNoQuotations(trialNum) + "')<" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "&ReadVar('FCWInRange')>0\"");
     leftOnActions.push_back(leftOnSetVarOn);
-    leftOnActions.push_back(leftOnAudioOn);
-    ExpressionTrigger   leftOn (true, true, 0, 0, 0, 0, 0, "\"FCWLeft_" + trialNum + "\"", "\"\"",
+    ExpressionTrigger   leftOn (true, true, 0, 0, 0, 0, 0, "\"FCWLeftOn_" + std::to_string(trialNum) + "\"", "\"\"",
                               "\"\"", leftOnPos, leftOnPos, leftOnActions, leftOnExpression);
     leftOn.filePrint(outStream);
     
     //expression trigger off
-    
+    position            leftOffPos (520, trialBegin + trialLengthFt/12 + 100 + laneChangeHypotenuse/2, 0);
+    vector <Action*>    leftOffActions;
+    Action*             leftOffSetVarOff = new SetVar (0, 0, "\"FCWOff\"", true, "\"FCWCenter\"", "\"0\""); //setvar
+    string              leftOffExpression ("\"GetObjDistPow2('" + getLeftVehNameNoQuotations(trialNum) + "')>" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "\"");
+    leftOffActions.push_back(leftOffSetVarOff);
+    ExpressionTrigger   leftOff (true, false, 0, 0, 0, 0, 0, "\"FCWLeftOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                              "\"\"", leftOffPos, leftOffPos, leftOffActions, leftOffExpression);
+    leftOff.filePrint(outStream);
     
     //roadpad trigger for in range on
+    double              laneChangeHypotenuse = sqrt(leftLane.distance * leftLane.distance + 144);
+    double              pathStart (trialBegin + trialLengthFt/12 + 100 + laneChangeHypotenuse/2);
     
     
-    //roadpad trigger fo in range off
+    //creation behind
+    if (leftLane.creationOption == 0) {
+        pathStart -= leftLane.creationDistance;
+    }
+    //creation front
+    else {
+        pathStart += leftLane.creationDistance;
+    }
     
+    double              pathEnd (pathStart + 20);
+    string              pathMid = std::to_string(pathStart) + ":" + std::to_string(pathEnd);
+    
+    position            leftInRangeOnPosition (590, pathStart - 1320, 0);
+    vector <Action*>    leftInRangeOnActions;
+    Action*             leftInRangeOnAction = new SetVar (0, 0, "\"FCWInRange=1\"", true, "\"FCWInRange\"", "\"1\"");
+    leftInRangeOnActions.push_back(leftInRangeOnAction);
+    string              leftInRangeOnPath ("\"R:r1_0_113520:0[" + pathMid + "]:1[" + pathMid + "]\"");
+    RoadPadTrigger      leftInRangeOn (true, true, 0, 0, 0, 0, 0, "\"FCWLeftInRangeOn_" + std::to_string(trialNum) + "\"", "\"\"",
+                                       "\"\"", leftInRangeOnPosition, leftInRangeOnPosition, leftInRangeOnActions, "\"" + getLeftVehNameNoQuotations(trialNum) + "\"", leftInRangeOnPath);
+    leftInRangeOn.setTypeSet(false);
+    leftInRangeOn.filePrint(outStream);
+    
+    //roadpad trigger for in range off
+    string              pathOffMid (std::to_string(pathStart + trialLengthFt/2) + ":" + std::to_string(pathStart + trialLengthFt/2 + 20));
+    position            leftInRangeOffPos (450, pathStart - 1320 + trialLengthFt/2, 0);
+    vector <Action*>    leftInRangeOffActions;
+    Action*             leftInRangeOffSetVar = new SetVar (0, 0, "\"FCWInRange=0\"", true, "\"FCWInRange\"", "\"0\"");
+    leftInRangeOffActions.push_back(leftInRangeOffSetVar);
+    string              leftInRangeOffPath ("\"R:r1_0_113520:0[" + pathOffMid + "]:1[" + pathOffMid + "]\"");
+    RoadPadTrigger      leftInRangeOff (true, true, 0, 0, 0, 0, 0, "\"FCWLeftInRangeOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                                        "\"\"", leftInRangeOffPos, leftInRangeOffPos, leftInRangeOffActions, "\"" + getLeftVehNameNoQuotations(trialNum) + "\"", leftInRangeOffPath);
+    leftInRangeOff.setTypeSet(false);
+    leftInRangeOff.filePrint(outStream);
+    return;
 }
 
-void SCNHighwayTemplate::generateFCWRightCutFront (roadSideControl &roadSide, ostream &outStream, int trialNum) {
-    //expression trigger on
+void SCNHighwayTemplate::generateFCWRightCutFront (roadSideControl &roadSide, ostream &outStream, int trialNum, FCW &fcwSettings) {    
+    double              trialBegin (trialNum * (trialLengthFt + trialSetupLengthFt));
+    double              laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
     
+    //expression trigger on
+    position            rightOnPos (450, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    vector <Action*>    rightOnActions;
+    Action*             rightOnSetVarOn = new SetVar (0, 0, "\"FCWOn\"", true, "\"FCWCenter\"", "\"1\""); //setvar
+    string              rightOnExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(trialNum) + "')<" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "&ReadVar('FCWInRange')>0\"");
+    rightOnActions.push_back(rightOnSetVarOn);
+    ExpressionTrigger   rightOn (true, true, 0, 0, 0, 0, 0, "\"FCWRightOn_" + std::to_string(trialNum) + "\"", "\"\"",
+                              "\"\"", rightOnPos, rightOnPos, rightOnActions, rightOnExpression);
+    rightOn.filePrint(outStream);
     
     //expression trigger off
-    
+    position            rightOffPos (520, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    vector <Action*>    rightOffActions;
+    Action*             rightOffSetVarOff = new SetVar (0, 0, "\"FCWOff\"", true, "\"FCWCenter\"", "\"0\""); //setvar
+    string              rightOffExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(trialNum) + "')>" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "\"");
+    rightOffActions.push_back(rightOffSetVarOff);
+    ExpressionTrigger   rightOff (true, false, 0, 0, 0, 0, 0, "\"FCWRightOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                              "\"\"", rightOffPos, rightOffPos, rightOffActions, rightOffExpression);
+    rightOff.filePrint(outStream);
     
     //roadpad trigger for in range on
+    position            rightInRangeOnPos (590, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    string              pathMid (std::to_string(trialBegin + laneChangeHypotenuse/2) + ":" + std::to_string(trialBegin + laneChangeHypotenuse/2 + 20));
+    vector <Action*>    rightInRangeOnActions;
+    Action*             rightInRangeOnSetVar = new SetVar (0, 0, "\"FCWInRange=1\"", true, "\"FCWInRange\"", "\"1\"");
+    rightInRangeOnActions.push_back(rightInRangeOnSetVar);
+    string              rightInRangeOnPath ("\"R:r1_0_113520:0[" + pathMid + "]:1[" + pathMid + "]\"");
+    RoadPadTrigger      rightInRangeOn (true, true, 0, 0, 0, 0, 0, "\"FCWInRangeOn_" + std::to_string(trialNum) + "\"", "\"\"",
+                                   "\"\"", rightInRangeOnPos, rightInRangeOnPos, rightInRangeOnActions, "\"" + getRightVehNameNoQuotations(trialNum) + "\"", rightInRangeOnPath);
+    rightInRangeOn.setTypeSet(false);
+    rightInRangeOn.filePrint(outStream);
     
-    
-    //roadpad trigger fo in range off
-    
+    //roadpad trigger for in range off
+    position            rightInRangeOffPos (450, trialBegin + trialLengthFt/2 - 1320, 0);
+    string              pathMidOff (std::to_string(trialBegin + trialLengthFt/2) + ":" + std::to_string(trialBegin + trialLengthFt/2 + 20));
+    vector <Action*>    rightInRangeOffActions;
+    Action*             rightInRangeOffSetVar = new SetVar (0, 0, "\"FCWInRange=0\"", true, "\"FCWInRange\"", "\"0\"");
+    rightInRangeOffActions.push_back(rightInRangeOffSetVar);
+    string              rightInRangeOffPath ("\"R:r1_0_113520:0[" + pathMidOff + "]:1[" + pathMidOff + "]\"");
+    RoadPadTrigger      rightInRangeOff (true, true, 0, 0, 0, 0, 0, "\"FCWInRangeOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                                   "\"\"", rightInRangeOffPos, rightInRangeOffPos, rightInRangeOffActions, "\"" + getRightVehNameNoQuotations(trialNum) + "\"", rightInRangeOffPath);
+    rightInRangeOff.setTypeSet(false);
+    rightInRangeOff.filePrint(outStream);   
+    return;
 }
 
-void SCNHighwayTemplate::generateFCWRightCutFrontStop (roadSideControl &roadSide, ostream &outStream, int trialNum) {
-    //expression trigger on
+void SCNHighwayTemplate::generateFCWRightCutFrontStop (roadSideControl &roadSide, ostream &outStream, int trialNum, FCW &fcwSettings) {
+    double              trialBegin (trialNum * (trialLengthFt + trialSetupLengthFt));
+    double              laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
     
+    //expression trigger on
+    position            rightOnPos (450, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    vector <Action*>    rightOnActions;
+    Action*             rightOnSetVarOn = new SetVar (0, 0, "FCWOn", true, "\"FCWCenter\"", "\"1\""); //setvar
+    string              rightOnExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(trialNum) + "')<" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "&ReadVar('FCWInRange')>0\"");
+    rightOnActions.push_back(rightOnSetVarOn);
+    ExpressionTrigger   rightOn (true, true, 0, 0, 0, 0, 0, "\"FCWRightOn_" + std::to_string(trialNum) + "\"", "\"\"",
+                              "\"\"", rightOnPos, rightOnPos, rightOnActions, rightOnExpression);
+    rightOn.filePrint(outStream);
     
     //expression trigger off
-    
+    position            rightOffPos (520, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    vector <Action*>    rightOffActions;
+    Action*             rightOffSetVarOff = new SetVar (0, 0, "FCWOff", true, "\"FCWCenter\"", "\"0\""); //setvar
+    string              rightOffExpression ("\"GetObjDistPow2('" + getRightVehNameNoQuotations(trialNum) + "')>" + std::to_string(fcwSettings.distance) + "*" + std::to_string(fcwSettings.distance) + "\"");
+    rightOffActions.push_back(rightOffSetVarOff);
+    ExpressionTrigger   rightOff (true, false, 0, 0, 0, 0, 0, "\"FCWRightOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                              "\"\"", rightOffPos, rightOffPos, rightOffActions, rightOffExpression);
+    rightOff.filePrint(outStream);
     
     //roadpad trigger for in range on
+    position            rightInRangeOnPos (590, trialBegin + laneChangeHypotenuse/2 - 1320, 0);
+    string              pathMid (std::to_string(trialBegin + laneChangeHypotenuse/2) + ":" + std::to_string(trialBegin + laneChangeHypotenuse/2 + 20));
+    vector <Action*>    rightInRangeOnActions;
+    Action*             rightInRangeOnSetVar = new SetVar (0, 0, "\"FCWInRange=1\"", true, "\"FCWInRange\"", "\"1\"");
+    rightInRangeOnActions.push_back(rightInRangeOnSetVar);
+    string              rightInRangeOnPath ("\"R:r1_0_113520:0[" + pathMid + "]:1[" + pathMid + "]\"");
+    RoadPadTrigger      rightInRangeOn (true, true, 0, 0, 0, 0, 0, "\"FCWInRangeOn_" + std::to_string(trialNum) + "\"", "\"\"",
+                                   "\"\"", rightInRangeOnPos, rightInRangeOnPos, rightInRangeOnActions, "\"" + getRightVehNameNoQuotations(trialNum) + "\"", rightInRangeOnPath);
+    rightInRangeOn.setTypeSet(false);
+    rightInRangeOn.filePrint(outStream);
     
-    
-    //roadpad trigger fo in range off
-    
-    
+    //roadpad trigger for in range off
+    position            rightInRangeOffPos (450, trialBegin + trialLengthFt/2 - 1320, 0);
+    string              pathMidOff (std::to_string(trialBegin + trialLengthFt/2) + ":" + std::to_string(trialBegin + trialLengthFt/2 + 20));
+    vector <Action*>    rightInRangeOffActions;
+    Action*             rightInRangeOffSetVar = new SetVar (0, 0, "\"FCWInRange=0\"", true, "\"FCWInRange\"", "\"0\"");
+    rightInRangeOffActions.push_back(rightInRangeOffSetVar);
+    string              rightInRangeOffPath ("\"R:r1_0_113520:0[" + pathMidOff + "]:1[" + pathMidOff + "]\"");
+    RoadPadTrigger      rightInRangeOff (true, true, 0, 0, 0, 0, 0, "\"FCWInRangeOff_" + std::to_string(trialNum) + "\"", "\"\"",
+                                   "\"\"", rightInRangeOffPos, rightInRangeOffPos, rightInRangeOffActions, "\"ExternalDriver\"", rightInRangeOffPath);
+    rightInRangeOff.filePrint(outStream);   
+    return;
 }
 
 void SCNHighwayTemplate::generateFCW (FCW &fcwSettings, vector<Trial> &trials, ostream &outStream) {
@@ -1835,20 +1944,20 @@ void SCNHighwayTemplate::generateFCW (FCW &fcwSettings, vector<Trial> &trials, o
     
     //generate triggers to set the fcw on, off, and reset the one time variable
     for (auto trial:trials) {
-        if (trial.leftLane.checked) {
+        if (trial.leftLane.checked && trial.leftLane.addToList) {
             //cut in front of driver
             if (trial.leftLane.movementOption == 2) {
-                generateFCWLeftCutFront (trial.leftLane, outStream, trial.trialNumber);
+                generateFCWLeftCutFront (trial.leftLane, outStream, trial.trialNumber, fcwSettings);
             }
         }
-        if (trial.roadSide.checked) {
+        if (trial.roadSide.checked && trial.roadSide.addToList) {
             //pull out in front
             if (trial.roadSide.movementOption == 1) {
-                generateFCWRightCutFront (trial.roadSide, outStream, trial.trialNumber);
+                generateFCWRightCutFront (trial.roadSide, outStream, trial.trialNumber, fcwSettings);
             }
             //pull out in front and stop
             else if (trial.roadSide.movementOption == 3) {
-                generateFCWRightCutFrontStop(trial.roadSide, outStream, trial.trialNumber);
+                generateFCWRightCutFrontStop(trial.roadSide, outStream, trial.trialNumber, fcwSettings);
             }
         }
     }
