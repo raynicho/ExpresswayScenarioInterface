@@ -4,11 +4,9 @@ Driving scenarios for the NADS MiniSim take months to produce which is a major p
 
 - reading and writing scenario files
 - a graphical interface useful to the researcher
-- functions to interpret the user input and rewrite the scenario files
+- functions to translate the user input and rewrite the scenario file
 
 ## Use
-
-To use the Expressway Scenario Interface Tool follow these steps;
 
 (Zip)
 
@@ -16,7 +14,13 @@ To use the Expressway Scenario Interface Tool follow these steps;
 
 2. Unzip the files to a folder on your system
 
-3. Run the application
+3. Install MSVC 2015
+
+4. Run the application. Load in the *base.scn*
+
+5. Make changes. Save the new *.scn* file.
+
+6. Load into Minisim or ISAT
 
 ## Example
 
@@ -26,6 +30,3 @@ To use the Expressway Scenario Interface Tool follow these steps;
 ## Authors and Contributors
 
 Raymond Pressly (raynicho@umich.edu)
-
-## To Do
-- complete FCW
