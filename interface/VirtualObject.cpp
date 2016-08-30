@@ -1,6 +1,6 @@
 #include "VirtualObject.h"
 
-VirtualObject::VirtualObject() : groupName("-1") {}
+VirtualObject::VirtualObject() : groupName("-1"), iconName ("\"\"") {}
 
 VirtualObject::VirtualObject(string GroupName, int Option, double Orientation, string Sol, string Name, string IconName, string LongComment, 
     string ShortComment, position Pos, position DrawPos, color fill, color boarder, drawSize Draw, vector<state> &States) : 

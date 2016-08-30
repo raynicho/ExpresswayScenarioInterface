@@ -204,6 +204,7 @@ void SCNHighwayTemplate::laneChange (int trialNum, ostream &outStream, string ve
     
     resetLaneActions.push_back(resetLane);
     resetLaneActions.push_back(setLane);
+    string              vehNameNoQuotes (vehName.substr(1, vehName.size() - 1));
     
     RoadPadTrigger      resetLaneTrigger (true, true, 0, 0, 0, trialLengthFt, 0, "\"LaneChange_" + std::to_string(trialNum) + "\"", "\"\"", "\"\"", resetLaneDraw, resetLaneDraw, resetLaneActions, vehName, resetLanePath);
     resetLaneTrigger.setTypeSet(false);
@@ -857,21 +858,23 @@ void SCNHighwayTemplate::roadSidePullFrontStop (int trialNum, roadSideControl &r
     int                     visState = 0; //visual state
     double                  laneChangeAngle = atan(12/roadSide.distance) + M_PI_2;
     double                  laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
-    vector<double>          Dirs;       Dirs.push_back(laneChangeAngle);   //dirs
-    vector<bool>            DirsDef;    DirsDef.push_back(1); //dirsdef
+    vector<double>          Dirs;       Dirs.push_back(M_PI_2); Dirs.push_back(laneChangeAngle);   //dirs
+    vector<bool>            DirsDef;    DirsDef.push_back(1); DirsDef.push_back(1); //dirsdef
     vector <trajectory>     Trajs;  //trajectories
-    trajectory              creationTrajectory(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle)); //creation point
-    Trajs.push_back(creationTrajectory);
+    trajectory              creationTrajectory1(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt - 300), roadSide.speed * (.5), 0, 1);
+    trajectory              creationTrajectory2(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle)); //creation point
+    Trajs.push_back(creationTrajectory1);
+    Trajs.push_back(creationTrajectory2);
     
     //lane change points
     Dirs.push_back(laneChangeAngle);//point 1
     DirsDef.push_back(1);
-    trajectory              lanePoint1 (394, creationTrajectory.y + laneChangeHypotenuse/2, roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    trajectory              lanePoint1 (394, creationTrajectory2.y + laneChangeHypotenuse/2, 25, cos(laneChangeAngle), sin(laneChangeAngle));
     Trajs.push_back(lanePoint1);
             
     Dirs.push_back(laneChangeAngle);//point 2
-    DirsDef.push_back(1);
-    trajectory              lanePoint2 (388, lanePoint1.y + laneChangeHypotenuse/2, 0, cos(laneChangeAngle), sin(laneChangeAngle));
+    DirsDef.push_back(0);
+    trajectory              lanePoint2 (388, lanePoint1.y + laneChangeHypotenuse/2, 0, 0, 1);
     Trajs.push_back(lanePoint2);
     
     //reference point
@@ -894,7 +897,7 @@ void SCNHighwayTemplate::roadSidePullFrontStop (int trialNum, roadSideControl &r
     }
     
     //write the vehicle
-    DDO pullFront (1, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
+    DDO pullFront (2, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
     pullFront.print(outStream);
 }
 
@@ -902,7 +905,7 @@ void SCNHighwayTemplate::roadSideDriveShoulder (int trialNum, roadSideControl &r
     string              SOLModel = getRandSol(false);
     int                 color = getRandSolColor(SOLModel);
     string              rightVehName = "\"Right_" + std::to_string(trialNum) + "\"";
-    position            fake;
+    position            fake (388, -1320 + trialNum * (trialLengthFt + trialSetupLengthFt) + roadSide.distance, 0);
     
     //create the ddo
     vector <double>     Dirs;
@@ -943,7 +946,7 @@ void SCNHighwayTemplate::roadSideDriveShoulder (int trialNum, roadSideControl &r
         }
     }
 
-    DDO driveShoulderDDO (color, 0, 5, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, false, true, visState, fake, Dirs, DirsDef, Trajs);
+    DDO driveShoulderDDO (color, 0, 5, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
     driveShoulderDDO.print(outStream);
 }
 
@@ -994,16 +997,18 @@ void SCNHighwayTemplate::roadSidePullFront (int trialNum, roadSideControl &roadS
     position            fake;
     double              laneChangeAngle = atan(12/roadSide.distance) + M_PI_2;
     double              laneChangeHypotenuse = sqrt(roadSide.distance * roadSide.distance + 144);
-    vector<double>      Dirs;       Dirs.push_back(laneChangeAngle); //dirs
-    vector<bool>        DirsDef;    DirsDef.push_back(1); //dirsdef
+    vector<double>      Dirs;       Dirs.push_back(M_PI_2); Dirs.push_back(laneChangeAngle); //dirs
+    vector<bool>        DirsDef;    DirsDef.push_back(1); DirsDef.push_back(1); //dirsdef
     vector <trajectory> Trajs; //trajectories
-    trajectory          creationTrajectory(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle)); //creation point
-    Trajs.push_back(creationTrajectory);
+    trajectory          creationTrajectory1(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt) - 300, roadSide.speed * (.5), 0, 1);
+    trajectory          creationTrajectory2(400, (-1320) + trialNum * (trialLengthFt + trialSetupLengthFt), roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle)); //creation point 2
+    Trajs.push_back(creationTrajectory1);
+    Trajs.push_back(creationTrajectory2);
     
     //lane change points
     Dirs.push_back(laneChangeAngle);//point 1
     DirsDef.push_back(1);
-    trajectory          lanePoint1 (394, creationTrajectory.y + laneChangeHypotenuse/2, roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
+    trajectory          lanePoint1 (394, creationTrajectory2.y + laneChangeHypotenuse/2, roadSide.speed * (.5), cos(laneChangeAngle), sin(laneChangeAngle));
     Trajs.push_back(lanePoint1);
             
     Dirs.push_back(laneChangeAngle);//point 2
@@ -1085,7 +1090,7 @@ void SCNHighwayTemplate::roadSidePullFront (int trialNum, roadSideControl &roadS
     }
     
     //write the vehicle
-    DDO pullFront (1, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
+    DDO pullFront (2, color, 0, 0, trialLengthFt, rightVehName, "\"\"", "\"\"", SOLModel, true, false, visState, fake, Dirs, DirsDef, Trajs);
     pullFront.print(outStream);
     return;
 }
@@ -1343,12 +1348,12 @@ void SCNHighwayTemplate::generateBSWVirtualObjects (ostream &outStream) {
     
     //state two
     vector <double> stateVectorTwo;
-    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
-    stateVectorOne.push_back(9.4531250E-001);   stateVectorOne.push_back(0);
-    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
-    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
-    stateVectorOne.push_back(9.9999998E-003);   stateVectorOne.push_back(0);
-    stateVectorOne.push_back(0);                stateVectorOne.push_back(0);
+    stateVectorTwo.push_back(0);                stateVectorTwo.push_back(0);
+    stateVectorTwo.push_back(9.4531250E-001);   stateVectorTwo.push_back(0);
+    stateVectorTwo.push_back(0);                stateVectorTwo.push_back(0);
+    stateVectorTwo.push_back(0);                stateVectorTwo.push_back(0);
+    stateVectorTwo.push_back(9.9999998E-003);   stateVectorTwo.push_back(0);
+    stateVectorTwo.push_back(0);                stateVectorTwo.push_back(0);
     state stateTwo (1, 1, "\"\"", stateVectorTwo);
     graphicStates.push_back(stateTwo);
     
@@ -1449,6 +1454,7 @@ void SCNHighwayTemplate::generateBSWLeftOn (vector<Trial> &trials, ostream &outS
     string              leftOnExpression;
     bool                firstLeftVehicleFound (false);
     Trial               trialIt;
+    int                 numLeftBSW = 0;
     
     //iterate across the trials
     for (int i = 0; i < trials.size (); i++) {
@@ -1457,6 +1463,8 @@ void SCNHighwayTemplate::generateBSWLeftOn (vector<Trial> &trials, ostream &outS
         
         //if the left vehicle is checked
         if (trialIt.leftLane.checked) {
+            numLeftBSW++;
+            
             //if the first vehicle hasn't been found
             if (!firstLeftVehicleFound) {
                 firstLeftVehicleFound = true;
@@ -1478,8 +1486,9 @@ void SCNHighwayTemplate::generateBSWLeftOn (vector<Trial> &trials, ostream &outS
     vector <Action*>    leftAllOnActions;       
     leftAllOnActions.push_back(setLeftBlind);
     ExpressionTrigger   leftAllOn (true, true, 0, 0, 0, 0, 0, "\"BSWLeftAllExpressionsOn\"", "\"\"", "\"\"", leftAllOnPos, leftAllOnPos, leftAllOnActions, leftOnExpression);
-    
-    leftAllOn.filePrint(outStream);
+    if (numLeftBSW!=0){
+        leftAllOn.filePrint(outStream);
+    }
     return;        
 }
 
@@ -1488,6 +1497,7 @@ void SCNHighwayTemplate::generateBSWLeftOff (vector <Trial> &trials, ostream &ou
     string              leftOffExpression;
     bool                firstLeftVehicleFound (false);
     Trial               trialIt;
+    int                 numLeftBSW = 0;
     
     //iterate across the trials
     for (int i = 0; i < trials.size (); i++) {
@@ -1496,6 +1506,8 @@ void SCNHighwayTemplate::generateBSWLeftOff (vector <Trial> &trials, ostream &ou
         
         //if the left vehicle is checked
         if (trialIt.leftLane.checked) {
+            numLeftBSW++;
+            
             //if the first vehicle hasn't been found
             if (!firstLeftVehicleFound) {
                 firstLeftVehicleFound = true;
@@ -1518,7 +1530,10 @@ void SCNHighwayTemplate::generateBSWLeftOff (vector <Trial> &trials, ostream &ou
     leftAllOffActions.push_back(setLeftBlind);
     ExpressionTrigger   leftAllOff (true, true, 0, 0, 0, 0, 0, "\"BSWLeftAllExpressionsOff\"", "\"\"", "\"\"", leftAllOffPos, leftAllOffPos, leftAllOffActions, leftOffExpression);
     
-    leftAllOff.filePrint(outStream);
+    if (numLeftBSW!=0) {
+        leftAllOff.filePrint(outStream);
+    }
+    
     return;   
 }
 
@@ -1774,6 +1789,7 @@ void SCNHighwayTemplate::generateFCWActivationTriggers (ostream &outStream) {
 
 void SCNHighwayTemplate::generateFCWLeftCutFront (leftLaneControl &leftLane, ostream &outStream, int trialNum, FCW &fcwSettings) {
     double trialBegin (trialNum * (trialLengthFt + trialSetupLengthFt));
+    double              laneChangeHypotenuse = sqrt(leftLane.distance * leftLane.distance + 144);
     
     //expression trigger on
     position            leftOnPos (450, trialBegin + trialLengthFt/12 + 100 + laneChangeHypotenuse/2, 0);
@@ -1796,7 +1812,7 @@ void SCNHighwayTemplate::generateFCWLeftCutFront (leftLaneControl &leftLane, ost
     leftOff.filePrint(outStream);
     
     //roadpad trigger for in range on
-    double              laneChangeHypotenuse = sqrt(leftLane.distance * leftLane.distance + 144);
+    
     double              pathStart (trialBegin + trialLengthFt/12 + 100 + laneChangeHypotenuse/2);
     
     

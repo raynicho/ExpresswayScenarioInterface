@@ -147,11 +147,6 @@ public:
     QLabel *label_20;
     QWidget *gridLayoutWidget;
     QGridLayout *gridLayout;
-    QGridLayout *gridLayout_7;
-    QLabel *label_16;
-    QLabel *label_18;
-    QLineEdit *roadSideTrialPullFrontStopSpeed;
-    QLineEdit *roadSideTrialPullFrontStopDistance;
     QRadioButton *roadSideTrialRemainStationary;
     QRadioButton *roadSideTrialDriveOnShoulder;
     QRadioButton *roadSideTrialPullFront;
@@ -162,15 +157,20 @@ public:
     QLineEdit *roadSideTrialPullFrontDistance;
     QLabel *label_2;
     QGridLayout *gridLayout_9;
+    QGridLayout *gridLayout_16;
     QLabel *label_19;
     QLineEdit *roadSideTrialDriveOnShoulderSpeed;
+    QLabel *label_5;
+    QLineEdit *roadSideTrialDriveShoulderDistance;
+    QGridLayout *gridLayout_7;
+    QLabel *label_18;
+    QLineEdit *roadSideTrialPullFrontStopDistance;
     QWidget *gridLayoutWidget_8;
     QGridLayout *gridLayout_13;
     QLabel *label_22;
     QRadioButton *roadSideTrialDeletionSlowDown;
     QRadioButton *roadSideTrialDeletionPullToSide;
     QLabel *label_40;
-    QLabel *label_41;
     QLabel *label_42;
     QLabel *label_43;
     QLabel *label_55;
@@ -180,6 +180,7 @@ public:
     QGridLayout *gridLayout_15;
     QLabel *label_23;
     QRadioButton *roadSideTrialAddToList;
+    QLabel *label_47;
     QGroupBox *leftLaneVehicleControl;
     QCheckBox *leftLaneTrialOn;
     QWidget *gridLayoutWidget_5;
@@ -716,7 +717,7 @@ public:
         roadSideTrialOn->setGeometry(QRect(140, 0, 16, 17));
         gridLayoutWidget_2 = new QWidget(roadSideVehicleControl);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(10, 210, 131, 46));
+        gridLayoutWidget_2->setGeometry(QRect(10, 210, 131, 65));
         gridLayout_2 = new QGridLayout(gridLayoutWidget_2);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -748,42 +749,12 @@ public:
         label_20->setGeometry(QRect(40, 190, 71, 16));
         gridLayoutWidget = new QWidget(roadSideVehicleControl);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 20, 251, 167));
+        gridLayoutWidget->setGeometry(QRect(10, 20, 261, 171));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        gridLayout_7 = new QGridLayout();
-        gridLayout_7->setSpacing(6);
-        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
-        label_16 = new QLabel(gridLayoutWidget);
-        label_16->setObjectName(QStringLiteral("label_16"));
-
-        gridLayout_7->addWidget(label_16, 0, 0, 1, 1);
-
-        label_18 = new QLabel(gridLayoutWidget);
-        label_18->setObjectName(QStringLiteral("label_18"));
-
-        gridLayout_7->addWidget(label_18, 1, 0, 1, 1);
-
-        roadSideTrialPullFrontStopSpeed = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontStopSpeed->setObjectName(QStringLiteral("roadSideTrialPullFrontStopSpeed"));
-        roadSideTrialPullFrontStopSpeed->setFont(font);
-        roadSideTrialPullFrontStopSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        gridLayout_7->addWidget(roadSideTrialPullFrontStopSpeed, 0, 1, 1, 1);
-
-        roadSideTrialPullFrontStopDistance = new QLineEdit(gridLayoutWidget);
-        roadSideTrialPullFrontStopDistance->setObjectName(QStringLiteral("roadSideTrialPullFrontStopDistance"));
-        roadSideTrialPullFrontStopDistance->setFont(font);
-        roadSideTrialPullFrontStopDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        gridLayout_7->addWidget(roadSideTrialPullFrontStopDistance, 1, 1, 1, 1);
-
-
-        gridLayout->addLayout(gridLayout_7, 4, 1, 1, 1);
-
         roadSideTrialRemainStationary = new QRadioButton(gridLayoutWidget);
         roadSideTrialRemainStationary->setObjectName(QStringLiteral("roadSideTrialRemainStationary"));
         roadSideTrialRemainStationary->setChecked(true);
@@ -838,20 +809,55 @@ public:
         gridLayout_9 = new QGridLayout();
         gridLayout_9->setSpacing(6);
         gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        gridLayout_16 = new QGridLayout();
+        gridLayout_16->setSpacing(6);
+        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
         label_19 = new QLabel(gridLayoutWidget);
         label_19->setObjectName(QStringLiteral("label_19"));
 
-        gridLayout_9->addWidget(label_19, 0, 0, 1, 1);
+        gridLayout_16->addWidget(label_19, 1, 0, 1, 1);
 
         roadSideTrialDriveOnShoulderSpeed = new QLineEdit(gridLayoutWidget);
         roadSideTrialDriveOnShoulderSpeed->setObjectName(QStringLiteral("roadSideTrialDriveOnShoulderSpeed"));
         roadSideTrialDriveOnShoulderSpeed->setFont(font);
         roadSideTrialDriveOnShoulderSpeed->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        gridLayout_9->addWidget(roadSideTrialDriveOnShoulderSpeed, 0, 1, 1, 1);
+        gridLayout_16->addWidget(roadSideTrialDriveOnShoulderSpeed, 1, 1, 1, 1);
+
+        label_5 = new QLabel(gridLayoutWidget);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        gridLayout_16->addWidget(label_5, 0, 0, 1, 1);
+
+        roadSideTrialDriveShoulderDistance = new QLineEdit(gridLayoutWidget);
+        roadSideTrialDriveShoulderDistance->setObjectName(QStringLiteral("roadSideTrialDriveShoulderDistance"));
+        roadSideTrialDriveShoulderDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_16->addWidget(roadSideTrialDriveShoulderDistance, 0, 1, 1, 1);
+
+
+        gridLayout_9->addLayout(gridLayout_16, 1, 0, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_9, 3, 1, 1, 1);
+
+        gridLayout_7 = new QGridLayout();
+        gridLayout_7->setSpacing(6);
+        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
+        label_18 = new QLabel(gridLayoutWidget);
+        label_18->setObjectName(QStringLiteral("label_18"));
+
+        gridLayout_7->addWidget(label_18, 0, 0, 1, 1);
+
+        roadSideTrialPullFrontStopDistance = new QLineEdit(gridLayoutWidget);
+        roadSideTrialPullFrontStopDistance->setObjectName(QStringLiteral("roadSideTrialPullFrontStopDistance"));
+        roadSideTrialPullFrontStopDistance->setFont(font);
+        roadSideTrialPullFrontStopDistance->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_7->addWidget(roadSideTrialPullFrontStopDistance, 0, 1, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_7, 4, 1, 1, 1);
 
         gridLayoutWidget_8 = new QWidget(roadSideVehicleControl);
         gridLayoutWidget_8->setObjectName(QStringLiteral("gridLayoutWidget_8"));
@@ -879,19 +885,16 @@ public:
 
         label_40 = new QLabel(roadSideVehicleControl);
         label_40->setObjectName(QStringLiteral("label_40"));
-        label_40->setGeometry(QRect(270, 50, 21, 16));
-        label_41 = new QLabel(roadSideVehicleControl);
-        label_41->setObjectName(QStringLiteral("label_41"));
-        label_41->setGeometry(QRect(270, 110, 21, 16));
+        label_40->setGeometry(QRect(280, 50, 21, 16));
         label_42 = new QLabel(roadSideVehicleControl);
         label_42->setObjectName(QStringLiteral("label_42"));
-        label_42->setGeometry(QRect(270, 140, 21, 16));
+        label_42->setGeometry(QRect(280, 140, 21, 16));
         label_43 = new QLabel(roadSideVehicleControl);
         label_43->setObjectName(QStringLiteral("label_43"));
-        label_43->setGeometry(QRect(270, 80, 21, 16));
+        label_43->setGeometry(QRect(280, 80, 21, 16));
         label_55 = new QLabel(roadSideVehicleControl);
         label_55->setObjectName(QStringLiteral("label_55"));
-        label_55->setGeometry(QRect(270, 170, 21, 16));
+        label_55->setGeometry(QRect(280, 170, 16, 16));
         roadSideSolModel = new QComboBox(roadSideVehicleControl);
         roadSideSolModel->setObjectName(QStringLiteral("roadSideSolModel"));
         roadSideSolModel->setGeometry(QRect(180, 230, 111, 21));
@@ -916,6 +919,23 @@ public:
 
         gridLayout_15->addWidget(roadSideTrialAddToList, 1, 0, 1, 1);
 
+        label_47 = new QLabel(roadSideVehicleControl);
+        label_47->setObjectName(QStringLiteral("label_47"));
+        label_47->setGeometry(QRect(280, 110, 21, 16));
+        roadSideTrialOn->raise();
+        gridLayoutWidget_2->raise();
+        label_20->raise();
+        gridLayoutWidget->raise();
+        gridLayoutWidget_8->raise();
+        label_40->raise();
+        label_42->raise();
+        label_43->raise();
+        label_55->raise();
+        roadSideSolModel->raise();
+        solModelLabel_4->raise();
+        gridLayoutWidget_10->raise();
+        label_18->raise();
+        label_47->raise();
         leftLaneVehicleControl = new QGroupBox(trialManager);
         leftLaneVehicleControl->setObjectName(QStringLiteral("leftLaneVehicleControl"));
         leftLaneVehicleControl->setGeometry(QRect(320, 260, 301, 341));
@@ -1281,18 +1301,19 @@ public:
         QWidget::setTabOrder(roadSideTrialPullFront, roadSideTrialPullFrontSpeed);
         QWidget::setTabOrder(roadSideTrialPullFrontSpeed, roadSideTrialPullFrontDistance);
         QWidget::setTabOrder(roadSideTrialPullFrontDistance, roadSideTrialDriveOnShoulder);
-        QWidget::setTabOrder(roadSideTrialDriveOnShoulder, roadSideTrialDriveOnShoulderSpeed);
+        QWidget::setTabOrder(roadSideTrialDriveOnShoulder, roadSideTrialDriveShoulderDistance);
+        QWidget::setTabOrder(roadSideTrialDriveShoulderDistance, roadSideTrialDriveOnShoulderSpeed);
         QWidget::setTabOrder(roadSideTrialDriveOnShoulderSpeed, roadSideTrialPullFrontStop);
-        QWidget::setTabOrder(roadSideTrialPullFrontStop, roadSideTrialPullFrontStopSpeed);
-        QWidget::setTabOrder(roadSideTrialPullFrontStopSpeed, roadSideTrialPullFrontStopDistance);
+        QWidget::setTabOrder(roadSideTrialPullFrontStop, roadSideTrialPullFrontStopDistance);
         QWidget::setTabOrder(roadSideTrialPullFrontStopDistance, roadSideTrialBlinkerHazards);
         QWidget::setTabOrder(roadSideTrialBlinkerHazards, roadSideTrialBlinkerRight);
         QWidget::setTabOrder(roadSideTrialBlinkerRight, roadSideTrialBlinkerLeft);
         QWidget::setTabOrder(roadSideTrialBlinkerLeft, roadSideTrialBlinkerNone);
-        QWidget::setTabOrder(roadSideTrialBlinkerNone, roadSideSolModel);
-        QWidget::setTabOrder(roadSideSolModel, roadSideTrialDeletionPullToSide);
+        QWidget::setTabOrder(roadSideTrialBlinkerNone, roadSideTrialDeletionPullToSide);
         QWidget::setTabOrder(roadSideTrialDeletionPullToSide, roadSideTrialDeletionSlowDown);
-        QWidget::setTabOrder(roadSideTrialDeletionSlowDown, leftLaneTrialOn);
+        QWidget::setTabOrder(roadSideTrialDeletionSlowDown, roadSideTrialAddToList);
+        QWidget::setTabOrder(roadSideTrialAddToList, roadSideSolModel);
+        QWidget::setTabOrder(roadSideSolModel, leftLaneTrialOn);
         QWidget::setTabOrder(leftLaneTrialOn, leftLaneTrialBlindSpot);
         QWidget::setTabOrder(leftLaneTrialBlindSpot, leftLaneTrialCutBehind);
         QWidget::setTabOrder(leftLaneTrialCutBehind, leftLaneTrialCutFront);
@@ -1303,13 +1324,13 @@ public:
         QWidget::setTabOrder(leftLaneTrialRemainLaneMatchET, leftLaneTrialRemainLaneAbsolute);
         QWidget::setTabOrder(leftLaneTrialRemainLaneAbsolute, leftLaneTrialRemainLaneAbsoluteSpeed);
         QWidget::setTabOrder(leftLaneTrialRemainLaneAbsoluteSpeed, leftLaneTrialBlinkerHazards);
-        QWidget::setTabOrder(leftLaneTrialBlinkerHazards, leftLaneTrialBlinkerRight);
-        QWidget::setTabOrder(leftLaneTrialBlinkerRight, leftLaneTrialBlinkerLeft);
-        QWidget::setTabOrder(leftLaneTrialBlinkerLeft, leftLaneTrialBlinkerNone);
-        QWidget::setTabOrder(leftLaneTrialBlinkerNone, leftLaneSolModel);
-        QWidget::setTabOrder(leftLaneSolModel, leftLaneTrialAddToFCW);
+        QWidget::setTabOrder(leftLaneTrialBlinkerHazards, leftLaneTrialBlinkerLeft);
+        QWidget::setTabOrder(leftLaneTrialBlinkerLeft, leftLaneTrialBlinkerRight);
+        QWidget::setTabOrder(leftLaneTrialBlinkerRight, leftLaneTrialBlinkerNone);
+        QWidget::setTabOrder(leftLaneTrialBlinkerNone, leftLaneTrialAddToFCW);
         QWidget::setTabOrder(leftLaneTrialAddToFCW, leftLaneTrialDistanceFromET);
-        QWidget::setTabOrder(leftLaneTrialDistanceFromET, leftLaneTrialCreationFront);
+        QWidget::setTabOrder(leftLaneTrialDistanceFromET, leftLaneSolModel);
+        QWidget::setTabOrder(leftLaneSolModel, leftLaneTrialCreationFront);
         QWidget::setTabOrder(leftLaneTrialCreationFront, leftLaneTrialCreationBehind);
 
         retranslateUi(MainWindow);
@@ -1535,14 +1556,6 @@ public:
 #endif // QT_NO_TOOLTIP
         roadSideTrialBlinkerNone->setText(QApplication::translate("MainWindow", "None", 0));
         label_20->setText(QApplication::translate("MainWindow", "<u>Blinker Control</u>", 0));
-        label_16->setText(QApplication::translate("MainWindow", "Speed", 0));
-        label_18->setText(QApplication::translate("MainWindow", "Distance", 0));
-#ifndef QT_NO_TOOLTIP
-        roadSideTrialPullFrontStopSpeed->setToolTip(QApplication::translate("MainWindow", "Pull out in front and stop speed.", 0));
-#endif // QT_NO_TOOLTIP
-#ifndef QT_NO_TOOLTIP
-        roadSideTrialPullFrontStopDistance->setToolTip(QApplication::translate("MainWindow", "Pull out in front and stop distance.", 0));
-#endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         roadSideTrialRemainStationary->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Remain stationary on the side of the road.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
@@ -1571,6 +1584,14 @@ public:
 #ifndef QT_NO_TOOLTIP
         roadSideTrialDriveOnShoulderSpeed->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Speed to drive on shoulder at.</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
+        label_5->setText(QApplication::translate("MainWindow", "Distance", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialDriveShoulderDistance->setToolTip(QApplication::translate("MainWindow", "Distance road side vehicle is to begin driving.", 0));
+#endif // QT_NO_TOOLTIP
+        label_18->setText(QApplication::translate("MainWindow", "Distance", 0));
+#ifndef QT_NO_TOOLTIP
+        roadSideTrialPullFrontStopDistance->setToolTip(QApplication::translate("MainWindow", "Pull out in front and stop distance.", 0));
+#endif // QT_NO_TOOLTIP
         label_22->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" text-decoration: underline;\">Deletion</span></p></body></html>", 0));
 #ifndef QT_NO_TOOLTIP
         roadSideTrialDeletionSlowDown->setToolTip(QApplication::translate("MainWindow", "Delete the road side vehicle by slowing down in the left lane.", 0));
@@ -1581,7 +1602,6 @@ public:
 #endif // QT_NO_TOOLTIP
         roadSideTrialDeletionPullToSide->setText(QApplication::translate("MainWindow", "Pull To Side", 0));
         label_40->setText(QApplication::translate("MainWindow", "mph", 0));
-        label_41->setText(QApplication::translate("MainWindow", "mph", 0));
         label_42->setText(QApplication::translate("MainWindow", "mph", 0));
         label_43->setText(QApplication::translate("MainWindow", "ft", 0));
         label_55->setText(QApplication::translate("MainWindow", "ft", 0));
@@ -1594,6 +1614,7 @@ public:
         roadSideTrialAddToList->setToolTip(QApplication::translate("MainWindow", "Display a FCW for this road side vehicle.", 0));
 #endif // QT_NO_TOOLTIP
         roadSideTrialAddToList->setText(QApplication::translate("MainWindow", "Add To List", 0));
+        label_47->setText(QApplication::translate("MainWindow", "ft", 0));
         leftLaneVehicleControl->setTitle(QApplication::translate("MainWindow", "Left Lane Vehicle Control", 0));
 #ifndef QT_NO_TOOLTIP
         leftLaneTrialOn->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Include a left lane vehicle for this trial.</p></body></html>", 0));

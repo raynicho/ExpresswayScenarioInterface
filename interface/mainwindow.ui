@@ -1544,7 +1544,7 @@
         <x>10</x>
         <y>210</y>
         <width>131</width>
-        <height>46</height>
+        <height>65</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -1611,59 +1611,11 @@
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>251</width>
-        <height>167</height>
+        <width>261</width>
+        <height>171</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="1">
-        <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>Speed</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>Distance</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="roadSideTrialPullFrontStopSpeed">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="toolTip">
-            <string>Pull out in front and stop speed.</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="roadSideTrialPullFrontStopDistance">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="toolTip">
-            <string>Pull out in front and stop distance.</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="0" column="0">
         <widget class="QRadioButton" name="roadSideTrialRemainStationary">
          <property name="toolTip">
@@ -1757,22 +1709,69 @@
        </item>
        <item row="3" column="1">
         <layout class="QGridLayout" name="gridLayout_9">
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayout_16">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Speed</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="roadSideTrialDriveOnShoulderSpeed">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Speed to drive on shoulder at.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Distance</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="roadSideTrialDriveShoulderDistance">
+             <property name="toolTip">
+              <string>Distance road side vehicle is to begin driving.</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="1">
+        <layout class="QGridLayout" name="gridLayout_7">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_19">
+          <widget class="QLabel" name="label_18">
            <property name="text">
-            <string>Speed</string>
+            <string>Distance</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="roadSideTrialDriveOnShoulderSpeed">
+          <widget class="QLineEdit" name="roadSideTrialPullFrontStopDistance">
            <property name="font">
             <font>
              <pointsize>8</pointsize>
             </font>
            </property>
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Speed to drive on shoulder at.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Pull out in front and stop distance.</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1828,21 +1827,8 @@
      <widget class="QLabel" name="label_40">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>280</x>
         <y>50</y>
-        <width>21</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>mph</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_41">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>110</y>
         <width>21</width>
         <height>16</height>
        </rect>
@@ -1854,7 +1840,7 @@
      <widget class="QLabel" name="label_42">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>280</x>
         <y>140</y>
         <width>21</width>
         <height>16</height>
@@ -1867,7 +1853,7 @@
      <widget class="QLabel" name="label_43">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>280</x>
         <y>80</y>
         <width>21</width>
         <height>16</height>
@@ -1880,9 +1866,9 @@
      <widget class="QLabel" name="label_55">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>280</x>
         <y>170</y>
-        <width>21</width>
+        <width>16</width>
         <height>16</height>
        </rect>
       </property>
@@ -1945,6 +1931,33 @@
        </item>
       </layout>
      </widget>
+     <widget class="QLabel" name="label_47">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>110</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ft</string>
+      </property>
+     </widget>
+     <zorder>roadSideTrialOn</zorder>
+     <zorder>gridLayoutWidget_2</zorder>
+     <zorder>label_20</zorder>
+     <zorder>gridLayoutWidget</zorder>
+     <zorder>gridLayoutWidget_8</zorder>
+     <zorder>label_40</zorder>
+     <zorder>label_42</zorder>
+     <zorder>label_43</zorder>
+     <zorder>label_55</zorder>
+     <zorder>roadSideSolModel</zorder>
+     <zorder>solModelLabel_4</zorder>
+     <zorder>gridLayoutWidget_10</zorder>
+     <zorder>label_18</zorder>
+     <zorder>label_47</zorder>
     </widget>
     <widget class="QGroupBox" name="leftLaneVehicleControl">
      <property name="geometry">
@@ -2702,17 +2715,18 @@
   <tabstop>roadSideTrialPullFrontSpeed</tabstop>
   <tabstop>roadSideTrialPullFrontDistance</tabstop>
   <tabstop>roadSideTrialDriveOnShoulder</tabstop>
+  <tabstop>roadSideTrialDriveShoulderDistance</tabstop>
   <tabstop>roadSideTrialDriveOnShoulderSpeed</tabstop>
   <tabstop>roadSideTrialPullFrontStop</tabstop>
-  <tabstop>roadSideTrialPullFrontStopSpeed</tabstop>
   <tabstop>roadSideTrialPullFrontStopDistance</tabstop>
   <tabstop>roadSideTrialBlinkerHazards</tabstop>
   <tabstop>roadSideTrialBlinkerRight</tabstop>
   <tabstop>roadSideTrialBlinkerLeft</tabstop>
   <tabstop>roadSideTrialBlinkerNone</tabstop>
-  <tabstop>roadSideSolModel</tabstop>
   <tabstop>roadSideTrialDeletionPullToSide</tabstop>
   <tabstop>roadSideTrialDeletionSlowDown</tabstop>
+  <tabstop>roadSideTrialAddToList</tabstop>
+  <tabstop>roadSideSolModel</tabstop>
   <tabstop>leftLaneTrialOn</tabstop>
   <tabstop>leftLaneTrialBlindSpot</tabstop>
   <tabstop>leftLaneTrialCutBehind</tabstop>
@@ -2724,12 +2738,12 @@
   <tabstop>leftLaneTrialRemainLaneAbsolute</tabstop>
   <tabstop>leftLaneTrialRemainLaneAbsoluteSpeed</tabstop>
   <tabstop>leftLaneTrialBlinkerHazards</tabstop>
-  <tabstop>leftLaneTrialBlinkerRight</tabstop>
   <tabstop>leftLaneTrialBlinkerLeft</tabstop>
+  <tabstop>leftLaneTrialBlinkerRight</tabstop>
   <tabstop>leftLaneTrialBlinkerNone</tabstop>
-  <tabstop>leftLaneSolModel</tabstop>
   <tabstop>leftLaneTrialAddToFCW</tabstop>
   <tabstop>leftLaneTrialDistanceFromET</tabstop>
+  <tabstop>leftLaneSolModel</tabstop>
   <tabstop>leftLaneTrialCreationFront</tabstop>
   <tabstop>leftLaneTrialCreationBehind</tabstop>
  </tabstops>

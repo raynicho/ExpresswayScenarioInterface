@@ -104,6 +104,7 @@ void MainWindow::getSettings() {
             case (6) : {
                 warnings.imageShape = Icon;
                 warnings.iconName = ui->fcwIconName->text().toStdString();
+                warnings.iconName = "\"" + warnings.iconName + "\"";
                 break;
             }
             case (7) : {
@@ -176,14 +177,14 @@ roadSideControl MainWindow::getRoadSideTrial() {
             
             //get the speed
             roadSide.speed = ui->roadSideTrialDriveOnShoulderSpeed->text().toDouble(false);
+            
+            //get the distance
+            roadSide.distance = ui->roadSideTrialDriveShoulderDistance->text().toDouble(false);
         }
         //else if the pull out in front and stop is selected
         else {
             //set the option        
             roadSide.movementOption = 3;
-                    
-            //get the speed
-            roadSide.speed = ui->roadSideTrialPullFrontStopSpeed->text().toDouble(false);
             
             //get the distance
             roadSide.distance = ui->roadSideTrialPullFrontStopDistance->text().toDouble(false);
@@ -275,13 +276,13 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 ui->roadSideTrialPullFrontSpeed->setText("");
                 ui->roadSideTrialPullFrontDistance->setText("");
                 
-                //set drive on shoulder off and speed empty
+                //set drive on shoulder off and speed/distance to empty
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
                 ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+                ui->roadSideTrialDriveShoulderDistance->setText("");
                 
                 //set pull out in front and stop off, clear speed and distance
                 ui->roadSideTrialPullFrontStop->setChecked(false);
-                ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
                 break;
             }
@@ -296,22 +297,23 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 //set remain stationary off
                 ui->roadSideTrialRemainStationary->setChecked(false);
             
-                //set drive on shoulder off and clear speed
+                //set drive on shoulder off and clear/distance speed
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
                 ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+                ui->roadSideTrialDriveShoulderDistance->setText("");
             
                 //set pull out in front and stop off, clear speed and distance
                 ui->roadSideTrialPullFrontStop->setChecked(false);
-                ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
                 break;
             }
         
             //else if movement option is 2
             case (2) : {
-                //set drive on shoulder on and set speed
+                //set drive on shoulder on and set speed/distance
                 ui->roadSideTrialDriveOnShoulder->setChecked(true);
                 ui->roadSideTrialDriveOnShoulderSpeed->setText(QString::number(roadSide.speed));
+                ui->roadSideTrialDriveShoulderDistance->setText(QString::number(roadSide.distance));
             
                 //set remain stationary off
                 ui->roadSideTrialRemainStationary->setChecked(false);
@@ -323,7 +325,6 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
     
                 //set pull out in front and stop off, clear distance and speed
                 ui->roadSideTrialPullFrontStop->setChecked(false);
-                ui->roadSideTrialPullFrontStopSpeed->setText("");
                 ui->roadSideTrialPullFrontStopDistance->setText("");
                 break;
             }
@@ -332,7 +333,6 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
             default: {
                 //set pull out in front and stop on, set distance and speed
                 ui->roadSideTrialPullFrontStop->setChecked(true);
-                ui->roadSideTrialPullFrontStopSpeed->setText(QString::number(roadSide.speed));
                 ui->roadSideTrialPullFrontStopDistance->setText(QString::number(roadSide.distance));
             
                 //set remain stationary off
@@ -343,9 +343,10 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
                 ui->roadSideTrialPullFrontSpeed->setText("");
                 ui->roadSideTrialPullFrontDistance->setText("");
     
-                //set drive on shoulder off and clear speed
+                //set drive on shoulder off and clear speed/distance
                 ui->roadSideTrialDriveOnShoulder->setChecked(false);
                 ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+                ui->roadSideTrialDriveShoulderDistance->setText("");
                 break;
             }
         }
@@ -463,10 +464,10 @@ void MainWindow::loadRoadSideTrial(roadSideControl &roadSide){
         //uncheck drive on shoulder and clear text
         ui->roadSideTrialDriveOnShoulder->setChecked(false);
         ui->roadSideTrialDriveOnShoulderSpeed->setText("");
+        ui->roadSideTrialDriveShoulderDistance->setText("");
         
         //uncheck pull out in front and stop, clear distance and speed
         ui->roadSideTrialPullFrontStop->setChecked(false);
-        ui->roadSideTrialPullFrontStopSpeed->setText("");
         ui->roadSideTrialPullFrontStopDistance->setText("");
         
         //set none on
@@ -1409,19 +1410,14 @@ void MainWindow::checkTrialRoadSide(){
             if (current.toDouble(ok) < 0) {
                 throw ((std::string)"Please enter a positive shoulder driving speed for the roadside vehicle control.");
             }
+            
+            //check distance
+            if (ui->roadSideTrialDriveShoulderDistance->text().isEmpty()) {
+                throw ((std::string)"Please enter a road side drive on shoulder deistance.");
+            }
         }
         //if pull out in front and stop is checked
         if (ui->roadSideTrialPullFrontStop->isChecked()) {
-            //check speed
-            current = ui->roadSideTrialPullFrontStopSpeed->text();
-            if (current.isEmpty()){
-                throw ((std::string)"Please enter a pull out and stop speed for the road side vehicle control.");
-            }
-
-            if (current.toDouble(ok) < 0){
-                throw ((std::string)"Please enter a positve pull out and stop speed for the road side vehicle control.");
-            }
-
             //check distance
             current = ui->roadSideTrialPullFrontStopDistance->text();
             if (current.isEmpty()) {
