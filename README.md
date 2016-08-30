@@ -8,19 +8,17 @@ Driving scenarios for the NADS MiniSim take months to produce which is a major p
 
 ## Use
 
-(Zip)
+1. Download the files from /exec and /baseFiles.
 
-1. Download the zip file from /exec
+2. Move the files to a folder on your system.
 
-2. Unzip the files to a folder on your system
+3. Install MSVC 2015.
 
-3. Install MSVC 2015
-
-4. Run the application. Load in the *base.scn*
+4. Run the application. Load the *base.scn* file into the system.
 
 5. Make changes. Save the new *.scn* file.
 
-6. Load into Minisim or ISAT
+6. Load into Minisim or ISAT.
 
 ## Example
 
