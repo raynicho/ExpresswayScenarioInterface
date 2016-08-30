@@ -1,0 +1,49 @@
+Header
+  LriFile "ES175.bli" 
+  InitialTireConditions 1 1 1 1 1 1 1 1 1 1 
+  InitialBrakeConditions 0 1 1 1 1 1 1 1 1 1 1 
+  SirenSpeed 6.2000000E+001 
+  MotionDrive "NadsCabMalibu" 
+  MotionSettings "" 
+  HeadlightsOn 0 
+  EnvMinute 0 
+  EnvDay 1 
+  EnvHour 12 
+  EnvYear 2006 
+  EnvMonth 6 
+  EnvLat 3.5000000E+001 
+  EnvLong 1.2200000E+002 
+  EnvAlt 0.0000000E+000 
+  BlankRed 0.0000000E+000 
+  BlankGreen 0.0000000E+000 
+  BlankBlue 0.0000000E+000 
+  HeadlightsCutOffDist 4.0000000E+002 
+  TrailerType "" 
+  VisualSettings "" 
+  SirenOverSpeed 0 
+  CollisionEffectMask 3 
+  ShowCab 1 
+  CabType "NadsCabTaurus" 
+  OwnVehiclePosition 3.8709681E+002 -1.1971935E+003 0.0000000E+000 
+  OwnVehicleOrientation 0.0000000E+000 1.0000000E+000 0.0000000E+000 
+  ScenPosX 3.8798135E+002 
+  ScenPosY -1.1989626E+003 
+  ScenZoom 4.4227239E-001 
+&&&&End&&&&
+HCSM Gateway
+&&&&End&&&&
+HCSM VehFail
+&&&&End&&&&
+HCSM TrafficLightManager
+  GroupName "Traffic Manager" 
+&&&&End&&&&
+HCSM EnvironmentController
+&&&&End&&&&
+HCSM TrafficLightManager
+&&&&End&&&&
+HCSM StaticObjManager
+&&&&End&&&&
+HCSM DriverMirror
+&&&&End&&&&
+HCSM IntersectionManager
+&&&&End&&&&
