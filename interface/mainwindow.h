@@ -124,7 +124,7 @@ public:
     Modifies:   N/A
     Effects:    Returns true if the QString is empty or negative(when interpretted as a double).
     */
-    bool emptyOrNegative (QString &);
+    bool emptyOrNegative (QString);
 
     /*
     Requires:   N/A
@@ -238,7 +238,7 @@ public:
     Modifies:   N/A
     Effects:    Returns true if the QString parameter is empty or positive.
     */
-    bool emptyOrPositive (QString &);
+    bool emptyOrPositive (QString);
     
     /*
     Requires:   N/A

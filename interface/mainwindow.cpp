@@ -1494,8 +1494,8 @@ bool MainWindow::checkTrial () {
 }
 
 //returns true if the QString is empty or is negative when read as a double
-bool MainWindow::emptyOrNegative (QString &lineEdit) {
-    bool* ok = 0;
+bool MainWindow::emptyOrNegative (QString lineEdit) {
+    bool *ok = 0;
     ok = false;
     if (lineEdit.isEmpty()) {
         return true;
@@ -1506,7 +1506,7 @@ bool MainWindow::emptyOrNegative (QString &lineEdit) {
     return false;
 }
 
-bool MainWindow::emptyOrPositive (QString &lineEdit) {
+bool MainWindow::emptyOrPositive (QString lineEdit) {
     bool* ok = 0;
     ok = false;
     if (lineEdit.isEmpty()) {
@@ -1522,7 +1522,7 @@ void MainWindow::checkFCWSettings(){
     //if fcw is checked
     if (ui->fcwOn->checkState() == Qt::Checked){
         //check the frequency for empty or negative
-        if (emptyOrNegative(ui->frequencyLineEdit->text())) {
+        if (emptyOrNegative(ui->frequencyLineEdit->text()) == true) {
             throw((std::string)"Please make changes to the FCW frequency.");
         }
 
@@ -1623,7 +1623,7 @@ void MainWindow::checkOpposingTraffic () {
         if (emptyOrNegative(ui->numberCars->text())) {
             throw((std::string)"Please make changes to the number of cars in the opposing traffic ratio.");
         }
-        if (emptyOrNegative(ui->numberTrucks->text())) {
+        if (emptyOrNegative((ui->numberTrucks->text()))) {
             throw((std::string)"Please make changes to the number of trucks in the opposing traffic ratio.");
         }
         if (ui->numberCars->text().toInt(false) == 0 && ui->numberTrucks->text().toInt(false) == 0) {
